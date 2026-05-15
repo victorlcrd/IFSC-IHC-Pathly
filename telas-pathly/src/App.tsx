@@ -32,7 +32,13 @@ function App() {
     return <AprendizPage onBackToLogin={() => setPage('login')} />
   }
 
-  return <EditorPage onBackToLogin={() => setPage('dashboard')} />
+  // EditorPage agora recebe onPublish que retorna ao dashboard (task 4.4)
+  return (
+    <EditorPage
+      onBackToLogin={() => setPage('dashboard')}
+      onPublish={() => setPage('dashboard')}
+    />
+  )
 }
 
 export default App

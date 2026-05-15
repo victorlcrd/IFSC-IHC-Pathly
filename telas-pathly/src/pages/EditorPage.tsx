@@ -9,6 +9,8 @@ import {
   Share2,
   Trophy,
   UserCircle,
+  Send,
+  CheckCircle2,
 } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 
@@ -20,8 +22,14 @@ type BlockConfig = {
   icon: BlockType
 }
 
+type CanvasBlock = {
+  id: number
+  type: BlockType
+}
+
 type EditorPageProps = {
   onBackToLogin: () => void
+  onPublish: () => void
 }
 
 const blockOptions: Array<{ type: BlockType; icon: ReactNode }> = [
@@ -33,21 +41,70 @@ const blockOptions: Array<{ type: BlockType; icon: ReactNode }> = [
   { type: 'Fim', icon: <Flag size={21} /> },
 ]
 
+const blockIcons: Record<BlockType, ReactNode> = {
+  'Início': <MapPin size={22} />,
+  'Conteúdo': <MessageSquareText size={22} />,
+  'Pergunta': <CircleHelp size={22} />,
+  'Escolha': <Share2 size={22} />,
+  'Conquista': <Trophy size={22} />,
+  'Fim': <Flag size={22} />,
+}
+
 function FlowIcon({ type }: { type: BlockType }) {
   const option = blockOptions.find((block) => block.type === type)
   return <>{option?.icon}</>
 }
 
-export function EditorPage({ onBackToLogin }: EditorPageProps) {
+export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
   const [selectedBlock, setSelectedBlock] = useState<BlockConfig>({
     title: '',
     description: '',
     icon: 'Conteúdo',
   })
 
+  // 4.3 — blocos adicionados ao canvas
+  const [canvasBlocks, setCanvasBlocks] = useState<CanvasBlock[]>([])
+  const [nextId, setNextId] = useState(1)
+  const [recentlyAddedId, setRecentlyAddedId] = useState<number | null>(null)
+
+  // 4.4 — estado de publicação
+  const [publishState, setPublishState] = useState<'idle' | 'confirming' | 'publishing' | 'done'>('idle')
+
   function selectBlock(icon: BlockType) {
     setSelectedBlock((current) => ({ ...current, icon }))
   }
+
+  function addBlockToCanvas(type: BlockType) {
+    const id = nextId
+    setNextId((n) => n + 1)
+    setCanvasBlocks((prev) => [...prev, { id, type }])
+    setSelectedBlock((current) => ({ ...current, icon: type }))
+    setRecentlyAddedId(id)
+    setTimeout(() => setRecentlyAddedId(null), 1400)
+  }
+
+  function handlePublishClick() {
+    if (publishState === 'idle') {
+      setPublishState('confirming')
+    }
+  }
+
+  function confirmPublish() {
+    setPublishState('publishing')
+    setTimeout(() => {
+      setPublishState('done')
+      setTimeout(() => {
+        onPublish()
+      }, 900)
+    }, 1200)
+  }
+
+  function cancelPublish() {
+    setPublishState('idle')
+  }
+
+  const isDone = publishState === 'done'
+  const isPublishing = publishState === 'publishing'
 
   return (
     <div className="editor-page">
@@ -88,13 +145,24 @@ export function EditorPage({ onBackToLogin }: EditorPageProps) {
             ))}
           </div>
 
-          <div className="drag-helper">Arraste os blocos para o fluxo</div>
+          <button
+            className="add-to-canvas-button"
+            type="button"
+            onClick={() => addBlockToCanvas(selectedBlock.icon)}
+          >
+            <Plus size={15} />
+            Adicionar ao fluxo
+          </button>
+
+          <div className="drag-helper">Selecione e adicione blocos ao fluxo</div>
         </aside>
 
         <section className="flow-workspace" aria-label="Fluxo da trilha">
           <div className="workspace-title-row">
             <h1>Fluxo da trilha</h1>
-            <span>Rascunho</span>
+            <span className={isDone ? 'status-badge-ativa' : ''}>
+              {isDone ? 'Publicada' : 'Rascunho'}
+            </span>
           </div>
 
           <div className="flow-canvas">
@@ -120,6 +188,28 @@ export function EditorPage({ onBackToLogin }: EditorPageProps) {
             <button className="flow-node end-node" type="button" onClick={() => selectBlock('Fim')}>
               <Flag size={24} />
             </button>
+
+            {canvasBlocks.length > 0 && (
+              <div className="added-blocks-list">
+                {canvasBlocks.map((b) => (
+                  <div
+                    key={b.id}
+                    className={`added-block-item${recentlyAddedId === b.id ? ' added-block-enter' : ''}`}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => selectBlock(b.type)}
+                    onKeyDown={(e) => e.key === 'Enter' && selectBlock(b.type)}
+                    aria-label={`Bloco ${b.type}`}
+                  >
+                    <div className="added-block-connector" />
+                    <div className="added-block-node">
+                      {blockIcons[b.type]}
+                      <span className="added-block-label">{b.type}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="zoom-controls" aria-label="Controles de zoom">
               <button type="button">−</button>

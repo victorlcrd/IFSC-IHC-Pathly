@@ -1146,3 +1146,217 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Task 4.3 – Blocos adicionados ao canvas ──────── */
+.add-to-canvas-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 40px;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.add-to-canvas-button:hover {
+  background: #4338ca;
+}
+
+/* Lista de blocos adicionados, posicionada abaixo dos nós fixos no canvas */
+.added-blocks-list {
+  position: absolute;
+  left: 50%;
+  top: 490px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  z-index: 2;
+}
+
+.added-block-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.added-block-connector {
+  width: 2px;
+  height: 32px;
+  background: #cbd5e1;
+}
+
+.added-block-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 72px;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #374151;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+  transition: border-color 0.18s, color 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+
+.added-block-item:hover .added-block-node,
+.added-block-item:focus .added-block-node {
+  border-color: #c7d2fe;
+  color: #4f46e5;
+}
+
+.added-block-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* Animação de entrada ao adicionar bloco */
+@keyframes block-pop-in {
+  0%   { opacity: 0; transform: scale(0.82) translateY(8px); }
+  60%  { transform: scale(1.04) translateY(-2px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.added-block-enter .added-block-node {
+  animation: block-pop-in 0.36s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  border-color: #a5b4fc;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.14), 0 8px 20px rgba(15, 23, 42, 0.1);
+}
+
+/* ── Task 4.4 – Botão Publicar e estados ──────────── */
+.publish-area {
+  margin-top: 14px;
+}
+
+.publish-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: #059669;
+  color: #ffffff;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(5, 150, 105, 0.28);
+  transition: background 0.18s;
+}
+
+.publish-button:hover {
+  background: #047857;
+}
+
+.publish-confirm-box {
+  border: 1px solid #d1fae5;
+  border-radius: 12px;
+  background: #f0fdf4;
+  padding: 14px;
+}
+
+.publish-confirm-box p {
+  margin: 0 0 12px;
+  font-size: 0.82rem;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.publish-confirm-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.publish-confirm-actions .publish-button {
+  flex: 1;
+  min-height: 38px;
+  font-size: 0.8rem;
+}
+
+.publish-cancel-button {
+  flex: 1;
+  min-height: 38px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.publish-cancel-button:hover {
+  background: #f3f4f6;
+}
+
+.publish-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  color: #6b7280;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.publish-spinner {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border: 2.5px solid #d1d5db;
+  border-top-color: #4f46e5;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+.publish-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border-radius: 10px;
+  background: #d1fae5;
+  color: #047857;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+/* Badge de status publicada no workspace */
+.status-badge-ativa {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: #d1fae5;
+  color: #047857;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
