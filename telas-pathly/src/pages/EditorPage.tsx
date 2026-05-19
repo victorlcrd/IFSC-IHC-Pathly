@@ -32,6 +32,17 @@ type CanvasBlock = {
   id: number
   type: BlockType
   title: string
+  description: string
+}
+
+// Fix 5 — payload tipado para publicação
+type PublishData = {
+  title: string
+  description: string
+  category: string
+  level: string
+  tags: string
+  visibility: 'public' | 'private' | 'link'
 }
 
 type EditorPageProps = {
@@ -41,33 +52,28 @@ type EditorPageProps = {
 
 // ── Dados estáticos ───────────────────────────────────────────────────────────
 const blockOptions: Array<{ type: BlockType; icon: ReactNode; color: string }> = [
-  { type: 'Início',    icon: <MapPin size={21} />,           color: '#10b981' },
-  { type: 'Conteúdo', icon: <MessageSquareText size={21} />, color: '#6366f1' },
-  { type: 'Pergunta', icon: <CircleHelp size={21} />,        color: '#f59e0b' },
-  { type: 'Escolha',  icon: <Share2 size={21} />,            color: '#8b5cf6' },
-  { type: 'Conquista',icon: <Trophy size={21} />,            color: '#ef4444' },
-  { type: 'Fim',      icon: <Flag size={21} />,              color: '#374151' },
+  { type: 'Início',     icon: <MapPin size={21} />,            color: '#10b981' },
+  { type: 'Conteúdo',  icon: <MessageSquareText size={21} />,  color: '#6366f1' },
+  { type: 'Pergunta',  icon: <CircleHelp size={21} />,         color: '#f59e0b' },
+  { type: 'Escolha',   icon: <Share2 size={21} />,             color: '#8b5cf6' },
+  { type: 'Conquista', icon: <Trophy size={21} />,             color: '#ef4444' },
+  { type: 'Fim',       icon: <Flag size={21} />,               color: '#374151' },
 ]
 
 const blockMeta: Record<BlockType, { icon: ReactNode; color: string }> = {
-  'Início':    { icon: <MapPin size={20} />,           color: '#10b981' },
-  'Conteúdo':  { icon: <MessageSquareText size={20} />, color: '#6366f1' },
-  'Pergunta':  { icon: <CircleHelp size={20} />,        color: '#f59e0b' },
-  'Escolha':   { icon: <Share2 size={20} />,            color: '#8b5cf6' },
-  'Conquista': { icon: <Trophy size={20} />,            color: '#ef4444' },
-  'Fim':       { icon: <Flag size={20} />,              color: '#374151' },
+  'Início':     { icon: <MapPin size={20} />,            color: '#10b981' },
+  'Conteúdo':   { icon: <MessageSquareText size={20} />, color: '#6366f1' },
+  'Pergunta':   { icon: <CircleHelp size={20} />,        color: '#f59e0b' },
+  'Escolha':    { icon: <Share2 size={20} />,            color: '#8b5cf6' },
+  'Conquista':  { icon: <Trophy size={20} />,            color: '#ef4444' },
+  'Fim':        { icon: <Flag size={20} />,              color: '#374151' },
 }
 
 const INITIAL_CANVAS_BLOCKS: CanvasBlock[] = [
-  { id: 0, type: 'Início',    title: 'Introdução'         },
-  { id: 1, type: 'Conteúdo',  title: 'Conteúdo principal' },
-  { id: 2, type: 'Pergunta',  title: 'Avaliação'          },
+  { id: 0, type: 'Início',    title: 'Introdução',          description: '' },
+  { id: 1, type: 'Conteúdo',  title: 'Conteúdo principal',  description: '' },
+  { id: 2, type: 'Pergunta',  title: 'Avaliação',           description: '' },
 ]
-
-// ── FlowIcon helper ───────────────────────────────────────────────────────────
-function FlowIcon({ type }: { type: BlockType }) {
-  return <>{blockMeta[type].icon}</>
-}
 
 // ── Modal Pré-Visualizar ──────────────────────────────────────────────────────
 function PreviewModal({
@@ -146,13 +152,25 @@ function PreviewModal({
 }
 
 // ── Modal Publicar ────────────────────────────────────────────────────────────
-function PublishModal({ onClose, onConfirm }: { onClose: () => void; onConfirm: () => void }) {
+// Fix 5 — onConfirm recebe o payload tipado PublishData
+function PublishModal({
+  onClose,
+  onConfirm,
+}: {
+  onClose: () => void
+  onConfirm: (data: PublishData) => void
+}) {
   const [title,       setTitle]       = useState('')
   const [description, setDescription] = useState('')
   const [category,    setCategory]    = useState('')
   const [level,       setLevel]       = useState('')
   const [tags,        setTags]        = useState('')
   const [visibility,  setVisibility]  = useState<'public' | 'private' | 'link'>('public')
+
+  function handleConfirm() {
+    const data: PublishData = { title, description, category, level, tags, visibility }
+    onConfirm(data)
+  }
 
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true" aria-label="Publicar trilha">
@@ -167,13 +185,13 @@ function PublishModal({ onClose, onConfirm }: { onClose: () => void; onConfirm: 
             <ImageIcon size={22} color="#a5b4fc" />
             <span>Capa</span>
           </button>
-          <input className="publish-field" type="text" placeholder="Título"      value={title}       onChange={e => setTitle(e.target.value)} />
-          <textarea className="publish-field publish-field-textarea" placeholder="Descrição"   value={description} onChange={e => setDescription(e.target.value)} />
+          <input className="publish-field" type="text" placeholder="Título"     value={title}       onChange={e => setTitle(e.target.value)} />
+          <textarea className="publish-field publish-field-textarea" placeholder="Descrição"  value={description} onChange={e => setDescription(e.target.value)} />
           <div className="publish-row">
-            <input className="publish-field" type="text" placeholder="Categoria" value={category}    onChange={e => setCategory(e.target.value)} />
-            <input className="publish-field" type="text" placeholder="Nível"     value={level}       onChange={e => setLevel(e.target.value)} />
+            <input className="publish-field" type="text" placeholder="Categoria" value={category}   onChange={e => setCategory(e.target.value)} />
+            <input className="publish-field" type="text" placeholder="Nível"     value={level}      onChange={e => setLevel(e.target.value)} />
           </div>
-          <input className="publish-field" type="text" placeholder="Tags"        value={tags}        onChange={e => setTags(e.target.value)} />
+          <input className="publish-field" type="text" placeholder="Tags"        value={tags}       onChange={e => setTags(e.target.value)} />
 
           <div className="publish-visibility-section">
             <p className="publish-visibility-label">Visibilidade e privacidade</p>
@@ -193,14 +211,14 @@ function PublishModal({ onClose, onConfirm }: { onClose: () => void; onConfirm: 
         </div>
 
         <div className="modal-publish-footer">
-          <button className="publish-confirm-btn" type="button" onClick={onConfirm}>Publicar</button>
+          <button className="publish-confirm-btn" type="button" onClick={handleConfirm}>Publicar</button>
         </div>
       </div>
     </div>
   )
 }
 
-// ── CanvasCard (bloco no canvas — draggable) ──────────────────────────────────
+// ── CanvasCard ────────────────────────────────────────────────────────────────
 function CanvasCard({
   block,
   isSelected,
@@ -210,6 +228,7 @@ function CanvasCard({
   onDragStart,
   onDragEnter,
   onDragEnd,
+  onDrop,         // Fix 1 — prop adicionada
   isDragOver,
 }: {
   block: CanvasBlock
@@ -220,6 +239,7 @@ function CanvasCard({
   onDragStart: (e: DragEvent<HTMLDivElement>) => void
   onDragEnter: (e: DragEvent<HTMLDivElement>) => void
   onDragEnd:   (e: DragEvent<HTMLDivElement>) => void
+  onDrop:      (e: DragEvent<HTMLDivElement>) => void  // Fix 1
   isDragOver: boolean
 }) {
   const meta = blockMeta[block.type]
@@ -232,6 +252,7 @@ function CanvasCard({
       onDragEnter={onDragEnter}
       onDragEnd={onDragEnd}
       onDragOver={e => e.preventDefault()}
+      onDrop={onDrop}           // Fix 1 — conectado
       onClick={onSelect}
       role="button"
       tabIndex={0}
@@ -239,23 +260,19 @@ function CanvasCard({
       onKeyDown={e => e.key === 'Enter' && onSelect()}
       style={{ '--block-color': meta.color } as React.CSSProperties}
     >
-      {/* Handle de arrastar */}
-      <span className="dnd-card-grip" onMouseDown={e => e.stopPropagation()} aria-hidden="true">
+      <span className="dnd-card-grip" aria-hidden="true">
         <GripVertical size={15} />
       </span>
 
-      {/* Ícone colorido */}
       <span className="dnd-card-icon" style={{ background: `${meta.color}18`, color: meta.color }}>
         {meta.icon}
       </span>
 
-      {/* Texto */}
       <span className="dnd-card-info">
         <span className="dnd-card-type">{block.type}</span>
         <span className="dnd-card-title">{block.title || block.type}</span>
       </span>
 
-      {/* Deletar */}
       <button
         className="dnd-card-delete"
         type="button"
@@ -268,13 +285,23 @@ function CanvasCard({
   )
 }
 
-// ── DropZone (zona de soltar entre cards) ─────────────────────────────────────
-function DropZone({ active, onDrop }: { active: boolean; onDrop: () => void }) {
+// ── DropZone ──────────────────────────────────────────────────────────────────
+// Fix 2 — recebe onDragEnter para ativar o destaque visual corretamente
+function DropZone({
+  active,
+  onDrop,
+  onDragEnter,
+}: {
+  active: boolean
+  onDrop: () => void
+  onDragEnter: () => void
+}) {
   return (
     <div
       className={`drop-zone${active ? ' drop-zone-active' : ''}`}
+      onDragEnter={onDragEnter}                   // Fix 2
       onDragOver={e => e.preventDefault()}
-      onDrop={onDrop}
+      onDrop={e => { e.stopPropagation(); onDrop() }}
       aria-hidden="true"
     />
   )
@@ -282,51 +309,82 @@ function DropZone({ active, onDrop }: { active: boolean; onDrop: () => void }) {
 
 // ── EditorPage ────────────────────────────────────────────────────────────────
 export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
-  const [selectedBlock, setSelectedBlock] = useState<BlockConfig>({ title: '', description: '', icon: 'Conteúdo' })
-  const [canvasBlocks,  setCanvasBlocks]  = useState<CanvasBlock[]>(INITIAL_CANVAS_BLOCKS)
-  const [nextId,        setNextId]        = useState(10)
+  // Fix 3 — selectedBlock guarda o estado do painel de edição
+  const [selectedBlock,   setSelectedBlock]   = useState<BlockConfig>({ title: '', description: '', icon: 'Conteúdo' })
+  // Fix 3/4 — id do bloco atualmente selecionado no canvas
+  const [selectedBlockId, setSelectedBlockId] = useState<number | null>(null)
+
+  const [canvasBlocks,    setCanvasBlocks]    = useState<CanvasBlock[]>(INITIAL_CANVAS_BLOCKS)
+  const [nextId,          setNextId]          = useState(10)
   const [recentlyAddedId, setRecentlyAddedId] = useState<number | null>(null)
-  const [showPreview,   setShowPreview]   = useState(false)
-  const [showPublish,   setShowPublish]   = useState(false)
-  const [publishing,    setPublishing]    = useState(false)
+  const [showPreview,     setShowPreview]     = useState(false)
+  const [showPublish,     setShowPublish]     = useState(false)
+  const [publishing,      setPublishing]      = useState(false)
 
   // Drag state
-  const dragIndexRef   = useRef<number | null>(null)   // índice sendo arrastado (do canvas)
-  const dragTypeRef    = useRef<BlockType | null>(null) // tipo sendo arrastado (da sidebar)
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null) // sobre qual card
-  const [dropZoneOver, setDropZoneOver]  = useState<number | null>(null)  // sobre qual drop-zone
+  const dragIndexRef  = useRef<number | null>(null)
+  const dragTypeRef   = useRef<BlockType | null>(null)
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null)
+  const [dropZoneOver,  setDropZoneOver]  = useState<number | null>(null)
 
-  // ── Funções ─────────────────────────────────────────────────────────────────
-  function selectBlock(icon: BlockType) {
-    setSelectedBlock(c => ({ ...c, icon }))
+  // ── Fix 3/4 — Selecionar um bloco do canvas carrega seus dados no painel ──
+  function selectCanvasBlock(block: CanvasBlock) {
+    setSelectedBlockId(block.id)
+    setSelectedBlock({
+      title: block.title,
+      description: block.description,
+      icon: block.type,
+    })
+  }
+
+  // ── Fix 3 — Salvar persiste as alterações no canvasBlock correspondente ───
+  function saveSelectedBlock() {
+    if (selectedBlockId === null) return
+    setCanvasBlocks(prev =>
+      prev.map(b =>
+        b.id === selectedBlockId
+          ? { ...b, title: selectedBlock.title, description: selectedBlock.description, type: selectedBlock.icon }
+          : b
+      )
+    )
   }
 
   function addBlock(type: BlockType) {
     const id = nextId
     setNextId(n => n + 1)
-    setCanvasBlocks(prev => [...prev, { id, type, title: selectedBlock.title || type }])
-    setSelectedBlock(c => ({ ...c, icon: type, title: '' }))
+    const newBlock: CanvasBlock = {
+      id,
+      type,
+      title: selectedBlock.title || type,
+      description: selectedBlock.description,
+    }
+    setCanvasBlocks(prev => [...prev, newBlock])
+    setSelectedBlock(c => ({ ...c, icon: type, title: '', description: '' }))
+    setSelectedBlockId(id)
     setRecentlyAddedId(id)
     setTimeout(() => setRecentlyAddedId(null), 1200)
   }
 
   function deleteBlock(index: number) {
+    const removed = canvasBlocks[index]
     setCanvasBlocks(prev => prev.filter((_, i) => i !== index))
+    if (selectedBlockId === removed.id) setSelectedBlockId(null)
   }
 
-  function handleConfirmPublish() {
+  // Fix 5 — handleConfirmPublish recebe e loga o payload
+  function handleConfirmPublish(data: PublishData) {
+    console.log('Publicando trilha:', data)
     setShowPublish(false)
     setPublishing(true)
     setTimeout(() => { setPublishing(false); onPublish() }, 1400)
   }
 
-  // ── Drag from sidebar ───────────────────────────────────────────────────────
+  // ── Drag handlers ─────────────────────────────────────────────────────────
   function onSidebarDragStart(type: BlockType) {
     dragIndexRef.current = null
     dragTypeRef.current  = type
   }
 
-  // ── Drag within canvas ──────────────────────────────────────────────────────
   function onCardDragStart(_e: DragEvent<HTMLDivElement>, index: number) {
     dragIndexRef.current = index
     dragTypeRef.current  = null
@@ -344,14 +402,13 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
     setDropZoneOver(null)
   }
 
-  // Drop ON a card → reorder
+  // Fix 1 — onCardDrop agora é chamado pelo onDrop do CanvasCard
   function onCardDrop(targetIndex: number) {
     if (dragTypeRef.current !== null) {
-      // Vindo da sidebar — insere na posição do card alvo
       const type = dragTypeRef.current
-      const id = nextId
+      const id   = nextId
       setNextId(n => n + 1)
-      const newBlock: CanvasBlock = { id, type, title: type }
+      const newBlock: CanvasBlock = { id, type, title: type, description: '' }
       setCanvasBlocks(prev => {
         const next = [...prev]
         next.splice(targetIndex, 0, newBlock)
@@ -374,13 +431,12 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
     dragTypeRef.current  = null
   }
 
-  // Drop on a DropZone → insert/reorder at position
   function onDropZoneDrop(dropIndex: number) {
     if (dragTypeRef.current !== null) {
       const type = dragTypeRef.current
-      const id = nextId
+      const id   = nextId
       setNextId(n => n + 1)
-      const newBlock: CanvasBlock = { id, type, title: type }
+      const newBlock: CanvasBlock = { id, type, title: type, description: '' }
       setCanvasBlocks(prev => {
         const next = [...prev]
         next.splice(dropIndex, 0, newBlock)
@@ -406,14 +462,13 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
     dragTypeRef.current  = null
   }
 
-  // Canvas: drop on empty area → append
   function onCanvasDrop(e: DragEvent<HTMLDivElement>) {
     e.preventDefault()
     if (dragTypeRef.current !== null) {
       const type = dragTypeRef.current
-      const id = nextId
+      const id   = nextId
       setNextId(n => n + 1)
-      setCanvasBlocks(prev => [...prev, { id, type, title: type }])
+      setCanvasBlocks(prev => [...prev, { id, type, title: type, description: '' }])
       setRecentlyAddedId(id)
       setTimeout(() => setRecentlyAddedId(null), 1200)
     }
@@ -423,18 +478,16 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
     setDropZoneOver(null)
   }
 
-  // ── Render ──────────────────────────────────────────────────────────────────
+  // ── Render ────────────────────────────────────────────────────────────────
   return (
     <>
       <div className={`editor-page${showPreview || showPublish ? ' editor-page-blurred' : ''}`}>
         <header className="editor-header">
           <button className="editor-logo" type="button" onClick={onBackToLogin}>PATHLY</button>
-
           <label className="editor-search" aria-label="Pesquisar">
             <Search size={18} />
             <input aria-label="Pesquisar trilhas" placeholder="Pesquisar trilhas" />
           </label>
-
           <nav className="editor-nav" aria-label="Menu principal">
             <a href="#explorar">Explorar</a>
             <a href="#minhas-trilhas">Minhas trilhas</a>
@@ -445,10 +498,9 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
         </header>
 
         <main className="editor-shell">
-          {/* ── Sidebar: Blocos ── */}
+          {/* ── Sidebar ── */}
           <aside className="blocks-panel">
             <h2>Blocos</h2>
-
             <div className="block-list">
               {blockOptions.map(block => (
                 <div
@@ -456,10 +508,13 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
                   className={`block-card${selectedBlock.icon === block.type ? ' block-card-active' : ''}`}
                   draggable
                   onDragStart={() => onSidebarDragStart(block.type)}
-                  onClick={() => selectBlock(block.type)}
+                  onClick={() => {
+                    setSelectedBlock(c => ({ ...c, icon: block.type }))
+                    setSelectedBlockId(null)
+                  }}
                   role="button"
                   tabIndex={0}
-                  onKeyDown={e => e.key === 'Enter' && selectBlock(block.type)}
+                  onKeyDown={e => e.key === 'Enter' && setSelectedBlock(c => ({ ...c, icon: block.type }))}
                   aria-label={`Bloco ${block.type}`}
                   style={{ '--block-color': block.color } as React.CSSProperties}
                 >
@@ -499,11 +554,7 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
               </div>
             </div>
 
-            <div
-              className="flow-canvas dnd-canvas"
-              onDragOver={e => e.preventDefault()}
-              onDrop={onCanvasDrop}
-            >
+            <div className="flow-canvas dnd-canvas" onDragOver={e => e.preventDefault()} onDrop={onCanvasDrop}>
               {canvasBlocks.length === 0 && (
                 <div className="dnd-empty-state">
                   <Plus size={28} />
@@ -512,32 +563,33 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
               )}
 
               <div className="dnd-list">
-                {/* Drop zone antes do primeiro bloco */}
+                {/* Fix 2 — Drop zone inicial com onDragEnter */}
                 <DropZone
                   active={dropZoneOver === 0}
+                  onDragEnter={() => setDropZoneOver(0)}
                   onDrop={() => onDropZoneDrop(0)}
                 />
 
                 {canvasBlocks.map((block, index) => (
-                  <div
-                    key={block.id}
-                    onDragEnter={() => setDropZoneOver(null)}
-                  >
+                  <div key={block.id}>
+                    {/* Fix 1 + Fix 2 + Fix 4 — onDrop e onDragEnter conectados, onSelect carrega dados */}
                     <CanvasCard
                       block={block}
-                      isSelected={selectedBlock.icon === block.type}
+                      isSelected={selectedBlockId === block.id}
                       isNew={recentlyAddedId === block.id}
-                      onSelect={() => selectBlock(block.type)}
+                      onSelect={() => selectCanvasBlock(block)}           // Fix 4
                       onDelete={() => deleteBlock(index)}
                       onDragStart={e => onCardDragStart(e, index)}
-                      onDragEnter={e => onCardDragEnter(e, index)}
+                      onDragEnter={e => { onCardDragEnter(e, index); setDropZoneOver(null) }}
                       onDragEnd={onCardDragEnd}
+                      onDrop={e => { e.preventDefault(); e.stopPropagation(); onCardDrop(index) }} // Fix 1
                       isDragOver={dragOverIndex === index}
                     />
 
-                    {/* Drop zone após cada bloco */}
+                    {/* Fix 2 — Drop zone com onDragEnter */}
                     <DropZone
                       active={dropZoneOver === index + 1}
+                      onDragEnter={() => setDropZoneOver(index + 1)}       // Fix 2
                       onDrop={() => onDropZoneDrop(index + 1)}
                     />
                   </div>
@@ -565,7 +617,8 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
               Título
               <input
                 value={selectedBlock.title}
-                placeholder="Nome do bloco"
+                placeholder={selectedBlockId === null ? 'Selecione um bloco no canvas' : 'Nome do bloco'}
+                disabled={selectedBlockId === null}
                 onChange={e => setSelectedBlock(c => ({ ...c, title: e.target.value }))}
               />
             </label>
@@ -574,7 +627,8 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
               Descrição
               <textarea
                 value={selectedBlock.description}
-                placeholder="Descrição breve"
+                placeholder={selectedBlockId === null ? 'Selecione um bloco no canvas' : 'Descrição breve'}
+                disabled={selectedBlockId === null}
                 onChange={e => setSelectedBlock(c => ({ ...c, description: e.target.value }))}
               />
             </label>
@@ -585,10 +639,19 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
               <button type="button">Progresso <ChevronDown size={17} /></button>
             </section>
 
-            <button className="save-button" type="button">Salvar</button>
+            {/* Fix 3 — Salvar com onClick conectado */}
+            <button
+              className="save-button"
+              type="button"
+              onClick={saveSelectedBlock}
+              disabled={selectedBlockId === null}
+              title={selectedBlockId === null ? 'Selecione um bloco no canvas para editar' : 'Salvar alterações'}
+            >
+              Salvar
+            </button>
 
             <div className="selected-preview" aria-label="Bloco selecionado">
-              <FlowIcon type={selectedBlock.icon} />
+              {blockMeta[selectedBlock.icon].icon}
               <span>{selectedBlock.icon}</span>
             </div>
           </aside>
@@ -612,6 +675,7 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
         />
       )}
 
+      {/* Fix 5 — onConfirm recebe PublishData */}
       {showPublish && (
         <PublishModal
           onClose={() => setShowPublish(false)}
