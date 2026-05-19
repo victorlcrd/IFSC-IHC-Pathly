@@ -56,10 +56,7 @@ export function EditorPage({ onBackToLogin }: EditorPageProps) {
           PATHLY
         </button>
 
-        <label className="editor-search" aria-label="Pesquisar">
-          <Search size={18} />
-          <input aria-label="Pesquisar trilhas" placeholder="Pesquisar trilhas" />
-        </label>
+
 
         <nav className="editor-nav" aria-label="Menu principal">
           <a href="#explorar">Explorar</a>
