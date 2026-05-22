@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './index.css'
+import './pathly-theme.css'
 import { LoginPage } from './pages/LoginPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { AprendizPage } from './pages/AprendizPage'
