@@ -18,19 +18,12 @@ const PROGRESSO = [
 
 export function AprendizPage({ onBackToLogin }: AprendizPageProps) {
   return (
-    <div className="editor-page">
+    <div className="editor-page aprendiz-page">
       {/* Header */}
-      <header className="editor-header">
+      <header className="editor-header dashboard-header">
         <button className="editor-logo" type="button" onClick={onBackToLogin}>
           PATHLY
         </button>
-
-        <div className="editor-search">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-          </svg>
-          <input type="text" placeholder="Buscar..." aria-label="Buscar trilhas" />
-        </div>
 
         <nav className="editor-nav">
           <a href="#trilhas">Minhas Trilhas</a>
