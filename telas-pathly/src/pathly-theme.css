@@ -1,0 +1,814 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+/* Pathly palette recovered from PR #5 and applied as an override layer on top of main. */
+:root {
+  --color-navy: #0B1D29;
+  --color-teal: #0F4C5C;
+  --color-blue: #1385EA;
+  --color-blue-light: #3B9EF0;
+  --color-green: #22C55E;
+  --color-yellow: #F4BD48;
+  --color-coral: #FF6B6B;
+
+  --color-bg: #F5F7FA;
+  --color-surface: #FFFFFF;
+  --color-border: #E4EAF0;
+  --color-text: #0B1D29;
+  --color-text-muted: #6B7A90;
+  --color-text-light: #A0AEBB;
+
+  --color-blue-tint: #E8F3FD;
+  --color-green-tint: #E6FAF0;
+  --color-yellow-tint: #FEF7E0;
+  --color-coral-tint: #FFEAEA;
+
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+body,
+.editor-page {
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.login-card {
+  background: linear-gradient(160deg, var(--color-navy) 0%, var(--color-teal) 100%);
+  border-right-color: var(--color-border);
+}
+
+.login-eyebrow {
+  color: #ffffff;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.login-eyebrow::after {
+  height: 3px;
+  background: var(--color-blue);
+  border-radius: 2px;
+}
+
+.login-card h1 {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+}
+
+.login-actions::before,
+.blocks-panel h2,
+.edit-panel h2,
+.flow-workspace h1,
+.dashboard-greeting,
+.section-title,
+.info-card-title,
+.trilha-nome,
+.stat-value,
+.progress-nome,
+.continuar-nome {
+  color: var(--color-text);
+}
+
+.primary-button,
+.save-button,
+.add-to-canvas-button,
+.publish-confirm-btn,
+.preview-header-btn-primary,
+.workspace-action-btn-primary {
+  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-teal) 100%);
+  color: #ffffff;
+  box-shadow: 0 10px 18px rgba(19, 133, 234, 0.30);
+}
+
+.primary-button:hover,
+.save-button:hover,
+.add-to-canvas-button:hover,
+.publish-confirm-btn:hover,
+.workspace-action-btn-primary:hover {
+  background: linear-gradient(135deg, var(--color-blue-light) 0%, var(--color-teal) 100%);
+}
+
+.outline-button,
+.block-card,
+.field-label input,
+.field-label textarea,
+.settings-area button,
+.workspace-action-btn,
+.preview-header-btn,
+.publish-field {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.editor-header {
+  background: var(--color-navy);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.editor-logo,
+.profile-button {
+  color: #ffffff;
+}
+
+.editor-search,
+.profile-button {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.editor-search input {
+  color: #ffffff;
+}
+
+.editor-search input::placeholder {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.field-label input::placeholder,
+.field-label textarea::placeholder,
+.publish-field::placeholder {
+  color: var(--color-text-light);
+}
+
+.editor-nav a {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.editor-nav a:hover {
+  color: #ffffff;
+}
+
+.dashboard-header {
+  grid-template-columns: 145px minmax(0, 1fr);
+}
+
+.dashboard-header .editor-nav {
+  justify-content: flex-end;
+  justify-self: end;
+}
+
+.blocks-panel,
+.flow-workspace,
+.edit-panel,
+.stat-card,
+.table-wrapper,
+.info-card,
+.preview-progress-card,
+.modal-publish,
+.publishing-box,
+.dnd-card {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  box-shadow: 0 8px 32px rgba(11, 29, 41, 0.08);
+}
+
+.block-card:hover,
+.block-card-active,
+.flow-node:hover,
+.decision-node:hover,
+.workspace-action-btn:hover,
+.dnd-card:hover {
+  border-color: var(--color-blue);
+  color: var(--color-blue);
+  box-shadow: 0 10px 20px rgba(19, 133, 234, 0.12);
+}
+
+.block-icon,
+.zoom-controls button,
+.ranking-avatar,
+.progress-bar-bg {
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+}
+
+.block-card-active .block-icon,
+.workspace-title-row span,
+.selected-preview,
+.ranking-destaque,
+.create-trilha-button,
+.drop-zone-active,
+.publish-cover-area,
+.preview-node-done {
+  background: var(--color-blue-tint);
+  color: var(--color-blue);
+}
+
+.drag-helper,
+.icon-upload,
+.dnd-empty-state {
+  border-color: var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+}
+
+.flow-canvas {
+  border-color: var(--color-border);
+  background-color: var(--color-surface);
+  background-image: linear-gradient(var(--color-border) 1px, transparent 1px), linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+}
+
+.flow-node,
+.decision-node {
+  border-color: var(--color-border);
+  color: var(--color-text);
+  background: var(--color-surface);
+  box-shadow: 0 8px 20px rgba(11, 29, 41, 0.10);
+}
+
+.connector {
+  background: var(--color-border);
+}
+
+.field-label,
+.settings-area h3,
+.trilhas-table td,
+.activity-text,
+.ranking-nome,
+.preview-step-number,
+.modal-publish-title,
+.publish-visibility-label {
+  color: var(--color-text);
+}
+
+.field-label input:focus,
+.field-label textarea:focus,
+.editor-search:focus-within,
+.publish-field:focus {
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 4px rgba(19, 133, 234, 0.12);
+}
+
+.dashboard-sidebar {
+  background: linear-gradient(180deg, var(--color-navy) 0%, #0d2a3a 100%);
+  border-right-color: rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-label {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.sidebar-item {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.sidebar-item-active {
+  background: var(--color-blue);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(19, 133, 234, 0.35);
+}
+
+.dashboard-content {
+  background: var(--color-bg);
+}
+
+.stat-card:nth-child(1) { border-top: 4px solid var(--color-blue); }
+.stat-card:nth-child(2) { border-top: 4px solid var(--color-green); }
+.stat-card:nth-child(3) { border-top: 4px solid var(--color-yellow); }
+
+.stat-label,
+.trilhas-table th,
+.activity-time,
+.progress-pct,
+.ranking-pts,
+.continuar-aula,
+.settings-area button {
+  color: var(--color-text-muted);
+}
+
+.trilhas-table th {
+  border-bottom-color: var(--color-bg);
+}
+
+.trilhas-table td {
+  border-bottom-color: var(--color-bg);
+}
+
+.trilhas-table tr:hover td {
+  background: #F0F7FF;
+}
+
+.status-ativa {
+  background: var(--color-green-tint);
+  color: #15803d;
+}
+
+.status-rascunho {
+  background: var(--color-yellow-tint);
+  color: #92400e;
+}
+
+.create-trilha-button {
+  border-color: var(--color-blue);
+}
+
+.create-trilha-button:hover {
+  background: #d0eafc;
+  border-color: var(--color-blue-light);
+  box-shadow: 0 4px 14px rgba(19, 133, 234, 0.18);
+}
+
+.progress-pct,
+.continuar-pct,
+.ranking-destaque .ranking-pos,
+.ranking-destaque .ranking-nome,
+.ranking-destaque .ranking-pts {
+  color: var(--color-blue);
+}
+
+.progress-bar-fill,
+.preview-progress-bar-fill {
+  background: linear-gradient(90deg, var(--color-blue) 0%, var(--color-green) 100%);
+}
+
+.continuar-thumb {
+  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-teal) 100%);
+  color: #ffffff;
+  border: 0;
+  box-shadow: 0 6px 16px rgba(19, 133, 234, 0.30);
+}
+
+.streak-card {
+  background: linear-gradient(135deg, #fff7ed 0%, #fffbeb 100%);
+  border-color: #fed7aa;
+}
+
+.streak-num {
+  color: #ea580c;
+}
+
+.streak-label {
+  color: #9a3412;
+}
+
+.streak-msg {
+  color: #c2410c;
+}
+
+.dnd-card-selected,
+.dnd-card-new {
+  border-color: var(--block-color, var(--color-blue));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--block-color, var(--color-blue)) 18%, transparent), 0 12px 24px rgba(11, 29, 41, 0.08);
+}
+
+.dnd-card-dragover {
+  border-color: var(--color-blue);
+  background: var(--color-blue-tint);
+}
+
+.add-to-canvas-button {
+  border: 0;
+}
+
+.workspace-action-btn-primary,
+.preview-header-btn-primary {
+  border-color: var(--color-blue);
+}
+
+.modal-overlay,
+.publishing-overlay {
+  background: rgba(11, 29, 41, 0.45);
+}
+
+.preview-header {
+  background: var(--color-bg);
+  border-bottom-color: var(--color-border);
+}
+
+.preview-node-active {
+  border-color: var(--color-blue);
+  background: var(--color-blue);
+  box-shadow: 0 0 0 4px rgba(19, 133, 234, 0.20);
+}
+
+.publish-cover-area:hover,
+.publish-visibility-active {
+  background: #d0eafc;
+  outline-color: var(--color-blue-light);
+}
+
+.publish-visibility-option input[type='radio'] {
+  accent-color: var(--color-blue);
+}
+
+.publish-spinner {
+  border-top-color: var(--color-blue);
+}
+
+.dnd-card-delete:hover {
+  background: var(--color-coral-tint);
+  color: var(--color-coral);
+}
+
+@media (max-width: 900px) {
+  .dashboard-sidebar {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+}
+.sidebar-logo-accent {
+  display: block;
+  width: 32px;
+  height: 3px;
+  margin: 0 0 24px 8px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-blue), var(--color-green));
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.dashboard-greeting-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding: 24px 28px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(120deg, var(--color-navy) 0%, var(--color-teal) 100%);
+}
+
+.dashboard-greeting-wrap::after {
+  content: '🚀';
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.8rem;
+  opacity: 0.18;
+}
+
+.dashboard-greeting {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+
+.dashboard-greeting-sub {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.stats-grid {
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  position: relative;
+}
+
+.stat-card-inner {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 22px 18px;
+  background: var(--color-surface);
+}
+
+.stat-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+}
+
+.stat-icon-blue {
+  background: var(--color-blue-tint);
+  color: var(--color-blue);
+}
+
+.stat-icon-green {
+  background: var(--color-green-tint);
+  color: var(--color-green);
+}
+
+.stat-icon-yellow {
+  background: var(--color-yellow-tint);
+  color: #b45309;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  background: var(--color-blue);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-badge::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-ativa::before {
+  background: var(--color-green);
+}
+
+.status-rascunho::before {
+  background: var(--color-yellow);
+}
+
+.activity-item {
+  grid-template-columns: 28px 1fr auto;
+  align-items: start;
+  gap: 10px;
+}
+
+.activity-dot {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-top: 0;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.activity-text {
+  padding-top: 5px;
+}
+
+.activity-time {
+  padding-top: 6px;
+}
+
+.progress-pct {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-blue-tint);
+  color: var(--color-blue);
+  font-size: 0.78rem;
+}
+
+.progress-bar-bg {
+  height: 9px;
+  background: var(--color-bg);
+}
+
+.info-card-title {
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--color-bg);
+}
+
+.aprendiz-page .dashboard-greeting {
+  margin: 0 0 28px;
+  color: var(--color-text);
+}
+
+.aprendiz-page .stats-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.aprendiz-page .stat-card {
+  min-width: 0;
+  padding: 22px 24px;
+  overflow: visible;
+  border: 1px solid var(--color-border);
+  border-top-width: 4px;
+  border-radius: 16px;
+}
+
+.aprendiz-page .stat-card svg {
+  flex-shrink: 0;
+}
+
+.aprendizagem-bottom-grid {
+  align-items: stretch;
+}
+
+.streak-highlight-card,
+.progress-highlight-card {
+  border-radius: 16px;
+}
+
+.streak-highlight-card {
+  padding: 22px 24px;
+  border-color: #fed7aa;
+  background: linear-gradient(135deg, #fff8ec 0%, #fffdf7 100%);
+}
+
+.streak-title,
+.progress-card-title {
+  width: 100%;
+  margin-bottom: 20px;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.streak-title {
+  border-bottom: 2px solid #fed7aa;
+}
+
+.progress-card-title {
+  border-bottom-color: var(--color-bg);
+}
+
+.streak-summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 4px 0 8px;
+}
+
+.streak-icon-box {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fb923c, #f59e0b);
+  color: #ffffff;
+}
+
+.streak-highlight-card .streak-num {
+  color: #f97316;
+  font-size: 2.8rem;
+}
+
+.streak-highlight-card .streak-label {
+  color: #7c2d12;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.streak-highlight-card .streak-msg {
+  margin: 0 0 20px;
+  color: #c2410c;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.streak-week {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.streak-day-wrap {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.streak-day {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.streak-day-complete {
+  background: #f59e0b;
+  color: #ffffff;
+}
+
+.streak-day-label {
+  color: #7c2d12;
+  font-size: 0.65rem;
+  font-weight: 900;
+}
+
+.progress-highlight-card {
+  padding: 22px 24px;
+}
+
+.progress-highlight-card .progress-list {
+  gap: 18px;
+}
+
+.progress-highlight-item .progress-header {
+  gap: 8px;
+}
+
+.progress-highlight-item .progress-nome {
+  color: var(--color-text);
+  font-weight: 800;
+}
+
+.progress-highlight-card .progress-pct {
+  background: var(--color-blue-tint);
+  color: var(--color-blue);
+  font-weight: 900;
+}
+
+.progress-highlight-card .progress-bar-bg {
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #f3f6fa;
+}
+
+.progress-highlight-card .progress-bar-fill {
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--color-blue), var(--color-green));
+}
+
+.recent-achievements {
+  margin-top: 22px;
+}
+
+.recent-achievements-title {
+  margin: 0 0 10px;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.achievement-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.achievement-gold {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.achievement-blue {
+  background: var(--color-blue-tint);
+  color: var(--color-blue);
+}
+
+.achievement-green {
+  background: var(--color-green-tint);
+  color: #15803d;
+}
+
+@media (max-width: 900px) {
+  .dashboard-greeting-wrap {
+    align-items: flex-start;
+  }
+
+  .aprendiz-page .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .aprendiz-page .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
