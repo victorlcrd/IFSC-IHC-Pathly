@@ -137,30 +137,46 @@ export function AprendizPage({ onBackToLogin }: AprendizPageProps) {
           </div>
 
           {/* Bottom row: Streak + Progresso */}
-          <div className="bottom-grid">
-            <section className="info-card streak-card">
-              <h3 className="info-card-title">Streak</h3>
-              <div className="streak-inner">
-                <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
-                </svg>
+          <div className="bottom-grid aprendizagem-bottom-grid">
+            <section className="info-card streak-card streak-highlight-card">
+              <h3 className="info-card-title streak-title">🔥 Streak</h3>
+
+              <div className="streak-summary">
+                <span className="streak-icon-box" aria-hidden="true">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                  </svg>
+                </span>
                 <div>
                   <span className="streak-num">7</span>
-                  <span className="streak-label">dias</span>
+                  <span className="streak-label">dias seguidos</span>
                 </div>
               </div>
-              <p className="streak-msg">Continue assim! 🔥</p>
+
+              <p className="streak-msg">Continue assim! Faltam 3 dias para o recorde. 🏆</p>
+
+              <div className="streak-week" aria-label="Progresso semanal do streak">
+                {['S', 'T', 'Q', 'Q', 'S', 'S', 'D'].map((dia, i) => (
+                  <span key={`${dia}-${i}`} className="streak-day-wrap">
+                    <span className={`streak-day${i < 5 ? ' streak-day-complete' : ''}`}>
+                      {i < 5 ? '✓' : '-'}
+                    </span>
+                    <span className="streak-day-label">{dia}</span>
+                  </span>
+                ))}
+              </div>
             </section>
 
-            <section className="info-card">
-              <h3 className="info-card-title">Progresso</h3>
+            <section className="info-card progress-highlight-card">
+              <h3 className="info-card-title progress-card-title">Progresso nas trilhas</h3>
+
               <ul className="progress-list">
                 {PROGRESSO.map((p, i) => (
-                  <li key={i} className="progress-item">
+                  <li key={i} className="progress-item progress-highlight-item">
                     <div className="progress-header">
                       <span className="progress-check" aria-hidden="true">
                         {p.concluida
-                          ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                          ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1385EA" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                           : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/></svg>
                         }
                       </span>
@@ -173,6 +189,15 @@ export function AprendizPage({ onBackToLogin }: AprendizPageProps) {
                   </li>
                 ))}
               </ul>
+
+              <div className="recent-achievements">
+                <h4 className="recent-achievements-title">Conquistas recentes</h4>
+                <div className="achievement-badges">
+                  <span className="achievement-badge achievement-gold">🏅 Primeira trilha</span>
+                  <span className="achievement-badge achievement-blue">⚡ 7 dias streak</span>
+                  <span className="achievement-badge achievement-green">✅ React master</span>
+                </div>
+              </div>
             </section>
           </div>
         </main>

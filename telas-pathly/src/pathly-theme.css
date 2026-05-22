@@ -613,6 +613,190 @@ textarea {
   flex-shrink: 0;
 }
 
+.aprendizagem-bottom-grid {
+  align-items: stretch;
+}
+
+.streak-highlight-card,
+.progress-highlight-card {
+  border-radius: 16px;
+}
+
+.streak-highlight-card {
+  padding: 22px 24px;
+  border-color: #fed7aa;
+  background: linear-gradient(135deg, #fff8ec 0%, #fffdf7 100%);
+}
+
+.streak-title,
+.progress-card-title {
+  width: 100%;
+  margin-bottom: 20px;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.streak-title {
+  border-bottom: 2px solid #fed7aa;
+}
+
+.progress-card-title {
+  border-bottom-color: var(--color-bg);
+}
+
+.streak-summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 4px 0 8px;
+}
+
+.streak-icon-box {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fb923c, #f59e0b);
+  color: #ffffff;
+}
+
+.streak-highlight-card .streak-num {
+  color: #f97316;
+  font-size: 2.8rem;
+}
+
+.streak-highlight-card .streak-label {
+  color: #7c2d12;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.streak-highlight-card .streak-msg {
+  margin: 0 0 20px;
+  color: #c2410c;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.streak-week {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.streak-day-wrap {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.streak-day {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.streak-day-complete {
+  background: #f59e0b;
+  color: #ffffff;
+}
+
+.streak-day-label {
+  color: #7c2d12;
+  font-size: 0.65rem;
+  font-weight: 900;
+}
+
+.progress-highlight-card {
+  padding: 22px 24px;
+}
+
+.progress-highlight-card .progress-list {
+  gap: 18px;
+}
+
+.progress-highlight-item .progress-header {
+  gap: 8px;
+}
+
+.progress-highlight-item .progress-nome {
+  color: var(--color-text);
+  font-weight: 800;
+}
+
+.progress-highlight-card .progress-pct {
+  background: var(--color-blue-tint);
+  color: var(--color-blue);
+  font-weight: 900;
+}
+
+.progress-highlight-card .progress-bar-bg {
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #f3f6fa;
+}
+
+.progress-highlight-card .progress-bar-fill {
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--color-blue), var(--color-green));
+}
+
+.recent-achievements {
+  margin-top: 22px;
+}
+
+.recent-achievements-title {
+  margin: 0 0 10px;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.achievement-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.achievement-gold {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.achievement-blue {
+  background: var(--color-blue-tint);
+  color: var(--color-blue);
+}
+
+.achievement-green {
+  background: var(--color-green-tint);
+  color: #15803d;
+}
+
 @media (max-width: 900px) {
   .dashboard-greeting-wrap {
     align-items: flex-start;
