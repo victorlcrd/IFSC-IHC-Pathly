@@ -1,10 +1,10 @@
 type CriadorSidebarProps = {
   active: 'dashboard' | 'trilhas' | 'alunos' | 'configuracoes'
   onOpenDashboard: () => void
-  onOpenEditor: () => void
+  onOpenMinhasTrilhas: () => void
 }
 
-export function CriadorSidebar({ active, onOpenDashboard, onOpenEditor }: CriadorSidebarProps) {
+export function CriadorSidebar({ active, onOpenDashboard, onOpenMinhasTrilhas }: CriadorSidebarProps) {
   return (
     <aside className="dashboard-sidebar">
       <span className="sidebar-logo-accent" />
@@ -22,7 +22,7 @@ export function CriadorSidebar({ active, onOpenDashboard, onOpenEditor }: Criado
         <button
           type="button"
           className={`sidebar-item sidebar-button sidebar-nav-button${active === 'trilhas' ? ' sidebar-item-active' : ''}`}
-          onClick={onOpenEditor}
+          onClick={onOpenMinhasTrilhas}
         >
           <IconBook />
           Minhas Trilhas
