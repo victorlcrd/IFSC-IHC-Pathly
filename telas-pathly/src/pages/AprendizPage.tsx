@@ -1,5 +1,10 @@
+import { AprendizSidebar } from '../components/AprendizSidebar'
+
 type AprendizPageProps = {
   onBackToLogin: () => void
+  onOpenTrilha: () => void
+  onOpenAula: () => void
+  onOpenMinhasTrilhas: () => void
 }
 
 const RANKING = [
@@ -16,7 +21,7 @@ const PROGRESSO = [
   { nome: 'Git na Prática', pct: 20, concluida: false },
 ]
 
-export function AprendizPage({ onBackToLogin }: AprendizPageProps) {
+export function AprendizPage({ onBackToLogin, onOpenTrilha, onOpenAula, onOpenMinhasTrilhas }: AprendizPageProps) {
   return (
     <div className="editor-page aprendiz-page">
       {/* Header */}
@@ -26,7 +31,7 @@ export function AprendizPage({ onBackToLogin }: AprendizPageProps) {
         </button>
 
         <nav className="editor-nav">
-          <a href="#trilhas">Minhas Trilhas</a>
+          <button type="button" className="nav-text-button" onClick={onOpenMinhasTrilhas}>Minhas Trilhas</button>
           <a href="#explorar">Explorar</a>
           <button className="profile-button" type="button" aria-label="Perfil">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -38,32 +43,11 @@ export function AprendizPage({ onBackToLogin }: AprendizPageProps) {
 
       {/* Shell */}
       <div className="dashboard-shell">
-        {/* Sidebar */}
-        <aside className="dashboard-sidebar">
-          <p className="sidebar-label">Menu</p>
-          <nav className="sidebar-nav">
-            <a href="#" className="sidebar-item sidebar-item-active">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{marginRight: 8, verticalAlign: 'middle'}}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-              Dashboard
-            </a>
-            <a href="#" className="sidebar-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{marginRight: 8, verticalAlign: 'middle'}}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-              Trilhas
-            </a>
-            <a href="#" className="sidebar-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{marginRight: 8, verticalAlign: 'middle'}}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-              Conquistas
-            </a>
-            <a href="#" className="sidebar-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{marginRight: 8, verticalAlign: 'middle'}}><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
-              Desafios
-            </a>
-            <a href="#" className="sidebar-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{marginRight: 8, verticalAlign: 'middle'}}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              Perfil
-            </a>
-          </nav>
-        </aside>
+        <AprendizSidebar
+          active="dashboard"
+          onOpenDashboard={() => undefined}
+          onOpenMinhasTrilhas={onOpenMinhasTrilhas}
+        />
 
         {/* Content */}
         <main className="dashboard-content">
@@ -98,13 +82,16 @@ export function AprendizPage({ onBackToLogin }: AprendizPageProps) {
           <div className="aprendiz-mid-grid">
             {/* Continuar */}
             <section className="info-card">
-              <h3 className="info-card-title">Continuar</h3>
+              <div className="info-card-heading-row">
+                <h3 className="info-card-title">Continuar</h3>
+                <button type="button" className="small-link-button" onClick={onOpenTrilha}>Ver trilha</button>
+              </div>
               <div className="continuar-inner">
-                <div className="continuar-thumb" aria-label="Prévia da aula">
+                <button className="continuar-thumb continuar-thumb-button" type="button" aria-label="Abrir aula atual" onClick={onOpenAula}>
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
                   </svg>
-                </div>
+                </button>
                 <div className="continuar-info">
                   <p className="continuar-nome">Introdução ao React</p>
                   <p className="continuar-aula">Aula 6 — Hooks e Estado</p>
@@ -112,6 +99,7 @@ export function AprendizPage({ onBackToLogin }: AprendizPageProps) {
                     <div className="progress-bar-fill" style={{width: '75%'}} />
                   </div>
                   <p className="continuar-pct">75% concluído</p>
+                  <button type="button" className="continue-action-button" onClick={onOpenAula}>Continuar aula</button>
                 </div>
               </div>
             </section>

@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import { CriadorSidebar } from '../components/CriadorSidebar'
 
 type DashboardPageProps = {
   onOpenEditor: () => void
@@ -46,24 +47,11 @@ export function DashboardPage({ onOpenEditor, onBackToLogin }: DashboardPageProp
       </header>
 
       <div className="dashboard-shell">
-        <aside className="dashboard-sidebar">
-          <span className="sidebar-logo-accent" />
-          <p className="sidebar-label">Menu</p>
-
-          <nav className="sidebar-nav">
-            {[
-              { label: 'Dashboard', icon: <IconGrid /> },
-              { label: 'Minhas Trilhas', icon: <IconBook /> },
-              { label: 'Alunos', icon: <IconUsers /> },
-              { label: 'Configurações', icon: <IconSettings /> },
-            ].map((item, i) => (
-              <a key={item.label} href="#" className={`sidebar-item${i === 0 ? ' sidebar-item-active' : ''}`}>
-                {item.icon}
-                {item.label}
-              </a>
-            ))}
-          </nav>
-        </aside>
+        <CriadorSidebar
+          active="dashboard"
+          onOpenDashboard={() => undefined}
+          onOpenEditor={onOpenEditor}
+        />
 
         <main className="dashboard-content">
           <div className="dashboard-greeting-wrap">
@@ -187,25 +175,7 @@ export function DashboardPage({ onOpenEditor, onBackToLogin }: DashboardPageProp
   )
 }
 
-function IconGrid() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="3" y="3" width="7" height="7" />
-      <rect x="14" y="3" width="7" height="7" />
-      <rect x="14" y="14" width="7" height="7" />
-      <rect x="3" y="14" width="7" height="7" />
-    </svg>
-  )
-}
 
-function IconBook() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-    </svg>
-  )
-}
 
 function IconUsers() {
   return (
@@ -218,15 +188,6 @@ function IconUsers() {
   )
 }
 
-function IconSettings() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-      <path d="M4.93 4.93a10 10 0 0 0 0 14.14" />
-    </svg>
-  )
-}
 
 function IconUser() {
   return (
