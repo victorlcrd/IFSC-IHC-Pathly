@@ -5,8 +5,11 @@ import { LoginPage } from './pages/LoginPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { AprendizPage } from './pages/AprendizPage'
 import { EditorPage } from './pages/EditorPage'
+import { TrilhaDetailPage } from './pages/TrilhaDetailPage'
+import { AulaPage } from './pages/AulaPage'
+import { MinhasTrilhasPage } from './pages/MinhasTrilhasPage'
 
-type Page = 'login' | 'dashboard' | 'aprendiz' | 'editor'
+type Page = 'login' | 'dashboard' | 'aprendiz' | 'minhasTrilhas' | 'editor' | 'trilha' | 'aula'
 
 function App() {
   const [page, setPage] = useState<Page>('login')
@@ -30,7 +33,47 @@ function App() {
   }
 
   if (page === 'aprendiz') {
-    return <AprendizPage onBackToLogin={() => setPage('login')} />
+    return (
+      <AprendizPage
+        onBackToLogin={() => setPage('login')}
+        onOpenTrilha={() => setPage('trilha')}
+        onOpenAula={() => setPage('aula')}
+        onOpenMinhasTrilhas={() => setPage('minhasTrilhas')}
+      />
+    )
+  }
+
+
+  if (page === 'minhasTrilhas') {
+    return (
+      <MinhasTrilhasPage
+        onBackToLogin={() => setPage('login')}
+        onOpenDashboard={() => setPage('aprendiz')}
+        onOpenTrilha={() => setPage('trilha')}
+        onOpenAula={() => setPage('aula')}
+      />
+    )
+  }
+
+  if (page === 'trilha') {
+    return (
+      <TrilhaDetailPage
+        onBackToMinhasTrilhas={() => setPage('minhasTrilhas')}
+        onOpenDashboard={() => setPage('aprendiz')}
+        onOpenAula={() => setPage('aula')}
+        onBackToLogin={() => setPage('login')}
+      />
+    )
+  }
+
+  if (page === 'aula') {
+    return (
+      <AulaPage
+        onBackToTrilha={() => setPage('minhasTrilhas')}
+        onBackToLogin={() => setPage('login')}
+        onOpenDashboard={() => setPage('aprendiz')}
+      />
+    )
   }
 
   // EditorPage agora recebe onPublish que retorna ao dashboard (task 4.4)
