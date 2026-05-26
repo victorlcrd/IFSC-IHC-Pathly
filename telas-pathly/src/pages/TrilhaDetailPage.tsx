@@ -1,4 +1,5 @@
 import { AprendizSidebar } from '../components/AprendizSidebar'
+import { PathlyLogo } from '../components/PathlyLogo'
 
 type TrilhaDetailPageProps = {
   onBackToMinhasTrilhas: () => void
@@ -93,12 +94,9 @@ export function TrilhaDetailPage({ onBackToMinhasTrilhas, onOpenDashboard, onOpe
   return (
     <div className="editor-page trilha-detail-page">
       <header className="editor-header dashboard-header">
-        <button className="editor-logo" type="button" onClick={onBackToLogin}>
-          PATHLY
-        </button>
+        <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
 
         <nav className="editor-nav">
-          <button type="button" className="nav-text-button" onClick={onBackToMinhasTrilhas}>Minhas Trilhas</button>
           <a href="#explorar">Explorar</a>
           <button className="profile-button" type="button" aria-label="Perfil">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

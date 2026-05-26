@@ -1,4 +1,5 @@
 import { AprendizSidebar } from '../components/AprendizSidebar'
+import { PathlyLogo } from '../components/PathlyLogo'
 
 type MinhasTrilhasPageProps = {
   onBackToLogin: () => void
@@ -47,9 +48,7 @@ export function MinhasTrilhasPage({ onBackToLogin, onOpenDashboard, onOpenTrilha
   return (
     <div className="editor-page aprendiz-page">
       <header className="editor-header dashboard-header">
-        <button className="editor-logo" type="button" onClick={onBackToLogin}>
-          PATHLY
-        </button>
+        <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
 
         <nav className="editor-nav">
           <button type="button" className="nav-text-button" onClick={onOpenDashboard}>Dashboard</button>
@@ -78,7 +77,7 @@ export function MinhasTrilhasPage({ onBackToLogin, onOpenDashboard, onOpenTrilha
                 Trilhas em que você está cadastrado. Continue de onde parou ou revise o progresso de cada uma.
               </p>
             </div>
-            <button type="button" className="create-trilha-button minhas-trilhas-explore">
+            <button type="button" className="create-trilha-button minhas-trilhas-explore explore-trails-button">
               Explorar novas trilhas
             </button>
           </div>

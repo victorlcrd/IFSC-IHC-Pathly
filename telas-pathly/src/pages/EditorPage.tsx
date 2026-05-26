@@ -7,17 +7,16 @@ import {
   MapPin,
   MessageSquareText,
   Plus,
-  Search,
   Share2,
   Trash2,
   Trophy,
-  UserCircle,
   X,
   CheckCircle2,
   Image as ImageIcon,
   Eye,
 } from 'lucide-react'
 import { useRef, useState, type DragEvent, type ReactNode } from 'react'
+import { PathlyLogo } from '../components/PathlyLogo'
 
 // ── Tipos ─────────────────────────────────────────────────────────────────────
 type BlockType = 'Início' | 'Conteúdo' | 'Pergunta' | 'Escolha' | 'Conquista' | 'Fim'
@@ -482,17 +481,21 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
   return (
     <>
       <div className={`editor-page${showPreview || showPublish ? ' editor-page-blurred' : ''}`}>
-        <header className="editor-header">
-          <button className="editor-logo" type="button" onClick={onBackToLogin}>PATHLY</button>
-          <label className="editor-search" aria-label="Pesquisar">
-            <Search size={18} />
-            <input aria-label="Pesquisar trilhas" placeholder="Pesquisar trilhas" />
-          </label>
-          <nav className="editor-nav" aria-label="Menu principal">
-            <a href="#explorar">Explorar</a>
-            <a href="#minhas-trilhas">Minhas trilhas</a>
+        <header className="editor-header editor-builder-header">
+          <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
+
+          <div className="editor-builder-search">
+            <IconSearch />
+            <input type="text" placeholder="Pesquisar blocos" aria-label="Pesquisar blocos" />
+          </div>
+
+          <nav className="editor-nav editor-builder-nav">
+            <button className="editor-nav-button" type="button" onClick={onBackToLogin}>
+              Dashboard
+            </button>
+
             <button className="profile-button" type="button" aria-label="Perfil">
-              <UserCircle size={31} />
+              <IconUser />
             </button>
           </nav>
         </header>
@@ -683,5 +686,23 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
         />
       )}
     </>
+  )
+}
+
+function IconSearch() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  )
+}
+
+function IconUser() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
   )
 }

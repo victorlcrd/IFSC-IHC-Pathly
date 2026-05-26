@@ -1,4 +1,5 @@
 import { AprendizSidebar } from '../components/AprendizSidebar'
+import { PathlyLogo } from '../components/PathlyLogo'
 
 type AprendizPageProps = {
   onBackToLogin: () => void
@@ -26,12 +27,9 @@ export function AprendizPage({ onBackToLogin, onOpenTrilha, onOpenAula, onOpenMi
     <div className="editor-page aprendiz-page">
       {/* Header */}
       <header className="editor-header dashboard-header">
-        <button className="editor-logo" type="button" onClick={onBackToLogin}>
-          PATHLY
-        </button>
+        <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
 
         <nav className="editor-nav">
-          <button type="button" className="nav-text-button" onClick={onOpenMinhasTrilhas}>Minhas Trilhas</button>
           <a href="#explorar">Explorar</a>
           <button className="profile-button" type="button" aria-label="Perfil">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -127,7 +125,7 @@ export function AprendizPage({ onBackToLogin, onOpenTrilha, onOpenAula, onOpenMi
           {/* Bottom row: Streak + Progresso */}
           <div className="bottom-grid aprendizagem-bottom-grid">
             <section className="info-card streak-card streak-highlight-card">
-              <h3 className="info-card-title streak-title">🔥 Streak</h3>
+              <h3 className="info-card-title streak-title">Streak</h3>
 
               <div className="streak-summary">
                 <span className="streak-icon-box" aria-hidden="true">
@@ -141,7 +139,7 @@ export function AprendizPage({ onBackToLogin, onOpenTrilha, onOpenAula, onOpenMi
                 </div>
               </div>
 
-              <p className="streak-msg">Continue assim! Faltam 3 dias para o recorde. 🏆</p>
+              <p className="streak-msg">Continue assim! Faltam 3 dias para o recorde.</p>
 
               <div className="streak-week" aria-label="Progresso semanal do streak">
                 {['S', 'T', 'Q', 'Q', 'S', 'S', 'D'].map((dia, i) => (
@@ -181,9 +179,9 @@ export function AprendizPage({ onBackToLogin, onOpenTrilha, onOpenAula, onOpenMi
               <div className="recent-achievements">
                 <h4 className="recent-achievements-title">Conquistas recentes</h4>
                 <div className="achievement-badges">
-                  <span className="achievement-badge achievement-gold">🏅 Primeira trilha</span>
-                  <span className="achievement-badge achievement-blue">⚡ 7 dias streak</span>
-                  <span className="achievement-badge achievement-green">✅ React master</span>
+                  <span className="achievement-badge achievement-gold">Primeira trilha</span>
+                  <span className="achievement-badge achievement-blue">7 dias streak</span>
+                  <span className="achievement-badge achievement-green">React master</span>
                 </div>
               </div>
             </section>

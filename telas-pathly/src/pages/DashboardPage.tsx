@@ -1,8 +1,11 @@
 import type { CSSProperties } from 'react'
 import { CriadorSidebar } from '../components/CriadorSidebar'
+import { PathlyLogo } from '../components/PathlyLogo'
 
 type DashboardPageProps = {
   onOpenEditor: () => void
+  onOpenMinhasTrilhas: () => void
+  onOpenAlunos: () => void
   onBackToLogin: () => void
 }
 
@@ -25,7 +28,12 @@ const dotColors: Record<string, CSSProperties> = {
   yellow: { background: '#FEF7E0', color: '#b45309' },
 }
 
-export function DashboardPage({ onOpenEditor, onBackToLogin }: DashboardPageProps) {
+export function DashboardPage({
+  onOpenEditor,
+  onOpenMinhasTrilhas,
+  onOpenAlunos,
+  onBackToLogin,
+}: DashboardPageProps) {
   const trilhasAtivas = TRILHAS.filter((t) => t.status === 'Ativa').length
   const totalAlunos = TRILHAS.reduce((s, t) => s + t.alunos, 0)
   const totalConclusoes = TRILHAS.reduce((s, t) => s + t.conclusoes, 0)
@@ -33,13 +41,10 @@ export function DashboardPage({ onOpenEditor, onBackToLogin }: DashboardPageProp
   return (
     <div className="editor-page">
       <header className="editor-header dashboard-header">
-        <button className="editor-logo" type="button" onClick={onBackToLogin}>
-          PATHLY
-        </button>
+        <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
 
         <nav className="editor-nav">
           <a href="#documentacao">Documentação</a>
-          <a href="#trilhas">Minhas Trilhas</a>
           <button className="profile-button" type="button" aria-label="Perfil">
             <IconUser />
           </button>
@@ -50,13 +55,14 @@ export function DashboardPage({ onOpenEditor, onBackToLogin }: DashboardPageProp
         <CriadorSidebar
           active="dashboard"
           onOpenDashboard={() => undefined}
-          onOpenEditor={onOpenEditor}
+          onOpenMinhasTrilhas={onOpenMinhasTrilhas}
+          onOpenAlunos={onOpenAlunos}
         />
 
         <main className="dashboard-content">
           <div className="dashboard-greeting-wrap">
             <div>
-              <h1 className="dashboard-greeting">Olá, Criador! 👋</h1>
+              <h1 className="dashboard-greeting">Olá, Criador!</h1>
               <p className="dashboard-greeting-sub">
                 Você tem {trilhasAtivas} trilhas ativas e {totalAlunos} alunos aprendendo agora.
               </p>

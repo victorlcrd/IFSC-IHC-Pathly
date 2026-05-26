@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Lock, Mail, Pencil, UserCircle } from 'lucide-react'
+import { PathlyLogo } from '../components/PathlyLogo'
 
 const USERS = [
   { email: 'criador@email.com', senha: '123456', role: 'criador' },
@@ -35,10 +36,7 @@ export function LoginPage({ onLoginCriador, onLoginAprendiz }: Props) {
     <div style={shell}>
       <aside style={brandColumn} aria-label="Marca Pathly">
         <div style={brandInner}>
-          <div style={logoMark}>
-            <PathlyIcon />
-          </div>
-          <h1 style={pathlyTitle}>PATHLY</h1>
+          <PathlyLogo variant="branco" size="lg" className="login-brand-logo" />
           <p style={brandTagline}>APRENDA. EVOLUA. CONQUISTE.</p>
           <hr style={brandRule} />
           <p style={brandSubtitle}>Plataforma de trilhas de aprendizado gamificadas que transformam seu progresso em conquista e evolução.</p>
@@ -90,19 +88,6 @@ export function LoginPage({ onLoginCriador, onLoginAprendiz }: Props) {
   )
 }
 
-function PathlyIcon() {
-  return (
-    <svg width={52} height={52} viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.1)" />
-      <path d="M14 36C20 30 22 22 28 20C34 18 36 28 42 24"
-        stroke="#1385EA" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="14" cy="36" r="3" fill="#22C55E" />
-      <circle cx="42" cy="24" r="3" fill="#F4BD48" />
-      <circle cx="28" cy="20" r="2" fill="white" opacity="0.7" />
-    </svg>
-  )
-}
-
 function PathIllustration() {
   return (
     <svg width={260} height={140} viewBox="0 0 260 140" fill="none"
@@ -116,9 +101,9 @@ function PathIllustration() {
       <circle cx="234" cy="22" r="7" fill="#F4BD48" />
       <path d="M230 14L238 22L230 30" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       <rect x="66" y="60" width="28" height="28" rx="8" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-      <text x="80" y="79" textAnchor="middle" fontSize="13" fill="white">⭐</text>
+      <path d="M74 74l4 4 8-10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       <rect x="124" y="66" width="28" height="28" rx="8" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-      <text x="138" y="85" textAnchor="middle" fontSize="13" fill="white">🏆</text>
+      <path d="M132 78h12M138 72v12" stroke="white" strokeWidth="2" strokeLinecap="round" />
     </svg>
   )
 }
@@ -156,16 +141,6 @@ const brandInner: React.CSSProperties = {
   flex: 1,
   justifyContent: 'center',
   gap: 0,
-}
-
-const logoMark: React.CSSProperties = { marginBottom: 16 }
-
-const pathlyTitle: React.CSSProperties = {
-  margin: '0 0 4px',
-  fontSize: 'clamp(2rem, 4vw, 2.8rem)',
-  fontWeight: 900,
-  letterSpacing: '0.15em',
-  color: '#ffffff',
 }
 
 const brandTagline: React.CSSProperties = {

@@ -8,8 +8,10 @@ import { EditorPage } from './pages/EditorPage'
 import { TrilhaDetailPage } from './pages/TrilhaDetailPage'
 import { AulaPage } from './pages/AulaPage'
 import { MinhasTrilhasPage } from './pages/MinhasTrilhasPage'
+import { MinhasTrilhasCriadorPage } from './pages/MinhasTrilhasCriadorPage'
+import { AlunosCriadorPage } from './pages/AlunosCriadorPage'
 
-type Page = 'login' | 'dashboard' | 'aprendiz' | 'minhasTrilhas' | 'editor' | 'trilha' | 'aula'
+type Page = 'login' | 'dashboard' | 'criadorTrilhas' | 'criadorAlunos' | 'aprendiz' | 'minhasTrilhas' | 'editor' | 'trilha' | 'aula'
 
 function App() {
   const [page, setPage] = useState<Page>('login')
@@ -27,6 +29,29 @@ function App() {
     return (
       <DashboardPage
         onOpenEditor={() => setPage('editor')}
+        onOpenMinhasTrilhas={() => setPage('criadorTrilhas')}
+        onOpenAlunos={() => setPage('criadorAlunos')}
+        onBackToLogin={() => setPage('login')}
+      />
+    )
+  }
+
+  if (page === 'criadorTrilhas') {
+    return (
+      <MinhasTrilhasCriadorPage
+        onOpenDashboard={() => setPage('dashboard')}
+        onOpenEditor={() => setPage('editor')}
+        onOpenAlunos={() => setPage('criadorAlunos')}
+        onBackToLogin={() => setPage('login')}
+      />
+    )
+  }
+
+  if (page === 'criadorAlunos') {
+    return (
+      <AlunosCriadorPage
+        onOpenDashboard={() => setPage('dashboard')}
+        onOpenMinhasTrilhas={() => setPage('criadorTrilhas')}
         onBackToLogin={() => setPage('login')}
       />
     )

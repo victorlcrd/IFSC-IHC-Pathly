@@ -1,10 +1,16 @@
 type CriadorSidebarProps = {
   active: 'dashboard' | 'trilhas' | 'alunos' | 'configuracoes'
   onOpenDashboard: () => void
-  onOpenEditor: () => void
+  onOpenMinhasTrilhas: () => void
+  onOpenAlunos: () => void
 }
 
-export function CriadorSidebar({ active, onOpenDashboard, onOpenEditor }: CriadorSidebarProps) {
+export function CriadorSidebar({
+  active,
+  onOpenDashboard,
+  onOpenMinhasTrilhas,
+  onOpenAlunos,
+}: CriadorSidebarProps) {
   return (
     <aside className="dashboard-sidebar">
       <span className="sidebar-logo-accent" />
@@ -19,19 +25,29 @@ export function CriadorSidebar({ active, onOpenDashboard, onOpenEditor }: Criado
           <IconGrid />
           Dashboard
         </button>
+
         <button
           type="button"
           className={`sidebar-item sidebar-button sidebar-nav-button${active === 'trilhas' ? ' sidebar-item-active' : ''}`}
-          onClick={onOpenEditor}
+          onClick={onOpenMinhasTrilhas}
         >
           <IconBook />
           Minhas Trilhas
         </button>
-        <button type="button" className={`sidebar-item sidebar-button sidebar-nav-button${active === 'alunos' ? ' sidebar-item-active' : ''}`}>
+
+        <button
+          type="button"
+          className={`sidebar-item sidebar-button sidebar-nav-button${active === 'alunos' ? ' sidebar-item-active' : ''}`}
+          onClick={onOpenAlunos}
+        >
           <IconUsers />
           Alunos
         </button>
-        <button type="button" className={`sidebar-item sidebar-button sidebar-nav-button${active === 'configuracoes' ? ' sidebar-item-active' : ''}`}>
+
+        <button
+          type="button"
+          className={`sidebar-item sidebar-button sidebar-nav-button${active === 'configuracoes' ? ' sidebar-item-active' : ''}`}
+        >
           <IconSettings />
           Configurações
         </button>
