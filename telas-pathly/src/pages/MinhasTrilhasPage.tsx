@@ -6,6 +6,7 @@ type MinhasTrilhasPageProps = {
   onOpenDashboard: () => void
   onOpenTrilha: () => void
   onOpenAula: () => void
+  onOpenConquistas: () => void
 }
 
 const MINHAS_TRILHAS = [
@@ -44,7 +45,7 @@ const MINHAS_TRILHAS = [
   },
 ]
 
-export function MinhasTrilhasPage({ onBackToLogin, onOpenDashboard, onOpenTrilha, onOpenAula }: MinhasTrilhasPageProps) {
+export function MinhasTrilhasPage({ onBackToLogin, onOpenDashboard, onOpenTrilha, onOpenAula, onOpenConquistas }: MinhasTrilhasPageProps) {
   return (
     <div className="editor-page aprendiz-page">
       <header className="editor-header dashboard-header">
@@ -67,6 +68,7 @@ export function MinhasTrilhasPage({ onBackToLogin, onOpenDashboard, onOpenTrilha
           active="trilhas"
           onOpenDashboard={onOpenDashboard}
           onOpenMinhasTrilhas={() => undefined}
+          onOpenConquistas={onOpenConquistas}
         />
 
         <main className="dashboard-content minhas-trilhas-content">
