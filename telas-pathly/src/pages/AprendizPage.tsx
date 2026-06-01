@@ -6,6 +6,7 @@ type AprendizPageProps = {
   onOpenTrilha: () => void
   onOpenAula: () => void
   onOpenMinhasTrilhas: () => void
+  onOpenConquistas: () => void
   onOpenPerfil: () => void
 }
 
@@ -23,7 +24,14 @@ const PROGRESSO = [
   { nome: 'Git na Prática', pct: 20, concluida: false },
 ]
 
-export function AprendizPage({ onBackToLogin, onOpenTrilha, onOpenAula, onOpenMinhasTrilhas, onOpenPerfil }: AprendizPageProps) {
+export function AprendizPage({
+  onBackToLogin,
+  onOpenTrilha,
+  onOpenAula,
+  onOpenMinhasTrilhas,
+  onOpenConquistas,
+  onOpenPerfil,
+}: AprendizPageProps) {
   return (
     <div className="editor-page aprendiz-page">
       {/* Header */}
@@ -46,6 +54,7 @@ export function AprendizPage({ onBackToLogin, onOpenTrilha, onOpenAula, onOpenMi
           active="dashboard"
           onOpenDashboard={() => undefined}
           onOpenMinhasTrilhas={onOpenMinhasTrilhas}
+          onOpenConquistas={onOpenConquistas}
           onOpenPerfil={onOpenPerfil}
         />
 

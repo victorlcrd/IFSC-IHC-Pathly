@@ -6,10 +6,10 @@ type PathlyLogoProps = {
 }
 
 const logoByVariant = {
-  azul: '/brand/logo-pathly-azul.png',
-  branco: '/brand/logo-pathly-branco.png',
-  cinza: '/brand/logo-pathly-cinza.png',
-  preto: '/brand/logo-pathly-preto.png',
+  azul: '/logos/logo-pathly-azul.png',
+  branco: '/logos/logo-pathly-branco.png',
+  cinza: '/logos/logo-pathly-cinza.png',
+  preto: '/logos/logo-pathly-preto.png',
 }
 
 export function PathlyLogo({

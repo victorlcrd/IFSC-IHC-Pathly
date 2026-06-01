@@ -5,6 +5,7 @@ type AulaPageProps = {
   onBackToTrilha: () => void
   onBackToLogin: () => void
   onOpenDashboard: () => void
+  onOpenConquistas: () => void
   onOpenPerfil: () => void
 }
 
@@ -20,7 +21,13 @@ const CODE_LINES = [
   '}',
 ]
 
-export function AulaPage({ onBackToTrilha, onBackToLogin, onOpenDashboard, onOpenPerfil }: AulaPageProps) {
+export function AulaPage({
+  onBackToTrilha,
+  onBackToLogin,
+  onOpenDashboard,
+  onOpenConquistas,
+  onOpenPerfil,
+}: AulaPageProps) {
   return (
     <div className="editor-page aula-page">
       <header className="editor-header dashboard-header">
@@ -41,6 +48,7 @@ export function AulaPage({ onBackToTrilha, onBackToLogin, onOpenDashboard, onOpe
           active="trilhas"
           onOpenDashboard={onOpenDashboard}
           onOpenMinhasTrilhas={onBackToTrilha}
+          onOpenConquistas={onOpenConquistas}
           onOpenPerfil={onOpenPerfil}
         />
 

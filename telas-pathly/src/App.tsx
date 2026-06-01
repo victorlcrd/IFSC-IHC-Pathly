@@ -10,10 +10,11 @@ import { AulaPage } from './pages/AulaPage'
 import { MinhasTrilhasPage } from './pages/MinhasTrilhasPage'
 import { MinhasTrilhasCriadorPage } from './pages/MinhasTrilhasCriadorPage'
 import { AlunosCriadorPage } from './pages/AlunosCriadorPage'
+import { ConquistasPage } from './pages/ConquistasPage'
 import { PerfilAprendizPage, PerfilCriadorPage } from './pages/PerfilPage'
 import { CadastroCriadorPage } from './pages/CadastroCriadorPage'
 
-type Page = 'login' | 'cadastroCriador' | 'dashboard' | 'criadorTrilhas' | 'criadorAlunos' | 'perfilCriador' | 'aprendiz' | 'minhasTrilhas' | 'perfilAprendiz' | 'editor' | 'trilha' | 'aula'
+type Page = 'login' | 'cadastroCriador' | 'dashboard' | 'criadorTrilhas' | 'criadorAlunos' | 'perfilCriador' | 'aprendiz' | 'minhasTrilhas' | 'conquistas' | 'perfilAprendiz' | 'editor' | 'trilha' | 'aula'
 
 function App() {
   const [page, setPage] = useState<Page>('login')
@@ -27,8 +28,6 @@ function App() {
       />
     )
   }
-
-
 
   if (page === 'cadastroCriador') {
     return (
@@ -74,7 +73,6 @@ function App() {
     )
   }
 
-
   if (page === 'perfilCriador') {
     return (
       <PerfilCriadorPage
@@ -93,11 +91,11 @@ function App() {
         onOpenTrilha={() => setPage('trilha')}
         onOpenAula={() => setPage('aula')}
         onOpenMinhasTrilhas={() => setPage('minhasTrilhas')}
+        onOpenConquistas={() => setPage('conquistas')}
         onOpenPerfil={() => setPage('perfilAprendiz')}
       />
     )
   }
-
 
   if (page === 'perfilAprendiz') {
     return (
@@ -105,10 +103,10 @@ function App() {
         onBackToLogin={() => setPage('login')}
         onOpenDashboard={() => setPage('aprendiz')}
         onOpenMinhasTrilhas={() => setPage('minhasTrilhas')}
+        onOpenConquistas={() => setPage('conquistas')}
       />
     )
   }
-
 
   if (page === 'minhasTrilhas') {
     return (
@@ -117,6 +115,18 @@ function App() {
         onOpenDashboard={() => setPage('aprendiz')}
         onOpenTrilha={() => setPage('trilha')}
         onOpenAula={() => setPage('aula')}
+        onOpenConquistas={() => setPage('conquistas')}
+        onOpenPerfil={() => setPage('perfilAprendiz')}
+      />
+    )
+  }
+
+  if (page === 'conquistas') {
+    return (
+      <ConquistasPage
+        onBackToLogin={() => setPage('login')}
+        onOpenDashboard={() => setPage('aprendiz')}
+        onOpenMinhasTrilhas={() => setPage('minhasTrilhas')}
         onOpenPerfil={() => setPage('perfilAprendiz')}
       />
     )
@@ -129,6 +139,7 @@ function App() {
         onOpenDashboard={() => setPage('aprendiz')}
         onOpenAula={() => setPage('aula')}
         onBackToLogin={() => setPage('login')}
+        onOpenConquistas={() => setPage('conquistas')}
         onOpenPerfil={() => setPage('perfilAprendiz')}
       />
     )
@@ -140,12 +151,12 @@ function App() {
         onBackToTrilha={() => setPage('minhasTrilhas')}
         onBackToLogin={() => setPage('login')}
         onOpenDashboard={() => setPage('aprendiz')}
+        onOpenConquistas={() => setPage('conquistas')}
         onOpenPerfil={() => setPage('perfilAprendiz')}
       />
     )
   }
 
-  // EditorPage agora recebe onPublish que retorna ao dashboard (task 4.4)
   return (
     <EditorPage
       onBackToLogin={() => setPage('dashboard')}

@@ -20,6 +20,7 @@ type PerfilAprendizPageProps = {
   onBackToLogin: () => void
   onOpenDashboard: () => void
   onOpenMinhasTrilhas: () => void
+  onOpenConquistas: () => void
 }
 
 type PerfilCriadorPageProps = {
@@ -59,6 +60,7 @@ export function PerfilAprendizPage({
   onBackToLogin,
   onOpenDashboard,
   onOpenMinhasTrilhas,
+  onOpenConquistas,
 }: PerfilAprendizPageProps) {
   return (
     <ProfileLayout
@@ -67,6 +69,7 @@ export function PerfilAprendizPage({
       onBackToLogin={onBackToLogin}
       onOpenDashboard={onOpenDashboard}
       onOpenMinhasTrilhas={onOpenMinhasTrilhas}
+      onOpenConquistas={onOpenConquistas}
     />
   )
 }
@@ -96,6 +99,7 @@ type ProfileLayoutProps = {
   onOpenDashboard: () => void
   onOpenMinhasTrilhas: () => void
   onOpenAlunos?: () => void
+  onOpenConquistas?: () => void
 }
 
 function ProfileLayout({
@@ -105,6 +109,7 @@ function ProfileLayout({
   onOpenDashboard,
   onOpenMinhasTrilhas,
   onOpenAlunos,
+  onOpenConquistas = () => undefined,
 }: ProfileLayoutProps) {
   const [savedData, setSavedData] = useState(initialData)
   const [formData, setFormData] = useState(initialData)
@@ -163,6 +168,7 @@ function ProfileLayout({
             active="perfil"
             onOpenDashboard={onOpenDashboard}
             onOpenMinhasTrilhas={onOpenMinhasTrilhas}
+            onOpenConquistas={onOpenConquistas}
             onOpenPerfil={() => undefined}
           />
         ) : (

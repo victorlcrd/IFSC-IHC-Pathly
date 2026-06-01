@@ -6,6 +6,7 @@ type TrilhaDetailPageProps = {
   onOpenDashboard: () => void
   onOpenAula: () => void
   onBackToLogin: () => void
+  onOpenConquistas: () => void
   onOpenPerfil: () => void
 }
 
@@ -91,7 +92,14 @@ const statusLabel: Record<string, string> = {
   bloqueada: 'Bloqueada',
 }
 
-export function TrilhaDetailPage({ onBackToMinhasTrilhas, onOpenDashboard, onOpenAula, onBackToLogin, onOpenPerfil }: TrilhaDetailPageProps) {
+export function TrilhaDetailPage({
+  onBackToMinhasTrilhas,
+  onOpenDashboard,
+  onOpenAula,
+  onBackToLogin,
+  onOpenConquistas,
+  onOpenPerfil,
+}: TrilhaDetailPageProps) {
   return (
     <div className="editor-page trilha-detail-page">
       <header className="editor-header dashboard-header">
@@ -112,6 +120,7 @@ export function TrilhaDetailPage({ onBackToMinhasTrilhas, onOpenDashboard, onOpe
           active="trilhas"
           onOpenDashboard={onOpenDashboard}
           onOpenMinhasTrilhas={onBackToMinhasTrilhas}
+          onOpenConquistas={onOpenConquistas}
           onOpenPerfil={onOpenPerfil}
         />
 
