@@ -6,6 +6,7 @@ type TrilhaDetailPageProps = {
   onOpenDashboard: () => void
   onOpenAula: () => void
   onBackToLogin: () => void
+  onOpenPerfil: () => void
 }
 
 const PASSOS = [
@@ -90,7 +91,7 @@ const statusLabel: Record<string, string> = {
   bloqueada: 'Bloqueada',
 }
 
-export function TrilhaDetailPage({ onBackToMinhasTrilhas, onOpenDashboard, onOpenAula, onBackToLogin }: TrilhaDetailPageProps) {
+export function TrilhaDetailPage({ onBackToMinhasTrilhas, onOpenDashboard, onOpenAula, onBackToLogin, onOpenPerfil }: TrilhaDetailPageProps) {
   return (
     <div className="editor-page trilha-detail-page">
       <header className="editor-header dashboard-header">
@@ -98,7 +99,7 @@ export function TrilhaDetailPage({ onBackToMinhasTrilhas, onOpenDashboard, onOpe
 
         <nav className="editor-nav">
           <a href="#explorar">Explorar</a>
-          <button className="profile-button" type="button" aria-label="Perfil">
+          <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
             </svg>
@@ -111,6 +112,7 @@ export function TrilhaDetailPage({ onBackToMinhasTrilhas, onOpenDashboard, onOpe
           active="trilhas"
           onOpenDashboard={onOpenDashboard}
           onOpenMinhasTrilhas={onBackToMinhasTrilhas}
+          onOpenPerfil={onOpenPerfil}
         />
 
         <main className="dashboard-content trilha-content trilha-visual-content">

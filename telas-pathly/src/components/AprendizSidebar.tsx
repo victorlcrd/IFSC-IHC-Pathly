@@ -2,13 +2,14 @@ type AprendizSidebarProps = {
   active: 'dashboard' | 'trilhas' | 'conquistas' | 'desafios' | 'perfil'
   onOpenDashboard: () => void
   onOpenMinhasTrilhas: () => void
+  onOpenPerfil?: () => void
 }
 
 type IconProps = {
   className?: string
 }
 
-export function AprendizSidebar({ active, onOpenDashboard, onOpenMinhasTrilhas }: AprendizSidebarProps) {
+export function AprendizSidebar({ active, onOpenDashboard, onOpenMinhasTrilhas, onOpenPerfil = () => undefined }: AprendizSidebarProps) {
   return (
     <aside className="dashboard-sidebar">
       <p className="sidebar-label">Menu</p>
@@ -37,7 +38,11 @@ export function AprendizSidebar({ active, onOpenDashboard, onOpenMinhasTrilhas }
           <IconFlag />
           Desafios
         </button>
-        <button type="button" className={`sidebar-item sidebar-button sidebar-nav-button${active === 'perfil' ? ' sidebar-item-active' : ''}`}>
+        <button
+          type="button"
+          className={`sidebar-item sidebar-button sidebar-nav-button${active === 'perfil' ? ' sidebar-item-active' : ''}`}
+          onClick={onOpenPerfil}
+        >
           <IconUser />
           Perfil
         </button>
