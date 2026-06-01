@@ -6,6 +6,7 @@ type AprendizPageProps = {
   onOpenTrilha: () => void
   onOpenAula: () => void
   onOpenMinhasTrilhas: () => void
+  onOpenPerfil: () => void
 }
 
 const RANKING = [
@@ -22,7 +23,7 @@ const PROGRESSO = [
   { nome: 'Git na Prática', pct: 20, concluida: false },
 ]
 
-export function AprendizPage({ onBackToLogin, onOpenTrilha, onOpenAula, onOpenMinhasTrilhas }: AprendizPageProps) {
+export function AprendizPage({ onBackToLogin, onOpenTrilha, onOpenAula, onOpenMinhasTrilhas, onOpenPerfil }: AprendizPageProps) {
   return (
     <div className="editor-page aprendiz-page">
       {/* Header */}
@@ -31,7 +32,7 @@ export function AprendizPage({ onBackToLogin, onOpenTrilha, onOpenAula, onOpenMi
 
         <nav className="editor-nav">
           <a href="#explorar">Explorar</a>
-          <button className="profile-button" type="button" aria-label="Perfil">
+          <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
             </svg>
@@ -45,6 +46,7 @@ export function AprendizPage({ onBackToLogin, onOpenTrilha, onOpenAula, onOpenMi
           active="dashboard"
           onOpenDashboard={() => undefined}
           onOpenMinhasTrilhas={onOpenMinhasTrilhas}
+          onOpenPerfil={onOpenPerfil}
         />
 
         {/* Content */}

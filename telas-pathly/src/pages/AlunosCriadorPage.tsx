@@ -5,6 +5,7 @@ type AlunosCriadorPageProps = {
   onOpenDashboard: () => void
   onOpenMinhasTrilhas: () => void
   onBackToLogin: () => void
+  onOpenPerfil: () => void
 }
 
 const ALUNOS = [
@@ -54,6 +55,7 @@ export function AlunosCriadorPage({
   onOpenDashboard,
   onOpenMinhasTrilhas,
   onBackToLogin,
+  onOpenPerfil,
 }: AlunosCriadorPageProps) {
   const alunosAtivos = ALUNOS.filter((aluno) => aluno.status === 'Ativo').length
   const concluidos = ALUNOS.filter((aluno) => aluno.status === 'Concluiu').length
@@ -73,7 +75,7 @@ export function AlunosCriadorPage({
           <button className="editor-nav-button editor-nav-button-active" type="button">
             Alunos
           </button>
-          <button className="profile-button" type="button" aria-label="Perfil">
+          <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}>
             <IconUser />
           </button>
         </nav>
@@ -85,6 +87,7 @@ export function AlunosCriadorPage({
           onOpenDashboard={onOpenDashboard}
           onOpenMinhasTrilhas={onOpenMinhasTrilhas}
           onOpenAlunos={() => undefined}
+          onOpenPerfil={onOpenPerfil}
         />
 
         <main className="dashboard-content creator-students-page">

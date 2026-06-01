@@ -47,6 +47,7 @@ type PublishData = {
 type EditorPageProps = {
   onBackToLogin: () => void
   onPublish: () => void
+  onOpenPerfil: () => void
 }
 
 // ── Dados estáticos ───────────────────────────────────────────────────────────
@@ -307,7 +308,7 @@ function DropZone({
 }
 
 // ── EditorPage ────────────────────────────────────────────────────────────────
-export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
+export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPageProps) {
   // Fix 3 — selectedBlock guarda o estado do painel de edição
   const [selectedBlock,   setSelectedBlock]   = useState<BlockConfig>({ title: '', description: '', icon: 'Conteúdo' })
   // Fix 3/4 — id do bloco atualmente selecionado no canvas
@@ -494,7 +495,7 @@ export function EditorPage({ onBackToLogin, onPublish }: EditorPageProps) {
               Dashboard
             </button>
 
-            <button className="profile-button" type="button" aria-label="Perfil">
+            <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}>
               <IconUser />
             </button>
           </nav>

@@ -6,6 +6,7 @@ type MinhasTrilhasCriadorPageProps = {
   onOpenEditor: () => void
   onOpenAlunos: () => void
   onBackToLogin: () => void
+  onOpenPerfil: () => void
 }
 
 const TRILHAS_PUBLICADAS = [
@@ -47,6 +48,7 @@ export function MinhasTrilhasCriadorPage({
   onOpenEditor,
   onOpenAlunos,
   onBackToLogin,
+  onOpenPerfil,
 }: MinhasTrilhasCriadorPageProps) {
   const totalAlunos = TRILHAS_PUBLICADAS.reduce((total, trilha) => total + trilha.alunos, 0)
 
@@ -59,7 +61,7 @@ export function MinhasTrilhasCriadorPage({
           <button className="editor-nav-button" type="button" onClick={onOpenDashboard}>
             Dashboard
           </button>
-          <button className="profile-button" type="button" aria-label="Perfil">
+          <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}>
             <IconUser />
           </button>
         </nav>
@@ -71,6 +73,7 @@ export function MinhasTrilhasCriadorPage({
           onOpenDashboard={onOpenDashboard}
           onOpenMinhasTrilhas={() => undefined}
           onOpenAlunos={onOpenAlunos}
+          onOpenPerfil={onOpenPerfil}
         />
 
         <main className="dashboard-content creator-trails-page">
