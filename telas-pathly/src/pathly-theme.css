@@ -1979,3 +1979,105 @@ h3,
     width: 100%;
   }
 }
+
+/* Ajustes visuais da tela de perfil */
+
+.profile-hero-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 28px;
+  border-radius: 28px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.08);
+}
+
+.profile-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 28px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--color-blue), var(--color-teal));
+  color: white;
+  font-size: 1.65rem;
+  font-weight: 800;
+  box-shadow: 0 16px 32px rgba(14, 165, 233, 0.22);
+}
+
+.profile-hero-info h1 {
+  margin: 4px 0 8px;
+  color: var(--color-navy);
+  font-size: clamp(1.7rem, 3vw, 2.45rem);
+  line-height: 1.05;
+}
+
+.profile-hero-info p {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 720px;
+}
+
+.profile-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(14, 165, 233, 0.1);
+  color: var(--color-blue);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.profile-edit-button {
+  min-width: 150px;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--color-blue), var(--color-teal));
+  border: none;
+  color: white;
+  box-shadow: 0 12px 24px rgba(14, 165, 233, 0.22);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.profile-edit-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, var(--color-navy), var(--color-teal));
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 16px 28px rgba(11, 29, 41, 0.18);
+}
+
+.profile-edit-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.profile-button-active {
+  background: rgba(255, 255, 255, 0.16);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+@media (max-width: 900px) {
+  .profile-hero-card {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .profile-edit-button {
+    width: 100%;
+  }
+}
