@@ -6,6 +6,7 @@ type AulaPageProps = {
   onBackToLogin: () => void
   onOpenDashboard: () => void
   onOpenConquistas: () => void
+  onOpenPerfil: () => void
 }
 
 const CODE_LINES = [
@@ -20,7 +21,13 @@ const CODE_LINES = [
   '}',
 ]
 
-export function AulaPage({ onBackToTrilha, onBackToLogin, onOpenDashboard, onOpenConquistas }: AulaPageProps) {
+export function AulaPage({
+  onBackToTrilha,
+  onBackToLogin,
+  onOpenDashboard,
+  onOpenConquistas,
+  onOpenPerfil,
+}: AulaPageProps) {
   return (
     <div className="editor-page aula-page">
       <header className="editor-header dashboard-header">
@@ -28,7 +35,7 @@ export function AulaPage({ onBackToTrilha, onBackToLogin, onOpenDashboard, onOpe
 
         <nav className="editor-nav">
           <a href="#fixacao">Fixação</a>
-          <button className="profile-button" type="button" aria-label="Perfil">
+          <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
             </svg>
@@ -42,6 +49,7 @@ export function AulaPage({ onBackToTrilha, onBackToLogin, onOpenDashboard, onOpe
           onOpenDashboard={onOpenDashboard}
           onOpenMinhasTrilhas={onBackToTrilha}
           onOpenConquistas={onOpenConquistas}
+          onOpenPerfil={onOpenPerfil}
         />
 
         <main className="dashboard-content aula-shell">

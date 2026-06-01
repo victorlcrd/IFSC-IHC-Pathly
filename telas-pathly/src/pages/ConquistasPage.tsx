@@ -7,9 +7,15 @@ type ConquistasPageProps = {
   onBackToLogin: () => void
   onOpenDashboard: () => void
   onOpenMinhasTrilhas: () => void
+  onOpenPerfil: () => void
 }
 
-export function ConquistasPage({ onBackToLogin, onOpenDashboard, onOpenMinhasTrilhas }: ConquistasPageProps) {
+export function ConquistasPage({
+  onBackToLogin,
+  onOpenDashboard,
+  onOpenMinhasTrilhas,
+  onOpenPerfil,
+}: ConquistasPageProps) {
   const total = CONQUISTAS_MOCK.length
   const desbloqueadas = CONQUISTAS_MOCK.filter((c) => c.status === 'desbloqueada').length
   const emProgresso = CONQUISTAS_MOCK.filter(
@@ -26,7 +32,7 @@ export function ConquistasPage({ onBackToLogin, onOpenDashboard, onOpenMinhasTri
             Dashboard
           </button>
           <a href="#explorar">Explorar</a>
-          <button className="profile-button" type="button" aria-label="Perfil">
+          <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
@@ -41,6 +47,7 @@ export function ConquistasPage({ onBackToLogin, onOpenDashboard, onOpenMinhasTri
           onOpenDashboard={onOpenDashboard}
           onOpenMinhasTrilhas={onOpenMinhasTrilhas}
           onOpenConquistas={() => undefined}
+          onOpenPerfil={onOpenPerfil}
         />
 
         <main className="dashboard-content conquistas-content">

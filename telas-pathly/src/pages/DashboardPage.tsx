@@ -7,6 +7,7 @@ type DashboardPageProps = {
   onOpenMinhasTrilhas: () => void
   onOpenAlunos: () => void
   onBackToLogin: () => void
+  onOpenPerfil: () => void
 }
 
 const TRILHAS = [
@@ -33,6 +34,7 @@ export function DashboardPage({
   onOpenMinhasTrilhas,
   onOpenAlunos,
   onBackToLogin,
+  onOpenPerfil,
 }: DashboardPageProps) {
   const trilhasAtivas = TRILHAS.filter((t) => t.status === 'Ativa').length
   const totalAlunos = TRILHAS.reduce((s, t) => s + t.alunos, 0)
@@ -45,7 +47,7 @@ export function DashboardPage({
 
         <nav className="editor-nav">
           <a href="#documentacao">Documentação</a>
-          <button className="profile-button" type="button" aria-label="Perfil">
+          <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}>
             <IconUser />
           </button>
         </nav>
@@ -57,6 +59,7 @@ export function DashboardPage({
           onOpenDashboard={() => undefined}
           onOpenMinhasTrilhas={onOpenMinhasTrilhas}
           onOpenAlunos={onOpenAlunos}
+          onOpenPerfil={onOpenPerfil}
         />
 
         <main className="dashboard-content">
