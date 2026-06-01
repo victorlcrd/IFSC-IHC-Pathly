@@ -10,9 +10,10 @@ const USERS = [
 type Props = {
   onLoginCriador: () => void
   onLoginAprendiz: () => void
+  onOpenCadastroCriador: () => void
 }
 
-export function LoginPage({ onLoginCriador, onLoginAprendiz }: Props) {
+export function LoginPage({ onLoginCriador, onLoginAprendiz, onOpenCadastroCriador }: Props) {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [erro, setErro] = useState('')
@@ -78,7 +79,7 @@ export function LoginPage({ onLoginCriador, onLoginAprendiz }: Props) {
             <span style={actionLabel}>Quero seguir uma trilha</span>
           </button>
 
-          <button type="button" style={actionCard}>
+          <button type="button" style={actionCard} onClick={onOpenCadastroCriador}>
             <span style={{ ...actionIconBg, backgroundColor: '#E6FAF0' }}><Pencil size={22} strokeWidth={2} color="#22C55E" /></span>
             <span style={actionLabel}>Quero criar uma trilha</span>
           </button>
