@@ -2983,3 +2983,115 @@ button,
     max-width: 205px;
   }
 }
+
+/* Cadastro: mais respiro entre textos e campos */
+.creator-register-main {
+  padding: clamp(26px, 5vh, 46px) clamp(34px, 5vw, 58px);
+}
+
+.creator-register-card {
+  max-width: 700px;
+  padding: 28px 30px 30px;
+  border-radius: 22px;
+}
+
+.creator-register-back {
+  margin-bottom: 18px;
+}
+
+.creator-register-heading {
+  margin-top: 0;
+  margin-bottom: 22px;
+}
+
+.creator-register-heading .creator-register-eyebrow {
+  display: none !important;
+}
+
+.creator-register-heading h2,
+.creator-register-success h2 {
+  margin-bottom: 8px;
+}
+
+.creator-register-heading p,
+.creator-register-success p {
+  line-height: 1.45;
+}
+
+.creator-register-form {
+  gap: 15px 18px;
+}
+
+.creator-register-field {
+  gap: 7px;
+  line-height: 1.25;
+}
+
+.creator-register-field span {
+  min-height: 40px;
+  padding: 8px 13px;
+  border-radius: 12px;
+}
+
+.creator-register-field input,
+.creator-register-field textarea {
+  line-height: 1.35;
+}
+
+.creator-register-field textarea {
+  min-height: 58px;
+  padding: 10px 13px;
+  border-radius: 12px;
+}
+
+.creator-register-terms {
+  gap: 10px;
+  margin-top: 1px;
+  line-height: 1.4;
+}
+
+.creator-register-submit {
+  min-height: 42px;
+  margin-top: 4px;
+  border-radius: 12px;
+}
+
+@media (max-height: 740px) and (min-width: 981px) {
+  .creator-register-main {
+    padding: 20px 34px;
+  }
+
+  .creator-register-card {
+    padding: 22px 24px 24px;
+  }
+
+  .creator-register-back {
+    margin-bottom: 12px;
+  }
+
+  .creator-register-heading {
+    margin-bottom: 14px;
+  }
+
+  .creator-register-form {
+    gap: 10px 14px;
+  }
+
+  .creator-register-field {
+    gap: 6px;
+  }
+
+  .creator-register-field span {
+    min-height: 38px;
+    padding: 7px 12px;
+  }
+
+  .creator-register-field textarea {
+    min-height: 50px;
+    padding: 8px 12px;
+  }
+
+  .creator-register-submit {
+    min-height: 40px;
+  }
+}
