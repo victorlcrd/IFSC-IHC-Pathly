@@ -1,221 +1,22 @@
 import {
-  CircleHelp,
   ChevronDown,
-  Flag,
   GripVertical,
-  Lock,
-  MapPin,
-  MessageSquareText,
   Plus,
-  Share2,
   Trash2,
-  Trophy,
-  X,
-  CheckCircle2,
-  Image as ImageIcon,
   Eye,
 } from 'lucide-react'
-import { useRef, useState, type DragEvent, type ReactNode } from 'react'
+import { useRef, useState, type CSSProperties, type DragEvent } from 'react'
+import { IconUser } from '../components/common/Icons'
 import { PathlyLogo } from '../components/PathlyLogo'
-
-// ── Tipos ─────────────────────────────────────────────────────────────────────
-type BlockType = 'Início' | 'Conteúdo' | 'Pergunta' | 'Escolha' | 'Conquista' | 'Fim'
-
-type BlockConfig = {
-  title: string
-  description: string
-  icon: BlockType
-}
-
-type CanvasBlock = {
-  id: number
-  type: BlockType
-  title: string
-  description: string
-}
-
-// Fix 5 — payload tipado para publicação
-type PublishData = {
-  title: string
-  description: string
-  category: string
-  level: string
-  tags: string
-  visibility: 'public' | 'private' | 'link'
-}
+import { blockMeta, blockOptions, INITIAL_CANVAS_BLOCKS } from '../components/editor/editorData'
+import type { BlockConfig, BlockType, CanvasBlock, PublishData } from '../components/editor/editorTypes'
+import { PreviewModal } from '../components/editor/PreviewModal'
+import { PublishModal } from '../components/editor/PublishModal'
 
 type EditorPageProps = {
   onBackToLogin: () => void
   onPublish: () => void
   onOpenPerfil: () => void
-}
-
-// ── Dados estáticos ───────────────────────────────────────────────────────────
-const blockOptions: Array<{ type: BlockType; icon: ReactNode; color: string }> = [
-  { type: 'Início',     icon: <MapPin size={21} />,            color: '#10b981' },
-  { type: 'Conteúdo',  icon: <MessageSquareText size={21} />,  color: '#6366f1' },
-  { type: 'Pergunta',  icon: <CircleHelp size={21} />,         color: '#f59e0b' },
-  { type: 'Escolha',   icon: <Share2 size={21} />,             color: '#8b5cf6' },
-  { type: 'Conquista', icon: <Trophy size={21} />,             color: '#ef4444' },
-  { type: 'Fim',       icon: <Flag size={21} />,               color: '#374151' },
-]
-
-const blockMeta: Record<BlockType, { icon: ReactNode; color: string }> = {
-  'Início':     { icon: <MapPin size={20} />,            color: '#10b981' },
-  'Conteúdo':   { icon: <MessageSquareText size={20} />, color: '#6366f1' },
-  'Pergunta':   { icon: <CircleHelp size={20} />,        color: '#f59e0b' },
-  'Escolha':    { icon: <Share2 size={20} />,            color: '#8b5cf6' },
-  'Conquista':  { icon: <Trophy size={20} />,            color: '#ef4444' },
-  'Fim':        { icon: <Flag size={20} />,              color: '#374151' },
-}
-
-const INITIAL_CANVAS_BLOCKS: CanvasBlock[] = [
-  { id: 0, type: 'Início',    title: 'Introdução',          description: '' },
-  { id: 1, type: 'Conteúdo',  title: 'Conteúdo principal',  description: '' },
-  { id: 2, type: 'Pergunta',  title: 'Avaliação',           description: '' },
-]
-
-// ── Modal Pré-Visualizar ──────────────────────────────────────────────────────
-function PreviewModal({
-  blocks,
-  onClose,
-  onGoPublish,
-}: {
-  blocks: CanvasBlock[]
-  onClose: () => void
-  onGoPublish: () => void
-}) {
-  const unlockedCount = Math.max(1, Math.ceil(blocks.length * 0.5))
-
-  return (
-    <div className="modal-overlay" role="dialog" aria-modal="true" aria-label="Pré-visualização da trilha">
-      <div className="modal-preview">
-        <header className="preview-header">
-          <span className="preview-header-logo">Página Inicial</span>
-          <div className="preview-header-actions">
-            <button className="preview-header-btn" type="button" onClick={onClose}>Editar</button>
-            <button className="preview-header-btn preview-header-btn-primary" type="button" onClick={onGoPublish}>Publicar</button>
-          </div>
-        </header>
-
-        <div className="preview-body">
-          <h2 className="preview-trail-title">Trilha Visual</h2>
-
-          <div className="preview-trail-flow">
-            {blocks.map((block, index) => {
-              const isUnlocked = index < unlockedCount
-              const isActive   = index === unlockedCount - 1
-              const meta       = blockMeta[block.type]
-              return (
-                <div key={block.id} className="preview-step">
-                  {index > 0 && <div className="preview-connector" />}
-                  <div className="preview-step-row">
-                    <div
-                      className={`preview-node ${isUnlocked ? 'preview-node-done' : 'preview-node-locked'} ${isActive ? 'preview-node-active' : ''}`}
-                      style={isUnlocked ? { borderColor: meta.color, color: meta.color, background: `${meta.color}18` } : undefined}
-                    >
-                      {isUnlocked
-                        ? isActive
-                          ? <span className="preview-node-number">{index + 1}</span>
-                          : <CheckCircle2 size={17} />
-                        : <Lock size={14} />}
-                    </div>
-                    <span className={`preview-step-number${!isUnlocked ? ' preview-step-locked-text' : ''}`}>
-                      {index + 1}. {block.title || block.type}
-                    </span>
-                    {!isUnlocked && <Lock size={12} style={{ color: '#94a3b8', flexShrink: 0 }} />}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-
-          <div className="preview-progress-card">
-            <p className="preview-progress-label">Progresso</p>
-            <p className="preview-progress-count">{unlockedCount}/{blocks.length}</p>
-            <p className="preview-progress-sub">módulos concluídos</p>
-            <div className="preview-progress-bar-bg">
-              <div
-                className="preview-progress-bar-fill"
-                style={{ width: `${Math.round((unlockedCount / blocks.length) * 100)}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
-        <button className="modal-close-btn" type="button" onClick={onClose} aria-label="Fechar pré-visualização">
-          <X size={18} />
-        </button>
-      </div>
-    </div>
-  )
-}
-
-// ── Modal Publicar ────────────────────────────────────────────────────────────
-// Fix 5 — onConfirm recebe o payload tipado PublishData
-function PublishModal({
-  onClose,
-  onConfirm,
-}: {
-  onClose: () => void
-  onConfirm: (data: PublishData) => void
-}) {
-  const [title,       setTitle]       = useState('')
-  const [description, setDescription] = useState('')
-  const [category,    setCategory]    = useState('')
-  const [level,       setLevel]       = useState('')
-  const [tags,        setTags]        = useState('')
-  const [visibility,  setVisibility]  = useState<'public' | 'private' | 'link'>('public')
-
-  function handleConfirm() {
-    const data: PublishData = { title, description, category, level, tags, visibility }
-    onConfirm(data)
-  }
-
-  return (
-    <div className="modal-overlay" role="dialog" aria-modal="true" aria-label="Publicar trilha">
-      <div className="modal-publish">
-        <div className="modal-publish-header">
-          <span className="modal-publish-title">Publicar</span>
-          <button className="modal-close-text" type="button" onClick={onClose}>Fechar</button>
-        </div>
-
-        <div className="modal-publish-body">
-          <button className="publish-cover-area" type="button" aria-label="Adicionar capa">
-            <ImageIcon size={22} color="#a5b4fc" />
-            <span>Capa</span>
-          </button>
-          <input className="publish-field" type="text" placeholder="Título"     value={title}       onChange={e => setTitle(e.target.value)} />
-          <textarea className="publish-field publish-field-textarea" placeholder="Descrição"  value={description} onChange={e => setDescription(e.target.value)} />
-          <div className="publish-row">
-            <input className="publish-field" type="text" placeholder="Categoria" value={category}   onChange={e => setCategory(e.target.value)} />
-            <input className="publish-field" type="text" placeholder="Nível"     value={level}      onChange={e => setLevel(e.target.value)} />
-          </div>
-          <input className="publish-field" type="text" placeholder="Tags"        value={tags}       onChange={e => setTags(e.target.value)} />
-
-          <div className="publish-visibility-section">
-            <p className="publish-visibility-label">Visibilidade e privacidade</p>
-            <div className="publish-visibility-options">
-              {(['public', 'private', 'link'] as const).map(opt => (
-                <label key={opt} className={`publish-visibility-option ${visibility === opt ? 'publish-visibility-active' : ''}`}>
-                  <input type="radio" name="visibility" value={opt} checked={visibility === opt} onChange={() => setVisibility(opt)} />
-                  <span>
-                    {opt === 'public'  && 'Pública — visível para todos'}
-                    {opt === 'private' && 'Privada — somente você'}
-                    {opt === 'link'    && 'Por link — somente quem tiver o link'}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="modal-publish-footer">
-          <button className="publish-confirm-btn" type="button" onClick={handleConfirm}>Publicar</button>
-        </div>
-      </div>
-    </div>
-  )
 }
 
 // ── CanvasCard ────────────────────────────────────────────────────────────────
@@ -258,7 +59,7 @@ function CanvasCard({
       tabIndex={0}
       aria-label={`Bloco ${block.type}: ${block.title}`}
       onKeyDown={e => e.key === 'Enter' && onSelect()}
-      style={{ '--block-color': meta.color } as React.CSSProperties}
+      style={{ '--block-color': meta.color } as CSSProperties}
     >
       <span className="dnd-card-grip" aria-hidden="true">
         <GripVertical size={15} />
@@ -520,7 +321,7 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
                   tabIndex={0}
                   onKeyDown={e => e.key === 'Enter' && setSelectedBlock(c => ({ ...c, icon: block.type }))}
                   aria-label={`Bloco ${block.type}`}
-                  style={{ '--block-color': block.color } as React.CSSProperties}
+                  style={{ '--block-color': block.color } as CSSProperties}
                 >
                   <span
                     className="block-icon"
@@ -695,15 +496,6 @@ function IconSearch() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
-    </svg>
-  )
-}
-
-function IconUser() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
     </svg>
   )
 }

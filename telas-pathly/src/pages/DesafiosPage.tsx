@@ -88,7 +88,7 @@ export function DesafiosPage({
   return (
     <div className="editor-page aprendiz-page desafios-page">
       <header className="editor-header dashboard-header">
-        <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
+        <PathlyLogo onClick={onOpenDashboard} variant="branco" size="md" />
 
         <nav className="editor-nav">
           <button type="button" className="nav-text-button" onClick={onOpenDashboard}>

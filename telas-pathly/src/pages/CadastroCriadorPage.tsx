@@ -67,8 +67,6 @@ export function CadastroCriadorPage({ onBackToLogin, onCadastroConcluido }: Cada
       <aside className="creator-register-brand" aria-label="Marca Pathly">
         <div className="creator-register-brand-content">
           <PathlyLogo variant="branco" size="lg" className="login-brand-logo" />
-
-          <span className="creator-register-eyebrow">Cadastro de criador</span>
           <h1>Compartilhe conhecimento em trilhas gamificadas.</h1>
           <p>
             Crie conteúdos, acompanhe alunos e transforme sua experiência em jornadas de aprendizado dentro do Pathly.
@@ -114,7 +112,7 @@ export function CadastroCriadorPage({ onBackToLogin, onCadastroConcluido }: Cada
                     <UserRound size={19} aria-hidden="true" />
                     <input
                       type="text"
-                      placeholder="Ex: Victor Blum"
+                      placeholder="Ex: Criador"
                       value={formData.nome}
                       onChange={(event) => updateField('nome', event.target.value)}
                       required

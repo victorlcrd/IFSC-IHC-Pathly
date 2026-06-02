@@ -67,7 +67,7 @@ export function AlunosCriadorPage({
   return (
     <div className="editor-page">
       <header className="editor-header dashboard-header">
-        <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
+        <PathlyLogo onClick={onOpenDashboard} variant="branco" size="md" />
 
         <nav className="editor-nav">
           <button className="editor-nav-button" type="button" onClick={onOpenDashboard}>
@@ -89,7 +89,7 @@ export function AlunosCriadorPage({
         <main className="dashboard-content creator-students-page">
           <section className="creator-students-hero">
             <div>
-              <span className="creator-students-eyebrow">Acompanhamento</span>
+              <span className="creator-students-eyebrow">Área do criador</span>
               <h1>Alunos</h1>
               <p>Veja quem está aprendendo, acompanhe o progresso e identifique alunos que precisam de atenção.</p>
             </div>

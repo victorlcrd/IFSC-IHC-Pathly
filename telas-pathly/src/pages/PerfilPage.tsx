@@ -32,8 +32,8 @@ type PerfilCriadorPageProps = {
 }
 
 const APRENDIZ_INITIAL_DATA: ProfileData = {
-  nome: 'Victor Blum',
-  email: 'victor.blum@email.com',
+  nome: 'Aprendiz',
+  email: 'aprendiz@pathly.com',
   tipo: 'Aprendiz',
   dataCadastro: '15/05/2026',
   telefone: '(48) 99999-0000',
@@ -41,12 +41,12 @@ const APRENDIZ_INITIAL_DATA: ProfileData = {
   bio: 'Aprendiz focado em desenvolver habilidades técnicas por trilhas práticas, conteúdos curtos e acompanhamento de progresso.',
   areaInteresse: 'React, UX e desenvolvimento web',
   instituicao: 'IFSC — Campus São José',
-  portfolio: 'linkedin.com/in/victorblum',
+  portfolio: 'linkedin.com/in/aprendiz',
 }
 
 const CRIADOR_INITIAL_DATA: ProfileData = {
-  nome: 'Victor Blum',
-  email: 'victor.criador@pathly.com',
+  nome: 'Criador',
+  email: 'criador@pathly.com',
   tipo: 'Criador',
   dataCadastro: '12/05/2026',
   telefone: '(48) 98888-0000',
@@ -54,7 +54,7 @@ const CRIADOR_INITIAL_DATA: ProfileData = {
   bio: 'Criador de trilhas voltadas para aprendizagem prática, com foco em clareza, progressão visual e acompanhamento de alunos.',
   areaInteresse: 'Desenvolvimento front-end e educação digital',
   instituicao: 'Pathly Creator Program',
-  portfolio: 'portfolio.pathly.com/victor-blum',
+  portfolio: 'portfolio.pathly.com/criador',
 }
 
 export function PerfilAprendizPage({
@@ -146,7 +146,7 @@ function ProfileLayout({
   return (
     <div className={`editor-page profile-page ${isAprendiz ? 'aprendiz-page' : 'creator-profile-page'}`}>
       <header className="editor-header dashboard-header">
-        <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
+        <PathlyLogo onClick={onOpenDashboard} variant="branco" size="md" />
 
         <nav className="editor-nav">
           <button className="editor-nav-button" type="button" onClick={onOpenDashboard}>

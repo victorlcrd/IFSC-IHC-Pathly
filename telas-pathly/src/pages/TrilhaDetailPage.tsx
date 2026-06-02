@@ -96,14 +96,13 @@ export function TrilhaDetailPage({
   onBackToMinhasTrilhas,
   onOpenDashboard,
   onOpenAula,
-  onBackToLogin,
   onOpenConquistas,
   onOpenPerfil,
 }: TrilhaDetailPageProps) {
   return (
     <div className="editor-page trilha-detail-page">
       <header className="editor-header dashboard-header">
-        <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
+        <PathlyLogo onClick={onOpenDashboard} variant="branco" size="md" />
 
         <nav className="editor-nav">
           <a href="#explorar">Explorar</a>

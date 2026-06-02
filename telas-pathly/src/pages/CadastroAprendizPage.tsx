@@ -7,7 +7,6 @@ import {
   Lock,
   Mail,
   Phone,
-  Target,
   UserRound,
 } from 'lucide-react'
 import { PathlyLogo } from '../components/PathlyLogo'
@@ -79,27 +78,10 @@ export function CadastroAprendizPage({ onBackToLogin, onCadastroConcluido }: Cad
       <aside className="creator-register-brand" aria-label="Marca Pathly">
         <div className="creator-register-brand-content">
           <PathlyLogo variant="branco" size="lg" className="login-brand-logo" />
-
-          <span className="creator-register-eyebrow">Cadastro de aprendiz</span>
           <h1>Aprenda no seu ritmo com trilhas gamificadas.</h1>
           <p>
             Inscreva-se em trilhas, acompanhe seu progresso, desbloqueie conquistas e evolua com conteúdos organizados no Pathly.
           </p>
-
-          <div className="creator-register-benefits">
-            <div className="creator-register-benefit-item">
-              <span aria-hidden="true">
-                <BookOpen size={18} />
-              </span>
-              <p>Trilhas visuais com módulos curtos e objetivos para estudar quando quiser.</p>
-            </div>
-            <div className="creator-register-benefit-item">
-              <span aria-hidden="true">
-                <Target size={18} />
-              </span>
-              <p>Progresso, streaks e badges para manter a motivação no dia a dia.</p>
-            </div>
-          </div>
         </div>
       </aside>
 
@@ -141,7 +123,7 @@ export function CadastroAprendizPage({ onBackToLogin, onCadastroConcluido }: Cad
                     <UserRound size={19} aria-hidden="true" />
                     <input
                       type="text"
-                      placeholder="Ex: Victor Gabriel"
+                      placeholder="Ex: Aprendiz"
                       value={formData.nome}
                       onChange={(event) => updateField('nome', event.target.value)}
                       required
