@@ -1,3 +1,4 @@
+import { HeaderProfileMenu } from '../components/HeaderProfileMenu'
 import { CriadorSidebar } from '../components/CriadorSidebar'
 import { PathlyLogo } from '../components/PathlyLogo'
 
@@ -72,12 +73,7 @@ export function AlunosCriadorPage({
           <button className="editor-nav-button" type="button" onClick={onOpenDashboard}>
             Dashboard
           </button>
-          <button className="editor-nav-button editor-nav-button-active" type="button">
-            Alunos
-          </button>
-          <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}>
-            <IconUser />
-          </button>
+          <HeaderProfileMenu onOpenPerfil={onOpenPerfil} onLogout={onBackToLogin} />
         </nav>
       </header>
 
@@ -194,15 +190,6 @@ function getStatusClass(status: string) {
   if (status === 'Concluiu') return 'student-status-complete'
   if (status === 'Em risco') return 'student-status-risk'
   return 'student-status-active'
-}
-
-function IconUser() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
-  )
 }
 
 function IconSearch() {
