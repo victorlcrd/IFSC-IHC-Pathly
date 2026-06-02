@@ -93,6 +93,7 @@ function App() {
         onOpenAula={() => setPage('aula')}
         onOpenMinhasTrilhas={() => setPage('minhasTrilhas')}
         onOpenConquistas={() => setPage('conquistas')}
+        onOpenDesafios={() => setPage('desafios')}
         onOpenPerfil={() => setPage('perfilAprendiz')}
       />
     )
