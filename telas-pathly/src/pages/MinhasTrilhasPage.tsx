@@ -1,3 +1,4 @@
+import { HeaderProfileMenu } from '../components/HeaderProfileMenu'
 import { AprendizSidebar } from '../components/AprendizSidebar'
 import { PathlyLogo } from '../components/PathlyLogo'
 
@@ -62,12 +63,7 @@ export function MinhasTrilhasPage({
         <nav className="editor-nav">
           <button type="button" className="nav-text-button" onClick={onOpenDashboard}>Dashboard</button>
           <a href="#explorar">Explorar</a>
-          <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-          </button>
+          <HeaderProfileMenu onOpenPerfil={onOpenPerfil} onLogout={onBackToLogin} />
         </nav>
       </header>
 
