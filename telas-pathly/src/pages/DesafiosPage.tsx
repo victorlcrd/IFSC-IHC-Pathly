@@ -1,6 +1,7 @@
 import { HeaderProfileMenu } from '../components/HeaderProfileMenu'
 import { AprendizSidebar } from '../components/AprendizSidebar'
 import { PathlyLogo } from '../components/PathlyLogo'
+import './DesafiosPage.css'
 
 type DesafiosPageProps = {
   onBackToLogin: () => void
