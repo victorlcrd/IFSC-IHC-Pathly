@@ -3,7 +3,7 @@ type AprendizSidebarProps = {
   onOpenDashboard: () => void
   onOpenMinhasTrilhas: () => void
   onOpenConquistas: () => void
-  onOpenDesafios: () => void
+  onOpenDesafios?: () => void
   onOpenPerfil?: () => void
 }
 
@@ -16,7 +16,7 @@ export function AprendizSidebar({
   onOpenDashboard,
   onOpenMinhasTrilhas,
   onOpenConquistas,
-  onOpenDesafios,
+  onOpenDesafios = () => undefined,
   onOpenPerfil = () => undefined,
 }: AprendizSidebarProps) {
   return (
