@@ -14,8 +14,9 @@ import { ConquistasPage } from './pages/ConquistasPage'
 import { DesafiosPage } from './pages/DesafiosPage'
 import { PerfilAprendizPage, PerfilCriadorPage } from './pages/PerfilPage'
 import { CadastroCriadorPage } from './pages/CadastroCriadorPage'
+import { CadastroAprendizPage } from './pages/CadastroAprendizPage'
 
-type Page = 'login' | 'cadastroCriador' | 'dashboard' | 'criadorTrilhas' | 'criadorAlunos' | 'perfilCriador' | 'aprendiz' | 'minhasTrilhas' | 'conquistas' | 'desafios' | 'perfilAprendiz' | 'editor' | 'trilha' | 'aula'
+type Page = 'login' | 'cadastroCriador' | 'cadastroAprendiz' | 'dashboard' | 'criadorTrilhas' | 'criadorAlunos' | 'perfilCriador' | 'aprendiz' | 'minhasTrilhas' | 'conquistas' | 'desafios' | 'perfilAprendiz' | 'editor' | 'trilha' | 'aula'
 
 function App() {
   const [page, setPage] = useState<Page>('login')
@@ -26,6 +27,7 @@ function App() {
         onLoginCriador={() => setPage('dashboard')}
         onLoginAprendiz={() => setPage('aprendiz')}
         onOpenCadastroCriador={() => setPage('cadastroCriador')}
+        onOpenCadastroAprendiz={() => setPage('cadastroAprendiz')}
       />
     )
   }
@@ -35,6 +37,15 @@ function App() {
       <CadastroCriadorPage
         onBackToLogin={() => setPage('login')}
         onCadastroConcluido={() => setPage('dashboard')}
+      />
+    )
+  }
+
+  if (page === 'cadastroAprendiz') {
+    return (
+      <CadastroAprendizPage
+        onBackToLogin={() => setPage('login')}
+        onCadastroConcluido={() => setPage('aprendiz')}
       />
     )
   }
