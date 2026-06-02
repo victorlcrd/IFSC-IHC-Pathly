@@ -11,10 +11,11 @@ import { MinhasTrilhasPage } from './pages/MinhasTrilhasPage'
 import { MinhasTrilhasCriadorPage } from './pages/MinhasTrilhasCriadorPage'
 import { AlunosCriadorPage } from './pages/AlunosCriadorPage'
 import { ConquistasPage } from './pages/ConquistasPage'
+import { DesafiosPage } from './pages/DesafiosPage'
 import { PerfilAprendizPage, PerfilCriadorPage } from './pages/PerfilPage'
 import { CadastroCriadorPage } from './pages/CadastroCriadorPage'
 
-type Page = 'login' | 'cadastroCriador' | 'dashboard' | 'criadorTrilhas' | 'criadorAlunos' | 'perfilCriador' | 'aprendiz' | 'minhasTrilhas' | 'conquistas' | 'perfilAprendiz' | 'editor' | 'trilha' | 'aula'
+type Page = 'login' | 'cadastroCriador' | 'dashboard' | 'criadorTrilhas' | 'criadorAlunos' | 'perfilCriador' | 'aprendiz' | 'minhasTrilhas' | 'conquistas' | 'desafios' | 'perfilAprendiz' | 'editor' | 'trilha' | 'aula'
 
 function App() {
   const [page, setPage] = useState<Page>('login')
@@ -127,6 +128,18 @@ function App() {
         onBackToLogin={() => setPage('login')}
         onOpenDashboard={() => setPage('aprendiz')}
         onOpenMinhasTrilhas={() => setPage('minhasTrilhas')}
+        onOpenPerfil={() => setPage('perfilAprendiz')}
+      />
+    )
+  }
+
+  if (page === 'desafios') {
+    return (
+      <DesafiosPage
+        onBackToLogin={() => setPage('login')}
+        onOpenDashboard={() => setPage('aprendiz')}
+        onOpenMinhasTrilhas={() => setPage('minhasTrilhas')}
+        onOpenConquistas={() => setPage('conquistas')}
         onOpenPerfil={() => setPage('perfilAprendiz')}
       />
     )
