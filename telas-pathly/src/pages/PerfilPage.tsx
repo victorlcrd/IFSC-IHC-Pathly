@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent, type ReactNode } from 'react'
 import { AprendizSidebar } from '../components/AprendizSidebar'
 import { CriadorSidebar } from '../components/CriadorSidebar'
+import { HeaderProfileMenu } from '../components/HeaderProfileMenu'
 import { PathlyLogo } from '../components/PathlyLogo'
 
 type ProfileData = {
@@ -151,14 +152,13 @@ function ProfileLayout({
           <button className="editor-nav-button" type="button" onClick={onOpenDashboard}>
             Dashboard
           </button>
-          {!isAprendiz && onOpenAlunos && (
-            <button className="editor-nav-button" type="button" onClick={onOpenAlunos}>
-              Alunos
+          {isAprendiz ? (
+            <button className="profile-button profile-button-active" type="button" aria-label="Perfil atual">
+              <IconUser />
             </button>
+          ) : (
+            <HeaderProfileMenu onOpenPerfil={() => undefined} onLogout={onBackToLogin} active />
           )}
-          <button className="profile-button profile-button-active" type="button" aria-label="Perfil atual">
-            <IconUser />
-          </button>
         </nav>
       </header>
 
