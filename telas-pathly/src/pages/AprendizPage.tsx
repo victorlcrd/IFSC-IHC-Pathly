@@ -8,6 +8,7 @@ type AprendizPageProps = {
   onOpenAula: () => void
   onOpenMinhasTrilhas: () => void
   onOpenConquistas: () => void
+  onOpenDesafios: () => void
   onOpenPerfil: () => void
 }
 
@@ -31,6 +32,7 @@ export function AprendizPage({
   onOpenAula,
   onOpenMinhasTrilhas,
   onOpenConquistas,
+  onOpenDesafios,
   onOpenPerfil,
 }: AprendizPageProps) {
   return (
@@ -52,6 +54,7 @@ export function AprendizPage({
           onOpenDashboard={() => undefined}
           onOpenMinhasTrilhas={onOpenMinhasTrilhas}
           onOpenConquistas={onOpenConquistas}
+          onOpenDesafios={onOpenDesafios}
           onOpenPerfil={onOpenPerfil}
         />
 
