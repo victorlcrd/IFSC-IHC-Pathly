@@ -11,9 +11,10 @@ type Props = {
   onLoginCriador: () => void
   onLoginAprendiz: () => void
   onOpenCadastroCriador: () => void
+  onOpenCadastroAprendiz: () => void
 }
 
-export function LoginPage({ onLoginCriador, onLoginAprendiz, onOpenCadastroCriador }: Props) {
+export function LoginPage({ onLoginCriador, onLoginAprendiz, onOpenCadastroCriador, onOpenCadastroAprendiz }: Props) {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [erro, setErro] = useState('')
@@ -74,7 +75,7 @@ export function LoginPage({ onLoginCriador, onLoginAprendiz, onOpenCadastroCriad
             <div style={dividerLine} />
           </div>
 
-          <button type="button" style={actionCard}>
+          <button type="button" style={actionCard} onClick={onOpenCadastroAprendiz}>
             <span style={actionIconBg}><UserCircle size={22} strokeWidth={2} color="#1385EA" /></span>
             <span style={actionLabel}>Quero seguir uma trilha</span>
           </button>

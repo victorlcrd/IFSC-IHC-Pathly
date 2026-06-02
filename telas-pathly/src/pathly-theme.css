@@ -2309,3 +2309,16 @@ h3,
     grid-template-columns: 1fr;
   }
 }
+
+/* Tela de cadastro do aprendiz — reutiliza layout do criador com acentos próprios */
+.aprendiz-register-page .creator-register-brand .creator-register-eyebrow {
+  color: #93c5fd;
+}
+
+.aprendiz-register-page .creator-register-submit {
+  background: linear-gradient(135deg, var(--color-blue), var(--color-green));
+}
+
+.aprendiz-register-page .creator-register-submit:hover {
+  background: linear-gradient(135deg, var(--color-blue-light), var(--color-green));
+}
