@@ -1,15 +1,20 @@
 import {
+  ArrowLeft,
+  Bold,
   ChevronDown,
+  Eye,
   GripVertical,
+  Heading2,
+  Italic,
   Plus,
   Trash2,
-  Eye,
+  Type,
 } from 'lucide-react'
 import { useRef, useState, type CSSProperties, type DragEvent } from 'react'
 import { IconUser } from '../components/common/Icons'
 import { PathlyLogo } from '../components/PathlyLogo'
 import { blockMeta, blockOptions, INITIAL_CANVAS_BLOCKS } from '../components/editor/editorData'
-import type { BlockConfig, BlockType, CanvasBlock, PublishData } from '../components/editor/editorTypes'
+import type { BlockConfig, BlockType, CanvasBlock, PublishData, QuestionType } from '../components/editor/editorTypes'
 import { PreviewModal } from '../components/editor/PreviewModal'
 import { PublishModal } from '../components/editor/PublishModal'
 
@@ -19,7 +24,66 @@ type EditorPageProps = {
   onOpenPerfil: () => void
 }
 
-// ── CanvasCard ────────────────────────────────────────────────────────────────
+const EMPTY_BLOCK_CONFIG: BlockConfig = {
+  title: '',
+  description: '',
+  icon: 'Conteúdo',
+  contentText: '',
+  questionText: '',
+  videoSummary: '',
+  questionType: 'Objetiva',
+  options: ['', ''],
+  correctOptionIndex: 0,
+  trueFalseAnswer: true,
+  expectedAnswer: '',
+}
+
+function blockToConfig(block: CanvasBlock): BlockConfig {
+  return {
+    title: block.title,
+    description: block.description,
+    icon: block.type,
+    contentText: block.contentText ?? '',
+    questionText: block.questionText ?? '',
+    videoSummary: block.videoSummary ?? '',
+    questionType: block.questionType ?? 'Objetiva',
+    options: block.options?.length ? block.options : ['', ''],
+    correctOptionIndex: block.correctOptionIndex ?? 0,
+    trueFalseAnswer: block.trueFalseAnswer ?? true,
+    expectedAnswer: block.expectedAnswer ?? '',
+  }
+}
+
+function createBlock(id: number, type: BlockType, source?: Partial<BlockConfig>): CanvasBlock {
+  const baseTitle = source?.title?.trim() || type
+  const baseDescription = source?.description?.trim() || ''
+  const block: CanvasBlock = {
+    id,
+    type,
+    title: baseTitle,
+    description: baseDescription,
+  }
+
+  if (type === 'Conteúdo') {
+    block.contentText = source?.contentText ?? ''
+  }
+
+  if (type === 'Vídeo') {
+    block.videoSummary = source?.videoSummary ?? ''
+  }
+
+  if (type === 'Pergunta') {
+    block.questionType = source?.questionType ?? 'Objetiva'
+    block.questionText = source?.questionText ?? ''
+    block.options = source?.options?.length ? source.options : ['', '']
+    block.correctOptionIndex = source?.correctOptionIndex ?? 0
+    block.trueFalseAnswer = source?.trueFalseAnswer ?? true
+    block.expectedAnswer = source?.expectedAnswer ?? ''
+  }
+
+  return block
+}
+
 function CanvasCard({
   block,
   isSelected,
@@ -29,7 +93,7 @@ function CanvasCard({
   onDragStart,
   onDragEnter,
   onDragEnd,
-  onDrop,         // Fix 1 — prop adicionada
+  onDrop,
   isDragOver,
 }: {
   block: CanvasBlock
@@ -39,8 +103,8 @@ function CanvasCard({
   onDelete: () => void
   onDragStart: (e: DragEvent<HTMLDivElement>) => void
   onDragEnter: (e: DragEvent<HTMLDivElement>) => void
-  onDragEnd:   (e: DragEvent<HTMLDivElement>) => void
-  onDrop:      (e: DragEvent<HTMLDivElement>) => void  // Fix 1
+  onDragEnd: (e: DragEvent<HTMLDivElement>) => void
+  onDrop: (e: DragEvent<HTMLDivElement>) => void
   isDragOver: boolean
 }) {
   const meta = blockMeta[block.type]
@@ -53,7 +117,7 @@ function CanvasCard({
       onDragEnter={onDragEnter}
       onDragEnd={onDragEnd}
       onDragOver={e => e.preventDefault()}
-      onDrop={onDrop}           // Fix 1 — conectado
+      onDrop={onDrop}
       onClick={onSelect}
       role="button"
       tabIndex={0}
@@ -61,19 +125,12 @@ function CanvasCard({
       onKeyDown={e => e.key === 'Enter' && onSelect()}
       style={{ '--block-color': meta.color } as CSSProperties}
     >
-      <span className="dnd-card-grip" aria-hidden="true">
-        <GripVertical size={15} />
-      </span>
-
-      <span className="dnd-card-icon" style={{ background: `${meta.color}18`, color: meta.color }}>
-        {meta.icon}
-      </span>
-
+      <span className="dnd-card-grip" aria-hidden="true"><GripVertical size={15} /></span>
+      <span className="dnd-card-icon" style={{ background: `${meta.color}18`, color: meta.color }}>{meta.icon}</span>
       <span className="dnd-card-info">
         <span className="dnd-card-type">{block.type}</span>
         <span className="dnd-card-title">{block.title || block.type}</span>
       </span>
-
       <button
         className="dnd-card-delete"
         type="button"
@@ -86,21 +143,11 @@ function CanvasCard({
   )
 }
 
-// ── DropZone ──────────────────────────────────────────────────────────────────
-// Fix 2 — recebe onDragEnter para ativar o destaque visual corretamente
-function DropZone({
-  active,
-  onDrop,
-  onDragEnter,
-}: {
-  active: boolean
-  onDrop: () => void
-  onDragEnter: () => void
-}) {
+function DropZone({ active, onDrop, onDragEnter }: { active: boolean; onDrop: () => void; onDragEnter: () => void }) {
   return (
     <div
       className={`drop-zone${active ? ' drop-zone-active' : ''}`}
-      onDragEnter={onDragEnter}                   // Fix 2
+      onDragEnter={onDragEnter}
       onDragOver={e => e.preventDefault()}
       onDrop={e => { e.stopPropagation(); onDrop() }}
       aria-hidden="true"
@@ -108,60 +155,81 @@ function DropZone({
   )
 }
 
-// ── EditorPage ────────────────────────────────────────────────────────────────
 export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPageProps) {
-  // Fix 3 — selectedBlock guarda o estado do painel de edição
-  const [selectedBlock,   setSelectedBlock]   = useState<BlockConfig>({ title: '', description: '', icon: 'Conteúdo' })
-  // Fix 3/4 — id do bloco atualmente selecionado no canvas
+  const [selectedBlock, setSelectedBlock] = useState<BlockConfig>(EMPTY_BLOCK_CONFIG)
   const [selectedBlockId, setSelectedBlockId] = useState<number | null>(null)
-
-  const [canvasBlocks,    setCanvasBlocks]    = useState<CanvasBlock[]>(INITIAL_CANVAS_BLOCKS)
-  const [nextId,          setNextId]          = useState(10)
+  const [canvasBlocks, setCanvasBlocks] = useState<CanvasBlock[]>(INITIAL_CANVAS_BLOCKS)
+  const [nextId, setNextId] = useState(10)
   const [recentlyAddedId, setRecentlyAddedId] = useState<number | null>(null)
-  const [showPreview,     setShowPreview]     = useState(false)
-  const [showPublish,     setShowPublish]     = useState(false)
-  const [publishing,      setPublishing]      = useState(false)
+  const [showPreview, setShowPreview] = useState(false)
+  const [showPublish, setShowPublish] = useState(false)
+  const [publishing, setPublishing] = useState(false)
+  const [contentEditorOpen, setContentEditorOpen] = useState(false)
+  const [videoSummaryEditorOpen, setVideoSummaryEditorOpen] = useState(false)
 
-  // Drag state
-  const dragIndexRef  = useRef<number | null>(null)
-  const dragTypeRef   = useRef<BlockType | null>(null)
+  const dragIndexRef = useRef<number | null>(null)
+  const dragTypeRef = useRef<BlockType | null>(null)
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null)
-  const [dropZoneOver,  setDropZoneOver]  = useState<number | null>(null)
+  const [dropZoneOver, setDropZoneOver] = useState<number | null>(null)
 
-  // ── Fix 3/4 — Selecionar um bloco do canvas carrega seus dados no painel ──
   function selectCanvasBlock(block: CanvasBlock) {
     setSelectedBlockId(block.id)
-    setSelectedBlock({
-      title: block.title,
-      description: block.description,
-      icon: block.type,
-    })
+    setSelectedBlock(blockToConfig(block))
   }
 
-  // ── Fix 3 — Salvar persiste as alterações no canvasBlock correspondente ───
+  function getFimIndex(blocks = canvasBlocks) {
+    return blocks.findIndex(block => block.type === 'Fim')
+  }
+
+  function getSafeInsertIndex(type: BlockType, atIndex?: number) {
+    const fimIndex = getFimIndex()
+
+    if (type === 'Fim' && fimIndex !== -1) return null
+    if (fimIndex === -1) return atIndex
+    if (typeof atIndex !== 'number') return fimIndex
+    return Math.min(atIndex, fimIndex)
+  }
+
+  function isDropAfterFim(dropIndex: number) {
+    const fimIndex = getFimIndex()
+    return fimIndex !== -1 && dropIndex > fimIndex
+  }
+
+  function keepFimLast(blocks: CanvasBlock[]) {
+    const fimIndex = blocks.findIndex(block => block.type === 'Fim')
+    if (fimIndex === -1 || fimIndex === blocks.length - 1) return blocks
+
+    const next = [...blocks]
+    const [fimBlock] = next.splice(fimIndex, 1)
+    return [...next, fimBlock]
+  }
+
   function saveSelectedBlock() {
     if (selectedBlockId === null) return
     setCanvasBlocks(prev =>
-      prev.map(b =>
-        b.id === selectedBlockId
-          ? { ...b, title: selectedBlock.title, description: selectedBlock.description, type: selectedBlock.icon }
-          : b
+      prev.map(block =>
+        block.id === selectedBlockId
+          ? createBlock(block.id, selectedBlock.icon, selectedBlock)
+          : block
       )
     )
   }
 
-  function addBlock(type: BlockType) {
+  function addBlock(type: BlockType, atIndex?: number) {
+    const safeIndex = getSafeInsertIndex(type, atIndex)
+    if (safeIndex === null) return
+
     const id = nextId
+    const newBlock = createBlock(id, type, type === selectedBlock.icon ? selectedBlock : undefined)
     setNextId(n => n + 1)
-    const newBlock: CanvasBlock = {
-      id,
-      type,
-      title: selectedBlock.title || type,
-      description: selectedBlock.description,
-    }
-    setCanvasBlocks(prev => [...prev, newBlock])
-    setSelectedBlock(c => ({ ...c, icon: type, title: '', description: '' }))
+    setCanvasBlocks(prev => {
+      if (typeof safeIndex !== 'number') return [...prev, newBlock]
+      const next = [...prev]
+      next.splice(safeIndex, 0, newBlock)
+      return next
+    })
     setSelectedBlockId(id)
+    setSelectedBlock(blockToConfig(newBlock))
     setRecentlyAddedId(id)
     setTimeout(() => setRecentlyAddedId(null), 1200)
   }
@@ -169,10 +237,12 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
   function deleteBlock(index: number) {
     const removed = canvasBlocks[index]
     setCanvasBlocks(prev => prev.filter((_, i) => i !== index))
-    if (selectedBlockId === removed.id) setSelectedBlockId(null)
+    if (selectedBlockId === removed.id) {
+      setSelectedBlockId(null)
+      setSelectedBlock(EMPTY_BLOCK_CONFIG)
+    }
   }
 
-  // Fix 5 — handleConfirmPublish recebe e loga o payload
   function handleConfirmPublish(data: PublishData) {
     console.log('Publicando trilha:', data)
     setShowPublish(false)
@@ -180,110 +250,134 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
     setTimeout(() => { setPublishing(false); onPublish() }, 1400)
   }
 
-  // ── Drag handlers ─────────────────────────────────────────────────────────
+  function resetDragState() {
+    setDragOverIndex(null)
+    setDropZoneOver(null)
+    dragIndexRef.current = null
+    dragTypeRef.current = null
+  }
+
   function onSidebarDragStart(type: BlockType) {
     dragIndexRef.current = null
-    dragTypeRef.current  = type
+    dragTypeRef.current = type
   }
 
   function onCardDragStart(_e: DragEvent<HTMLDivElement>, index: number) {
     dragIndexRef.current = index
-    dragTypeRef.current  = null
+    dragTypeRef.current = null
   }
 
-  function onCardDragEnter(_e: DragEvent<HTMLDivElement>, index: number) {
-    setDragOverIndex(index)
-    setDropZoneOver(null)
-  }
-
-  function onCardDragEnd() {
-    dragIndexRef.current = null
-    dragTypeRef.current  = null
-    setDragOverIndex(null)
-    setDropZoneOver(null)
-  }
-
-  // Fix 1 — onCardDrop agora é chamado pelo onDrop do CanvasCard
   function onCardDrop(targetIndex: number) {
+    if (isDropAfterFim(targetIndex)) {
+      resetDragState()
+      return
+    }
+
     if (dragTypeRef.current !== null) {
-      const type = dragTypeRef.current
-      const id   = nextId
-      setNextId(n => n + 1)
-      const newBlock: CanvasBlock = { id, type, title: type, description: '' }
-      setCanvasBlocks(prev => {
-        const next = [...prev]
-        next.splice(targetIndex, 0, newBlock)
-        return next
-      })
-      setRecentlyAddedId(id)
-      setTimeout(() => setRecentlyAddedId(null), 1200)
-    } else if (dragIndexRef.current !== null && dragIndexRef.current !== targetIndex) {
+      addBlock(dragTypeRef.current, targetIndex)
+      resetDragState()
+      return
+    }
+
+    if (dragIndexRef.current !== null && dragIndexRef.current !== targetIndex) {
       const from = dragIndexRef.current
       setCanvasBlocks(prev => {
         const next = [...prev]
         const [moved] = next.splice(from, 1)
         next.splice(targetIndex, 0, moved)
-        return next
+        return keepFimLast(next)
       })
     }
-    setDragOverIndex(null)
-    setDropZoneOver(null)
-    dragIndexRef.current = null
-    dragTypeRef.current  = null
+    resetDragState()
   }
 
   function onDropZoneDrop(dropIndex: number) {
+    if (isDropAfterFim(dropIndex)) {
+      resetDragState()
+      return
+    }
+
     if (dragTypeRef.current !== null) {
-      const type = dragTypeRef.current
-      const id   = nextId
-      setNextId(n => n + 1)
-      const newBlock: CanvasBlock = { id, type, title: type, description: '' }
-      setCanvasBlocks(prev => {
-        const next = [...prev]
-        next.splice(dropIndex, 0, newBlock)
-        return next
-      })
-      setRecentlyAddedId(id)
-      setTimeout(() => setRecentlyAddedId(null), 1200)
-    } else if (dragIndexRef.current !== null) {
+      addBlock(dragTypeRef.current, dropIndex)
+      resetDragState()
+      return
+    }
+
+    if (dragIndexRef.current !== null) {
       const from = dragIndexRef.current
-      const to   = from < dropIndex ? dropIndex - 1 : dropIndex
+      const to = from < dropIndex ? dropIndex - 1 : dropIndex
       if (from !== to) {
         setCanvasBlocks(prev => {
           const next = [...prev]
           const [moved] = next.splice(from, 1)
           next.splice(to, 0, moved)
-          return next
+          return keepFimLast(next)
         })
       }
     }
-    setDragOverIndex(null)
-    setDropZoneOver(null)
-    dragIndexRef.current = null
-    dragTypeRef.current  = null
+    resetDragState()
   }
 
   function onCanvasDrop(e: DragEvent<HTMLDivElement>) {
     e.preventDefault()
-    if (dragTypeRef.current !== null) {
-      const type = dragTypeRef.current
-      const id   = nextId
-      setNextId(n => n + 1)
-      setCanvasBlocks(prev => [...prev, { id, type, title: type, description: '' }])
-      setRecentlyAddedId(id)
-      setTimeout(() => setRecentlyAddedId(null), 1200)
-    }
-    dragIndexRef.current = null
-    dragTypeRef.current  = null
-    setDragOverIndex(null)
-    setDropZoneOver(null)
+    if (dragTypeRef.current !== null) addBlock(dragTypeRef.current)
+    resetDragState()
   }
 
-  // ── Render ────────────────────────────────────────────────────────────────
+  function insertFormattedSnippet(target: 'contentText' | 'videoSummary', format: 'title' | 'bold' | 'italic' | 'text') {
+    const snippets = {
+      title: '\n## Título da seção\n',
+      bold: '**texto em negrito**',
+      italic: '*texto em itálico*',
+      text: 'Texto do parágrafo.',
+    }
+
+    setSelectedBlock(current => ({
+      ...current,
+      [target]: `${current[target] || ''}${current[target] ? '\n' : ''}${snippets[format]}`,
+    }))
+  }
+
+  function updateQuestionType(questionType: QuestionType) {
+    setSelectedBlock(current => ({
+      ...current,
+      questionType,
+      options: questionType === 'Objetiva' ? (current.options.length ? current.options : ['', '']) : current.options,
+    }))
+  }
+
+  function updateOption(index: number, value: string) {
+    setSelectedBlock(current => ({
+      ...current,
+      options: current.options.map((option, optionIndex) => optionIndex === index ? value : option),
+    }))
+  }
+
+  function addOption() {
+    setSelectedBlock(current => ({ ...current, options: [...current.options, ''] }))
+  }
+
+  function removeOption(index: number) {
+    setSelectedBlock(current => {
+      const nextOptions = current.options.filter((_, optionIndex) => optionIndex !== index)
+      const safeOptions = nextOptions.length >= 2 ? nextOptions : current.options
+      return {
+        ...current,
+        options: safeOptions,
+        correctOptionIndex: Math.min(current.correctOptionIndex, safeOptions.length - 1),
+      }
+    })
+  }
+
   return (
     <>
       <div className={`editor-page${showPreview || showPublish ? ' editor-page-blurred' : ''}`}>
         <header className="editor-header editor-builder-header">
+          <button className="editor-nav-button editor-back-button editor-back-button-left" type="button" onClick={onBackToLogin}>
+            <ArrowLeft size={15} />
+            Voltar
+          </button>
+
           <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
 
           <div className="editor-builder-search">
@@ -292,18 +386,12 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
           </div>
 
           <nav className="editor-nav editor-builder-nav">
-            <button className="editor-nav-button" type="button" onClick={onBackToLogin}>
-              Dashboard
-            </button>
-
-            <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}>
-              <IconUser />
-            </button>
+            <button className="editor-nav-button" type="button" onClick={onBackToLogin}>Dashboard</button>
+            <button className="profile-button" type="button" aria-label="Perfil" onClick={onOpenPerfil}><IconUser /></button>
           </nav>
         </header>
 
         <main className="editor-shell">
-          {/* ── Sidebar ── */}
           <aside className="blocks-panel">
             <h2>Blocos</h2>
             <div className="block-list">
@@ -314,20 +402,18 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
                   draggable
                   onDragStart={() => onSidebarDragStart(block.type)}
                   onClick={() => {
-                    setSelectedBlock(c => ({ ...c, icon: block.type }))
+                    setSelectedBlock({ ...EMPTY_BLOCK_CONFIG, icon: block.type, title: '', description: '' })
                     setSelectedBlockId(null)
                   }}
                   role="button"
                   tabIndex={0}
-                  onKeyDown={e => e.key === 'Enter' && setSelectedBlock(c => ({ ...c, icon: block.type }))}
+                  onKeyDown={e => e.key === 'Enter' && setSelectedBlock({ ...EMPTY_BLOCK_CONFIG, icon: block.type })}
                   aria-label={`Bloco ${block.type}`}
                   style={{ '--block-color': block.color } as CSSProperties}
                 >
                   <span
                     className="block-icon"
-                    style={selectedBlock.icon === block.type
-                      ? { background: `${block.color}22`, color: block.color }
-                      : undefined}
+                    style={selectedBlock.icon === block.type ? { background: `${block.color}22`, color: block.color } : undefined}
                   >
                     {block.icon}
                   </span>
@@ -336,15 +422,13 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
               ))}
             </div>
 
-            <button className="add-to-canvas-button" type="button" onClick={() => addBlock(selectedBlock.icon)}>
+            <button className="add-to-canvas-button" type="button" onClick={() => addBlock(selectedBlock.icon)} disabled={selectedBlock.icon === 'Fim' && getFimIndex() !== -1}>
               <Plus size={15} />
               Adicionar ao fluxo
             </button>
-
             <div className="drag-helper">Arraste os blocos para o fluxo</div>
           </aside>
 
-          {/* ── Canvas ── */}
           <section className="flow-workspace" aria-label="Fluxo da trilha">
             <div className="workspace-title-row">
               <h1>Fluxo da trilha</h1>
@@ -353,9 +437,7 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
                   <Eye size={15} />
                   Pré-Visualizar
                 </button>
-                <button className="workspace-action-btn workspace-action-btn-primary" type="button" onClick={() => setShowPublish(true)}>
-                  Publicar
-                </button>
+                <button className="workspace-action-btn workspace-action-btn-primary" type="button" onClick={() => setShowPublish(true)}>Publicar</button>
               </div>
             </div>
 
@@ -368,35 +450,24 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
               )}
 
               <div className="dnd-list">
-                {/* Fix 2 — Drop zone inicial com onDragEnter */}
-                <DropZone
-                  active={dropZoneOver === 0}
-                  onDragEnter={() => setDropZoneOver(0)}
-                  onDrop={() => onDropZoneDrop(0)}
-                />
-
+                <DropZone active={dropZoneOver === 0} onDragEnter={() => setDropZoneOver(0)} onDrop={() => onDropZoneDrop(0)} />
                 {canvasBlocks.map((block, index) => (
                   <div key={block.id}>
-                    {/* Fix 1 + Fix 2 + Fix 4 — onDrop e onDragEnter conectados, onSelect carrega dados */}
                     <CanvasCard
                       block={block}
                       isSelected={selectedBlockId === block.id}
                       isNew={recentlyAddedId === block.id}
-                      onSelect={() => selectCanvasBlock(block)}           // Fix 4
+                      onSelect={() => selectCanvasBlock(block)}
                       onDelete={() => deleteBlock(index)}
                       onDragStart={e => onCardDragStart(e, index)}
-                      onDragEnter={e => { onCardDragEnter(e, index); setDropZoneOver(null) }}
-                      onDragEnd={onCardDragEnd}
-                      onDrop={e => { e.preventDefault(); e.stopPropagation(); onCardDrop(index) }} // Fix 1
+                      onDragEnter={() => { setDragOverIndex(index); setDropZoneOver(null) }}
+                      onDragEnd={resetDragState}
+                      onDrop={e => { e.preventDefault(); e.stopPropagation(); onCardDrop(index) }}
                       isDragOver={dragOverIndex === index}
                     />
-
-                    {/* Fix 2 — Drop zone com onDragEnter */}
-                    <DropZone
-                      active={dropZoneOver === index + 1}
-                      onDragEnter={() => setDropZoneOver(index + 1)}       // Fix 2
-                      onDrop={() => onDropZoneDrop(index + 1)}
-                    />
+                    {!isDropAfterFim(index + 1) && (
+                      <DropZone active={dropZoneOver === index + 1} onDragEnter={() => setDropZoneOver(index + 1)} onDrop={() => onDropZoneDrop(index + 1)} />
+                    )}
                   </div>
                 ))}
               </div>
@@ -409,21 +480,19 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
             </div>
           </section>
 
-          {/* ── Painel de edição ── */}
           <aside className="edit-panel">
             <h2>Editar bloco</h2>
 
-            <button className="icon-upload" type="button">
-              <Plus size={30} />
-              <span>Ícone</span>
-            </button>
+            <div className="selected-preview selected-preview-top" aria-label="Tipo do bloco selecionado">
+              {blockMeta[selectedBlock.icon].icon}
+              <span>{selectedBlock.icon}</span>
+            </div>
 
             <label className="field-label">
               Título
               <input
                 value={selectedBlock.title}
-                placeholder={selectedBlockId === null ? 'Selecione um bloco no canvas' : 'Nome do bloco'}
-                disabled={selectedBlockId === null}
+                placeholder={selectedBlockId === null ? 'Nome do novo bloco' : 'Nome do bloco'}
                 onChange={e => setSelectedBlock(c => ({ ...c, title: e.target.value }))}
               />
             </label>
@@ -432,11 +501,142 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
               Descrição
               <textarea
                 value={selectedBlock.description}
-                placeholder={selectedBlockId === null ? 'Selecione um bloco no canvas' : 'Descrição breve'}
-                disabled={selectedBlockId === null}
+                placeholder={selectedBlockId === null ? 'Descrição breve do novo bloco' : 'Descrição breve'}
                 onChange={e => setSelectedBlock(c => ({ ...c, description: e.target.value }))}
               />
             </label>
+
+            {selectedBlock.icon === 'Conteúdo' && (
+              <label className="field-label">
+                <span className="field-label-row">
+                  Texto do conteúdo
+                  <button className="field-label-action" type="button" onClick={e => { e.preventDefault(); setContentEditorOpen(true) }}>Abrir editor</button>
+                </span>
+                <textarea
+                  className="editor-large-textarea"
+                  value={selectedBlock.contentText}
+                  placeholder="Digite o texto que será exibido ao aprendiz neste módulo."
+                  onChange={e => setSelectedBlock(c => ({ ...c, contentText: e.target.value }))}
+                />
+              </label>
+            )}
+
+            {selectedBlock.icon === 'Vídeo' && (
+              <div className="video-editor-area">
+                <div className="video-placeholder">
+                  <span>Placeholder de vídeo</span>
+                  <small>Upload real não implementado no protótipo</small>
+                </div>
+
+                <label className="field-label">
+                  <span className="field-label-row">
+                    Resumo do vídeo
+                    <button className="field-label-action" type="button" onClick={e => { e.preventDefault(); setVideoSummaryEditorOpen(true) }}>Abrir editor</button>
+                  </span>
+                  <textarea
+                    className="editor-large-textarea"
+                    value={selectedBlock.videoSummary}
+                    placeholder="Digite um resumo do vídeo para orientar o aprendiz."
+                    onChange={e => setSelectedBlock(c => ({ ...c, videoSummary: e.target.value }))}
+                  />
+                </label>
+              </div>
+            )}
+
+            {selectedBlock.icon === 'Pergunta' && (
+              <section className="question-editor" aria-label="Configuração da pergunta">
+                <label className="field-label">
+                  Tipo de pergunta
+                  <select
+                    value={selectedBlock.questionType}
+                    onChange={e => updateQuestionType(e.target.value as QuestionType)}
+                  >
+                    <option value="Objetiva">Objetiva</option>
+                    <option value="Verdadeiro ou falso">Verdadeiro ou falso</option>
+                    <option value="Discursiva">Discursiva</option>
+                  </select>
+                </label>
+
+                <label className="field-label">
+                  Enunciado
+                  <textarea
+                    value={selectedBlock.questionText}
+                    placeholder="Digite a pergunta que será apresentada ao aprendiz."
+                    onChange={e => setSelectedBlock(c => ({ ...c, questionText: e.target.value }))}
+                  />
+                </label>
+
+                {selectedBlock.questionType === 'Objetiva' && (
+                  <div className="question-options-area">
+                    <p className="question-options-title">Alternativas</p>
+                    {selectedBlock.options.map((option, index) => (
+                      <div className="question-option-row" key={index}>
+                        <input
+                          type="radio"
+                          name="correct-option"
+                          checked={selectedBlock.correctOptionIndex === index}
+                          onChange={() => setSelectedBlock(c => ({ ...c, correctOptionIndex: index }))}
+                          aria-label={`Marcar alternativa ${index + 1} como correta`}
+                        />
+                        <input
+                          value={option}
+                          placeholder={`Alternativa ${index + 1}`}
+                          onChange={e => updateOption(index, e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className="question-option-remove"
+                          onClick={() => removeOption(index)}
+                          disabled={selectedBlock.options.length <= 2}
+                          aria-label={`Remover alternativa ${index + 1}`}
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    ))}
+                    <button className="question-add-option" type="button" onClick={addOption}>
+                      <Plus size={13} />
+                      Adicionar alternativa
+                    </button>
+                  </div>
+                )}
+
+                {selectedBlock.questionType === 'Verdadeiro ou falso' && (
+                  <div className="true-false-area">
+                    <span>Resposta correta</span>
+                    <label>
+                      <input
+                        type="radio"
+                        name="true-false-answer"
+                        checked={selectedBlock.trueFalseAnswer}
+                        onChange={() => setSelectedBlock(c => ({ ...c, trueFalseAnswer: true }))}
+                      />
+                      Verdadeiro
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="true-false-answer"
+                        checked={!selectedBlock.trueFalseAnswer}
+                        onChange={() => setSelectedBlock(c => ({ ...c, trueFalseAnswer: false }))}
+                      />
+                      Falso
+                    </label>
+                  </div>
+                )}
+
+                {selectedBlock.questionType === 'Discursiva' && (
+                  <label className="field-label">
+                    Resposta esperada ou critério de correção
+                    <textarea
+                      value={selectedBlock.expectedAnswer}
+                      placeholder="Informe uma resposta de referência ou os critérios esperados."
+                      onChange={e => setSelectedBlock(c => ({ ...c, expectedAnswer: e.target.value }))}
+                    />
+                  </label>
+                )}
+              </section>
+            )}
 
             <section className="settings-area">
               <h3>Configurações</h3>
@@ -444,21 +644,21 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
               <button type="button">Progresso <ChevronDown size={17} /></button>
             </section>
 
-            {/* Fix 3 — Salvar com onClick conectado */}
             <button
               className="save-button"
               type="button"
-              onClick={saveSelectedBlock}
-              disabled={selectedBlockId === null}
-              title={selectedBlockId === null ? 'Selecione um bloco no canvas para editar' : 'Salvar alterações'}
+              onClick={() => {
+                if (selectedBlockId === null) {
+                  addBlock(selectedBlock.icon)
+                  return
+                }
+                saveSelectedBlock()
+              }}
+              disabled={selectedBlock.icon === 'Fim' && getFimIndex() !== -1 && selectedBlockId === null}
+              title={selectedBlockId === null ? 'Adicionar o bloco configurado ao fluxo' : 'Salvar alterações'}
             >
-              Salvar
+              {selectedBlockId === null ? 'Adicionar bloco' : 'Salvar'}
             </button>
-
-            <div className="selected-preview" aria-label="Bloco selecionado">
-              {blockMeta[selectedBlock.icon].icon}
-              <span>{selectedBlock.icon}</span>
-            </div>
           </aside>
         </main>
 
@@ -472,6 +672,26 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
         )}
       </div>
 
+      {contentEditorOpen && (
+        <RichTextModal
+          title="Editor de conteúdo"
+          value={selectedBlock.contentText}
+          onChange={value => setSelectedBlock(c => ({ ...c, contentText: value }))}
+          onClose={() => setContentEditorOpen(false)}
+          onInsert={format => insertFormattedSnippet('contentText', format)}
+        />
+      )}
+
+      {videoSummaryEditorOpen && (
+        <RichTextModal
+          title="Editor de resumo do vídeo"
+          value={selectedBlock.videoSummary}
+          onChange={value => setSelectedBlock(c => ({ ...c, videoSummary: value }))}
+          onClose={() => setVideoSummaryEditorOpen(false)}
+          onInsert={format => insertFormattedSnippet('videoSummary', format)}
+        />
+      )}
+
       {showPreview && (
         <PreviewModal
           blocks={canvasBlocks}
@@ -480,14 +700,57 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
         />
       )}
 
-      {/* Fix 5 — onConfirm recebe PublishData */}
-      {showPublish && (
-        <PublishModal
-          onClose={() => setShowPublish(false)}
-          onConfirm={handleConfirmPublish}
-        />
-      )}
+      {showPublish && <PublishModal onClose={() => setShowPublish(false)} onConfirm={handleConfirmPublish} />}
     </>
+  )
+}
+
+
+function RichTextModal({
+  title,
+  value,
+  onChange,
+  onClose,
+  onInsert,
+}: {
+  title: string
+  value: string
+  onChange: (value: string) => void
+  onClose: () => void
+  onInsert: (format: 'title' | 'bold' | 'italic' | 'text') => void
+}) {
+  return (
+    <div className="rich-text-overlay" role="dialog" aria-modal="true" aria-label={title}>
+      <div className="rich-text-modal">
+        <div className="rich-text-header">
+          <div>
+            <span className="rich-text-kicker">Edição ampliada</span>
+            <h2>{title}</h2>
+          </div>
+          <button className="rich-text-close" type="button" onClick={onClose}>Fechar</button>
+        </div>
+
+        <div className="rich-text-toolbar" aria-label="Ferramentas de texto">
+          <button type="button" onClick={() => onInsert('title')}><Heading2 size={15} /> Título</button>
+          <button type="button" onClick={() => onInsert('bold')}><Bold size={15} /> Negrito</button>
+          <button type="button" onClick={() => onInsert('italic')}><Italic size={15} /> Itálico</button>
+          <button type="button" onClick={() => onInsert('text')}><Type size={15} /> Texto</button>
+        </div>
+
+        <textarea
+          className="rich-text-area"
+          value={value}
+          onChange={event => onChange(event.target.value)}
+          placeholder="Escreva o conteúdo com mais espaço. Use os botões acima para inserir marcações simples."
+          autoFocus
+        />
+
+        <div className="rich-text-footer">
+          <span>As marcações serão salvas no bloco selecionado.</span>
+          <button type="button" onClick={onClose}>Aplicar</button>
+        </div>
+      </div>
+    </div>
   )
 }
 

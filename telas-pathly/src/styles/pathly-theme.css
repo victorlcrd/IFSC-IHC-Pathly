@@ -3095,3 +3095,40 @@ button,
     min-height: 40px;
   }
 }
+
+/* Ajuste de largura dos cards de resumo do perfil */
+.profile-summary-card {
+  min-width: 0;
+  padding: 18px 20px;
+}
+
+.profile-summary-card > div {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.profile-summary-card strong {
+  max-width: 100%;
+  font-size: clamp(1rem, 1.25vw, 1.22rem) !important;
+  line-height: 1.18;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.profile-readonly-field strong {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.editor-builder-header {
+  grid-template-columns: auto 190px minmax(260px, 520px) minmax(0, 1fr);
+}
+
+.editor-back-button-left {
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+}

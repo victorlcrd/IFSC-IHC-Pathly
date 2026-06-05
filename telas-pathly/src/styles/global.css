@@ -2911,3 +2911,349 @@ button {
 .continuar-progress {
   margin-top: 10px;
 }
+
+.editor-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.edit-panel select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  outline: 0;
+  background: #ffffff;
+  color: #111827;
+  font: inherit;
+}
+
+.edit-panel select:focus {
+  border-color: #c7d2fe;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+}
+
+.selected-preview-top {
+  margin: 18px 0 20px;
+}
+
+.editor-large-textarea {
+  min-height: 132px;
+}
+
+.question-editor {
+  display: grid;
+  gap: 2px;
+}
+
+.question-options-area {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+
+.question-options-title,
+.true-false-area > span {
+  margin: 0;
+  color: #374151;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.question-option-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.question-option-row input[type="text"],
+.question-option-row input:not([type]) {
+  width: 100%;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 9px;
+  outline: 0;
+  background: #ffffff;
+  color: #111827;
+}
+
+.question-option-row input[type="text"]:focus,
+.question-option-row input:not([type]):focus {
+  border-color: #c7d2fe;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.08);
+}
+
+.question-option-remove {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #94a3b8;
+}
+
+.question-option-remove:not(:disabled):hover {
+  border-color: #fecaca;
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.question-add-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.true-false-area {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+
+.true-false-area label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  color: #374151;
+  font-size: 0.86rem;
+}
+
+.edit-panel button:disabled,
+.edit-panel input:disabled,
+.edit-panel textarea:disabled,
+.edit-panel select:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+/* Ajustes do editor de trilhas */
+.editor-back-button-left {
+  justify-self: start;
+}
+
+.field-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.field-label-action {
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid #dbeafe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.field-label-action:not(:disabled):hover {
+  border-color: #bfdbfe;
+  background: #dbeafe;
+}
+
+.video-editor-area {
+  display: grid;
+  gap: 16px;
+}
+
+.video-placeholder {
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  min-height: 118px;
+  margin-bottom: 2px;
+  border: 1px dashed #bae6fd;
+  border-radius: 14px;
+  background: #f0f9ff;
+  color: #0369a1;
+  text-align: center;
+}
+
+.video-placeholder span {
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.video-placeholder small {
+  color: #64748b;
+  font-size: 0.72rem;
+}
+
+.rich-text-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(2, 6, 23, 0.56);
+}
+
+.rich-text-modal {
+  width: min(760px, 100%);
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.28);
+  overflow: hidden;
+}
+
+.rich-text-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.rich-text-kicker {
+  display: block;
+  margin-bottom: 6px;
+  color: #2563eb;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rich-text-header h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.18rem;
+  font-weight: 650;
+}
+
+.rich-text-close {
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 8px 12px;
+}
+
+.rich-text-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px 24px;
+  border-bottom: 1px solid #eef2f7;
+  background: #f8fafc;
+}
+
+.rich-text-toolbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 11px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.rich-text-toolbar button:hover {
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.rich-text-area {
+  display: block;
+  width: calc(100% - 48px);
+  min-height: 300px;
+  margin: 22px 24px;
+  padding: 16px;
+  border: 1px solid #dbe3ef;
+  border-radius: 14px;
+  color: #111827;
+  font: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  outline: 0;
+}
+
+.rich-text-area:focus {
+  border-color: #bfdbfe;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.rich-text-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px 22px;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.rich-text-footer button {
+  min-height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #0f766e;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.add-to-canvas-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.54;
+}
+
+.add-to-canvas-button:disabled:hover {
+  background: #4f46e5;
+}
+
+/* Correção de edição dos campos do editor */
+.field-label input,
+.field-label textarea,
+.edit-panel select,
+.rich-text-area {
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+}
+
+.field-label textarea,
+.editor-large-textarea,
+.rich-text-area {
+  cursor: text;
+  user-select: text;
+}
+
+.field-label-action {
+  flex-shrink: 0;
+}

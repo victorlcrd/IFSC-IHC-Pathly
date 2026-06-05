@@ -3,7 +3,6 @@ import {
   ArrowLeft,
   BookOpen,
   CheckCircle2,
-  GraduationCap,
   Lock,
   Mail,
   Phone,
@@ -21,7 +20,6 @@ type FormData = {
   email: string
   telefone: string
   areaInteresse: string
-  instituicao: string
   objetivoAprendizado: string
   senha: string
   confirmarSenha: string
@@ -32,7 +30,6 @@ const initialFormData: FormData = {
   email: '',
   telefone: '',
   areaInteresse: '',
-  instituicao: '',
   objetivoAprendizado: '',
   senha: '',
   confirmarSenha: '',
@@ -173,19 +170,6 @@ export function CadastroAprendizPage({ onBackToLogin, onCadastroConcluido }: Cad
                   </span>
                 </label>
 
-                <label className="creator-register-field">
-                  Instituição
-                  <span>
-                    <GraduationCap size={19} aria-hidden="true" />
-                    <input
-                      type="text"
-                      placeholder="Ex: IFSC — Campus São José"
-                      value={formData.instituicao}
-                      onChange={(event) => updateField('instituicao', event.target.value)}
-                      required
-                    />
-                  </span>
-                </label>
 
                 <label className="creator-register-field creator-register-field-full">
                   Objetivo de aprendizado
