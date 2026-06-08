@@ -3,11 +3,9 @@ import {
   ArrowLeft,
   BookOpen,
   CheckCircle2,
-  GraduationCap,
   Lock,
   Mail,
   Phone,
-  Target,
   UserRound,
 } from 'lucide-react'
 import { PathlyLogo } from '../components/PathlyLogo'
@@ -22,7 +20,6 @@ type FormData = {
   email: string
   telefone: string
   areaInteresse: string
-  instituicao: string
   objetivoAprendizado: string
   senha: string
   confirmarSenha: string
@@ -33,7 +30,6 @@ const initialFormData: FormData = {
   email: '',
   telefone: '',
   areaInteresse: '',
-  instituicao: '',
   objetivoAprendizado: '',
   senha: '',
   confirmarSenha: '',
@@ -79,27 +75,10 @@ export function CadastroAprendizPage({ onBackToLogin, onCadastroConcluido }: Cad
       <aside className="creator-register-brand" aria-label="Marca Pathly">
         <div className="creator-register-brand-content">
           <PathlyLogo variant="branco" size="lg" className="login-brand-logo" />
-
-          <span className="creator-register-eyebrow">Cadastro de aprendiz</span>
           <h1>Aprenda no seu ritmo com trilhas gamificadas.</h1>
           <p>
             Inscreva-se em trilhas, acompanhe seu progresso, desbloqueie conquistas e evolua com conteúdos organizados no Pathly.
           </p>
-
-          <div className="creator-register-benefits">
-            <div className="creator-register-benefit-item">
-              <span aria-hidden="true">
-                <BookOpen size={18} />
-              </span>
-              <p>Trilhas visuais com módulos curtos e objetivos para estudar quando quiser.</p>
-            </div>
-            <div className="creator-register-benefit-item">
-              <span aria-hidden="true">
-                <Target size={18} />
-              </span>
-              <p>Progresso, streaks e badges para manter a motivação no dia a dia.</p>
-            </div>
-          </div>
         </div>
       </aside>
 
@@ -141,7 +120,7 @@ export function CadastroAprendizPage({ onBackToLogin, onCadastroConcluido }: Cad
                     <UserRound size={19} aria-hidden="true" />
                     <input
                       type="text"
-                      placeholder="Ex: Victor Gabriel"
+                      placeholder="Ex: Aprendiz"
                       value={formData.nome}
                       onChange={(event) => updateField('nome', event.target.value)}
                       required
@@ -191,19 +170,6 @@ export function CadastroAprendizPage({ onBackToLogin, onCadastroConcluido }: Cad
                   </span>
                 </label>
 
-                <label className="creator-register-field">
-                  Instituição
-                  <span>
-                    <GraduationCap size={19} aria-hidden="true" />
-                    <input
-                      type="text"
-                      placeholder="Ex: IFSC — Campus São José"
-                      value={formData.instituicao}
-                      onChange={(event) => updateField('instituicao', event.target.value)}
-                      required
-                    />
-                  </span>
-                </label>
 
                 <label className="creator-register-field creator-register-field-full">
                   Objetivo de aprendizado

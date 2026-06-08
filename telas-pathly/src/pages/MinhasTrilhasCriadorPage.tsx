@@ -56,7 +56,7 @@ export function MinhasTrilhasCriadorPage({
   return (
     <div className="editor-page">
       <header className="editor-header dashboard-header">
-        <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
+        <PathlyLogo onClick={onOpenDashboard} variant="branco" size="md" />
 
         <nav className="editor-nav">
           <button className="editor-nav-button" type="button" onClick={onOpenDashboard}>

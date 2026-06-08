@@ -92,7 +92,7 @@ export function LoginPage({ onLoginCriador, onLoginAprendiz, onOpenCadastroCriad
 
 function PathIllustration() {
   return (
-    <svg width={260} height={140} viewBox="0 0 260 140" fill="none"
+    <svg width={220} height={116} viewBox="0 0 260 140" fill="none"
       xmlns="http://www.w3.org/2000/svg" aria-hidden style={{ maxWidth: '100%', height: 'auto' }}>
       <path d="M20 115C48 100 62 80 80 74C100 67 118 86 138 80C162 73 174 50 196 42C210 36 220 28 234 22"
         stroke="rgba(255,255,255,0.25)" strokeWidth="2" strokeLinecap="round" strokeDasharray="6 4" />
@@ -127,7 +127,7 @@ const brandColumn: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '48px 40px 36px',
+  padding: '32px 32px 24px',
   boxSizing: 'border-box',
   background: 'linear-gradient(160deg, #0B1D29 0%, #0F4C5C 100%)',
   minHeight: '100vh',
@@ -146,19 +146,19 @@ const brandInner: React.CSSProperties = {
 }
 
 const brandTagline: React.CSSProperties = {
-  margin: '0 0 20px',
+  margin: '0 0 14px',
   fontSize: '0.72rem',
-  fontWeight: 700,
+  fontWeight: 500,
   letterSpacing: '0.18em',
   color: '#1385EA',
   textTransform: 'uppercase',
 }
 
 const brandRule: React.CSSProperties = {
-  width: '64px',
+  width: '56px',
   height: '2px',
   background: 'linear-gradient(90deg, #1385EA, #22C55E)',
-  margin: '0 0 18px',
+  margin: '0 0 14px',
   border: 'none',
   borderRadius: 2,
 }
@@ -168,7 +168,7 @@ const brandSubtitle: React.CSSProperties = {
   fontSize: '0.88rem',
   fontWeight: 500,
   color: 'rgba(255,255,255,0.6)',
-  lineHeight: 1.65,
+  lineHeight: 1.5,
 }
 
 const illustrationWrap: React.CSSProperties = {
@@ -176,8 +176,8 @@ const illustrationWrap: React.CSSProperties = {
   maxWidth: '320px',
   display: 'flex',
   justifyContent: 'center',
-  paddingTop: '28px',
-  paddingBottom: '12px',
+  paddingTop: '18px',
+  paddingBottom: '8px',
 }
 
 const mainColumn: React.CSSProperties = {
@@ -186,23 +186,23 @@ const mainColumn: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: '48px 32px',
+  padding: '28px 28px',
   boxSizing: 'border-box',
   backgroundColor: '#ffffff',
 }
 
 const mainInner: React.CSSProperties = {
   width: '100%',
-  maxWidth: '420px',
+  maxWidth: '390px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',
 }
 
 const loginHeading: React.CSSProperties = {
-  margin: '0 0 28px',
-  fontSize: '1.75rem',
-  fontWeight: 800,
+  margin: '0 0 20px',
+  fontSize: '1.55rem',
+  fontWeight: 500,
   letterSpacing: '-0.02em',
   color: '#0B1D29',
   textAlign: 'center',
@@ -212,8 +212,8 @@ const inputShell: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   gap: '12px',
-  padding: '14px 16px',
-  marginBottom: '14px',
+  padding: '11px 14px',
+  marginBottom: '10px',
   border: '1px solid #E4EAF0',
   borderRadius: '14px',
   backgroundColor: '#F5F7FA',
@@ -226,7 +226,7 @@ const inputField: React.CSSProperties = {
   border: 'none',
   outline: 'none',
   background: 'transparent',
-  fontSize: '1rem',
+  fontSize: '0.94rem',
   color: '#0B1D29',
   fontFamily: 'inherit',
 }
@@ -235,9 +235,9 @@ const primaryBtn: React.CSSProperties = {
   display: 'block',
   width: '100%',
   margin: '8px 0 0',
-  padding: '14px 40px',
-  fontSize: '0.95rem',
-  fontWeight: 700,
+  padding: '12px 36px',
+  fontSize: '0.9rem',
+  fontWeight: 500,
   fontFamily: 'inherit',
   color: '#ffffff',
   background: 'linear-gradient(135deg, #1385EA 0%, #0F4C5C 100%)',
@@ -256,7 +256,7 @@ const erroStyle: React.CSSProperties = {
 }
 
 const hintStyle: React.CSSProperties = {
-  marginTop: '20px',
+  marginTop: '14px',
   fontSize: '0.8rem',
   color: '#A0AEBB',
   textAlign: 'center',
@@ -266,8 +266,8 @@ const hintStyle: React.CSSProperties = {
 const dividerRow: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-  gap: '16px',
-  margin: '28px 0 22px',
+  gap: '12px',
+  margin: '18px 0 16px',
 }
 
 const dividerLine: React.CSSProperties = {
@@ -285,10 +285,10 @@ const dividerLabel: React.CSSProperties = {
 const actionCard: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-  gap: '16px',
+  gap: '12px',
   width: '100%',
-  padding: '18px 20px',
-  marginBottom: '12px',
+  padding: '12px 16px',
+  marginBottom: '10px',
   border: '1px solid #E4EAF0',
   borderRadius: '14px',
   backgroundColor: '#ffffff',
@@ -300,8 +300,8 @@ const actionCard: React.CSSProperties = {
 
 const actionIconBg: React.CSSProperties = {
   flexShrink: 0,
-  width: '48px',
-  height: '48px',
+  width: '40px',
+  height: '40px',
   borderRadius: '50%',
   backgroundColor: '#E8F3FD',
   display: 'flex',
@@ -311,8 +311,8 @@ const actionIconBg: React.CSSProperties = {
 }
 
 const actionLabel: React.CSSProperties = {
-  fontSize: '1rem',
-  fontWeight: 600,
+  fontSize: '0.88rem',
+  fontWeight: 500,
   color: '#0B1D29',
   lineHeight: 1.35,
 }

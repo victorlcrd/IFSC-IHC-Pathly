@@ -23,7 +23,6 @@ const CODE_LINES = [
 
 export function AulaPage({
   onBackToTrilha,
-  onBackToLogin,
   onOpenDashboard,
   onOpenConquistas,
   onOpenPerfil,
@@ -31,7 +30,7 @@ export function AulaPage({
   return (
     <div className="editor-page aula-page">
       <header className="editor-header dashboard-header">
-        <PathlyLogo onClick={onBackToLogin} variant="branco" size="md" />
+        <PathlyLogo onClick={onOpenDashboard} variant="branco" size="md" />
 
         <nav className="editor-nav">
           <a href="#fixacao">Fixação</a>
