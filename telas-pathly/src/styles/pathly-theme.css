@@ -46,7 +46,7 @@ textarea {
 
 .login-eyebrow {
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.12em;
 }
 
@@ -58,7 +58,7 @@ textarea {
 
 .login-card h1 {
   color: rgba(255, 255, 255, 0.7);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .login-actions::before,
@@ -865,7 +865,7 @@ textarea {
   margin-bottom: 8px;
   color: rgba(255, 255, 255, 0.68);
   font-size: 0.68rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -882,7 +882,7 @@ textarea {
   max-width: 520px;
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .creator-trails-summary {
@@ -912,7 +912,7 @@ textarea {
   margin-top: 8px;
   color: var(--color-text-muted);
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .creator-trails-section {
@@ -931,7 +931,7 @@ textarea {
   margin: -8px 0 0;
   color: var(--color-text-muted);
   font-size: 0.86rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .creator-trails-grid {
@@ -961,7 +961,7 @@ textarea {
 .creator-trail-updated {
   color: var(--color-text-muted);
   font-size: 0.68rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .creator-trail-card h3 {
@@ -975,14 +975,14 @@ textarea {
   margin: 0;
   color: var(--color-text-muted);
   font-size: 0.84rem;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.55;
 }
 
 .creator-trail-meta span {
   color: var(--color-text-muted);
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .creator-trail-action {
@@ -1048,7 +1048,7 @@ textarea {
   margin-bottom: 8px;
   color: rgba(255, 255, 255, 0.68);
   font-size: 0.68rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -1065,7 +1065,7 @@ textarea {
   max-width: 640px;
   color: rgba(255, 255, 255, 0.72);
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .creator-students-summary {
@@ -1095,7 +1095,7 @@ textarea {
   margin-top: 8px;
   color: var(--color-text-muted);
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .creator-students-section {
@@ -1114,7 +1114,7 @@ textarea {
   margin: -8px 0 0;
   color: var(--color-text-muted);
   font-size: 0.86rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .creator-students-search {
@@ -1216,7 +1216,7 @@ textarea {
   margin-top: 2px;
   color: var(--color-text-muted);
   font-size: 0.74rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .student-progress-cell {
@@ -1724,7 +1724,7 @@ h3,
   background: rgba(255, 255, 255, 0.12);
   color: rgba(255, 255, 255, 0.78);
   font-size: 0.74rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -1742,7 +1742,7 @@ h3,
   margin: 0;
   color: rgba(255, 255, 255, 0.72);
   font-size: 0.92rem;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.55;
 }
 
@@ -1790,7 +1790,7 @@ h3,
   margin-bottom: 3px;
   color: var(--color-text-muted);
   font-size: 0.68rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -1835,7 +1835,7 @@ h3,
   margin: 0;
   color: var(--color-text-muted);
   font-size: 0.84rem;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.5;
 }
 
@@ -1884,7 +1884,7 @@ h3,
 .profile-readonly-field span {
   color: var(--color-text-muted);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -2017,7 +2017,7 @@ h3,
   background: rgba(19, 133, 234, 0.12);
   color: var(--color-blue);
   font-size: 0.68rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -2785,23 +2785,35 @@ button,
   font-weight: 600 !important;
 }
 
-.dashboard-area-eyebrow,
-.creator-trails-eyebrow,
-.desafios-eyebrow,
-.creator-register-eyebrow,
-.profile-eyebrow,
-.trilha-tag,
 .status-badge,
-.plan-pill,
 .profile-lock-badge,
 .profile-state-badge,
 .desafio-status,
 .desafio-reward,
+.conquista-card-status {
+  font-weight: 600 !important;
+  letter-spacing: 0.055em;
+}
+
+.dashboard-area-eyebrow,
+.creator-trails-eyebrow,
+.creator-students-eyebrow,
+.desafios-eyebrow,
+.creator-register-eyebrow,
+.profile-eyebrow,
+.trilha-tag,
+.plan-pill,
 .publish-visibility-label,
 .sidebar-label,
-.conquista-card-status,
-.conquista-card-progress-label {
-  font-weight: 600 !important;
+.conquista-card-progress-label,
+.login-card h1,
+.desafio-summary-card span,
+.creator-summary-card span,
+.creator-student-summary-card span,
+.trilha-side-label,
+.profile-summary-card span:not(.profile-summary-icon),
+.profile-readonly-field span {
+  font-weight: 500 !important;
   letter-spacing: 0.055em;
 }
 
@@ -2887,9 +2899,24 @@ button,
 .stat-label,
 .dashboard-greeting-sub,
 .info-card p,
+.desafios-hero p,
+.desafio-card p,
+.desafios-section-header p,
+.creator-trails-hero p,
+.creator-students-hero p,
+.creator-trails-section-header p,
+.creator-students-section-header p,
+.creator-trail-card p,
 .creator-trail-updated,
 .trilha-description,
+.trilha-section-header p,
+.trilha-progress-copy span,
+.lesson-main small,
+.aula-checklist li,
+.trilha-enrolled-main p,
 .profile-muted,
+.profile-hero-info p,
+.profile-section-heading p,
 .profile-form-field,
 .profile-readonly-item span,
 .creator-register-heading p,
@@ -2897,8 +2924,11 @@ button,
 .creator-register-terms,
 .creator-register-field,
 .conquista-card-desc,
+.conquista-card-date,
 .desafio-meta,
 .trilha-enrolled-meta,
+.trilha-visual-summary span,
+.visual-step-card small,
 .visual-step-footer,
 .ranking-pts,
 .continuar-aula,
