@@ -32,10 +32,23 @@ export type CanvasBlock = {
 }
 
 export type PublishData = {
+  coverDataUrl: string
   title: string
   description: string
   category: string
   level: string
   tags: string
   visibility: 'public' | 'private' | 'link'
+}
+
+export type CreatorTrailStatus = 'published' | 'draft'
+
+export type CreatorTrail = PublishData & {
+  id: number
+  status: CreatorTrailStatus
+  blocks: CanvasBlock[]
+  aulas: number
+  alunos: number
+  conclusoes: number
+  updatedAtLabel: string
 }

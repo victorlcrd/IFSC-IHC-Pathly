@@ -399,6 +399,55 @@ textarea {
   outline-color: var(--color-blue-light);
 }
 
+.publish-cover-filled,
+.publish-cover-filled:hover {
+  background: var(--color-navy);
+}
+
+.publish-draft-btn {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}
+
+.publish-draft-btn:hover {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.editor-trail-summary {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+.editor-trail-summary strong {
+  color: var(--color-text);
+}
+
+.editor-trail-summary p {
+  color: var(--color-text-muted);
+}
+
+.editor-trail-summary-fallback {
+  background: var(--color-blue-tint);
+  color: var(--color-blue);
+}
+
+.trail-edit-panel {
+  border-bottom-color: var(--color-border);
+}
+
+.trail-cover-editor {
+  border-color: var(--color-blue-light);
+  background: var(--color-blue-tint);
+  color: var(--color-blue);
+}
+
+.trail-cover-editor-filled,
+.trail-cover-editor-filled:hover {
+  background: var(--color-navy);
+}
+
 .publish-visibility-option input[type='radio'] {
   accent-color: var(--color-blue);
 }
@@ -948,6 +997,29 @@ textarea {
   border-radius: 18px;
   background: var(--color-surface);
   box-shadow: 0 8px 32px rgba(11, 29, 41, 0.08);
+}
+
+.creator-trail-cover {
+  display: grid;
+  place-items: center;
+  min-height: 132px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--color-blue-tint), #e6faef);
+  color: var(--color-blue);
+  font-size: 0.78rem;
+  font-weight: 700;
+  overflow: hidden;
+}
+
+.creator-trail-cover-filled {
+  background: var(--color-navy);
+}
+
+.creator-trail-cover img {
+  width: 100%;
+  height: 100%;
+  min-height: 132px;
+  object-fit: cover;
 }
 
 .creator-trail-card-header,
