@@ -1,57 +1,28 @@
 import { HeaderProfileMenu } from '../components/HeaderProfileMenu'
 import { CriadorSidebar } from '../components/CriadorSidebar'
 import { PathlyLogo } from '../components/PathlyLogo'
+import type { CreatorTrail } from '../components/editor/editorTypes'
 
 type MinhasTrilhasCriadorPageProps = {
+  trails: CreatorTrail[]
   onOpenDashboard: () => void
-  onOpenEditor: () => void
+  onOpenEditor: (trailId?: number) => void
   onOpenAlunos: () => void
   onBackToLogin: () => void
   onOpenPerfil: () => void
 }
 
-const TRILHAS_PUBLICADAS = [
-  {
-    nome: 'Introdução ao React',
-    descricao: 'Fundamentos de componentes, props, estados e criação de interfaces modernas.',
-    aulas: 8,
-    alunos: 42,
-    atualizacao: 'Atualizada há 2 dias',
-  },
-  {
-    nome: 'Fundamentos de UX',
-    descricao: 'Pesquisa com usuários, prototipação e validação de fluxos de aprendizagem.',
-    aulas: 6,
-    alunos: 35,
-    atualizacao: 'Atualizada há 5 dias',
-  },
-]
-
-const TRILHAS_RASCUNHO = [
-  {
-    nome: 'TypeScript Essencial',
-    descricao: 'Tipagem, interfaces e boas práticas para evoluir projetos React com segurança.',
-    aulas: 4,
-    alunos: 0,
-    atualizacao: 'Editada ontem',
-  },
-  {
-    nome: 'Acessibilidade para produtos digitais',
-    descricao: 'Contraste, navegação por teclado e escrita inclusiva para interfaces.',
-    aulas: 3,
-    alunos: 0,
-    atualizacao: 'Editada hoje',
-  },
-]
-
 export function MinhasTrilhasCriadorPage({
+  trails,
   onOpenDashboard,
   onOpenEditor,
   onOpenAlunos,
   onBackToLogin,
   onOpenPerfil,
 }: MinhasTrilhasCriadorPageProps) {
-  const totalAlunos = TRILHAS_PUBLICADAS.reduce((total, trilha) => total + trilha.alunos, 0)
+  const publishedTrails = trails.filter((trilha) => trilha.status === 'published')
+  const draftTrails = trails.filter((trilha) => trilha.status === 'draft')
+  const totalAlunos = publishedTrails.reduce((total, trilha) => total + trilha.alunos, 0)
 
   return (
     <div className="editor-page">
@@ -86,22 +57,22 @@ export function MinhasTrilhasCriadorPage({
             <button
               className="workspace-action-btn workspace-action-btn-primary"
               type="button"
-              onClick={onOpenEditor}
+              onClick={() => onOpenEditor()}
             >
               + Criar nova trilha
             </button>
           </section>
 
           <div className="creator-trails-summary">
-            <SummaryCard value={TRILHAS_PUBLICADAS.length} label="Publicadas" />
-            <SummaryCard value={TRILHAS_RASCUNHO.length} label="Rascunhos" />
+            <SummaryCard value={publishedTrails.length} label="Publicadas" />
+            <SummaryCard value={draftTrails.length} label="Rascunhos" />
             <SummaryCard value={totalAlunos} label="Alunos inscritos" />
           </div>
 
           <TrailSection
             title="Trilhas publicadas"
             description="Disponíveis para os aprendizes acessarem agora."
-            trails={TRILHAS_PUBLICADAS}
+            trails={publishedTrails}
             status="Publicada"
             actionLabel="Ver detalhes"
             onAction={onOpenEditor}
@@ -110,7 +81,7 @@ export function MinhasTrilhasCriadorPage({
           <TrailSection
             title="Rascunhos"
             description="Trilhas em construção que ainda não foram publicadas."
-            trails={TRILHAS_RASCUNHO}
+            trails={draftTrails}
             status="Rascunho"
             actionLabel="Continuar edição"
             onAction={onOpenEditor}
@@ -140,10 +111,10 @@ function TrailSection({
 }: {
   title: string
   description: string
-  trails: typeof TRILHAS_PUBLICADAS
+  trails: CreatorTrail[]
   status: 'Publicada' | 'Rascunho'
   actionLabel: string
-  onAction: () => void
+  onAction: (trailId: number) => void
 }) {
   return (
     <section className="creator-trails-section">
@@ -156,23 +127,31 @@ function TrailSection({
 
       <div className="creator-trails-grid">
         {trails.map((trilha) => (
-          <article className="creator-trail-card" key={trilha.nome}>
+          <article className="creator-trail-card" key={trilha.id}>
+            <div className={`creator-trail-cover${trilha.coverDataUrl ? ' creator-trail-cover-filled' : ''}`}>
+              {trilha.coverDataUrl ? (
+                <img src={trilha.coverDataUrl} alt="" />
+              ) : (
+                <span>{trilha.category || 'Trilha'}</span>
+              )}
+            </div>
+
             <div className="creator-trail-card-header">
               <span className={`status-badge ${status === 'Publicada' ? 'status-ativa' : 'status-rascunho'}`}>
                 {status}
               </span>
-              <span className="creator-trail-updated">{trilha.atualizacao}</span>
+              <span className="creator-trail-updated">{trilha.updatedAtLabel}</span>
             </div>
 
-            <h3>{trilha.nome}</h3>
-            <p>{trilha.descricao}</p>
+            <h3>{trilha.title}</h3>
+            <p>{trilha.description}</p>
 
             <div className="creator-trail-meta">
               <span>{trilha.aulas} aulas</span>
               <span>{trilha.alunos} alunos</span>
             </div>
 
-            <button className="creator-trail-action" type="button" onClick={onAction}>
+            <button className="creator-trail-action" type="button" onClick={() => onAction(trilha.id)}>
               {actionLabel}
             </button>
           </article>

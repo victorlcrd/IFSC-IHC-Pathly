@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import { Image as ImageIcon } from 'lucide-react'
-import type { PublishData } from './editorTypes'
+import { useRef, useState, type ChangeEvent } from 'react'
+import { Image as ImageIcon, Upload } from 'lucide-react'
+import type { CreatorTrailStatus, PublishData } from './editorTypes'
 
 type PublishModalProps = {
+  initialData?: PublishData
   onClose: () => void
-  onConfirm: (data: PublishData) => void
+  onConfirm: (data: PublishData, status: CreatorTrailStatus) => void
 }
 
 const visibilityOptions: Array<{ value: PublishData['visibility']; label: string }> = [
@@ -13,8 +14,10 @@ const visibilityOptions: Array<{ value: PublishData['visibility']; label: string
   { value: 'link', label: 'Por link — somente quem tiver o link' },
 ]
 
-export function PublishModal({ onClose, onConfirm }: PublishModalProps) {
-  const [form, setForm] = useState<PublishData>({
+export function PublishModal({ initialData, onClose, onConfirm }: PublishModalProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [form, setForm] = useState<PublishData>(initialData ?? {
+    coverDataUrl: '',
     title: '',
     description: '',
     category: '',
@@ -27,6 +30,19 @@ export function PublishModal({ onClose, onConfirm }: PublishModalProps) {
     setForm((current) => ({ ...current, [field]: value }))
   }
 
+  function handleCoverChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      if (typeof reader.result === 'string') updateField('coverDataUrl', reader.result)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const canPublish = form.title.trim().length > 0 && form.description.trim().length > 0
+
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true" aria-label="Publicar trilha">
       <div className="modal-publish">
@@ -36,9 +52,26 @@ export function PublishModal({ onClose, onConfirm }: PublishModalProps) {
         </div>
 
         <div className="modal-publish-body">
-          <button className="publish-cover-area" type="button" aria-label="Adicionar capa">
-            <ImageIcon size={22} color="#a5b4fc" />
-            <span>Capa</span>
+          <input
+            ref={fileInputRef}
+            className="publish-cover-input"
+            type="file"
+            accept="image/*"
+            onChange={handleCoverChange}
+            aria-label="Selecionar imagem de capa"
+          />
+          <button className={`publish-cover-area${form.coverDataUrl ? ' publish-cover-filled' : ''}`} type="button" aria-label="Adicionar capa" onClick={() => fileInputRef.current?.click()}>
+            {form.coverDataUrl ? (
+              <>
+                <img src={form.coverDataUrl} alt="" />
+                <span className="publish-cover-change"><Upload size={15} /> Trocar capa</span>
+              </>
+            ) : (
+              <>
+                <ImageIcon size={22} color="#a5b4fc" />
+                <span>Capa</span>
+              </>
+            )}
           </button>
           <input className="publish-field" type="text" placeholder="Título" value={form.title} onChange={(e) => updateField('title', e.target.value)} />
           <textarea className="publish-field publish-field-textarea" placeholder="Descrição" value={form.description} onChange={(e) => updateField('description', e.target.value)} />
@@ -68,7 +101,8 @@ export function PublishModal({ onClose, onConfirm }: PublishModalProps) {
         </div>
 
         <div className="modal-publish-footer">
-          <button className="publish-confirm-btn" type="button" onClick={() => onConfirm(form)}>Publicar</button>
+          <button className="publish-draft-btn" type="button" onClick={() => onConfirm(form, 'draft')}>Salvar rascunho</button>
+          <button className="publish-confirm-btn" type="button" onClick={() => onConfirm(form, 'published')} disabled={!canPublish}>Publicar</button>
         </div>
       </div>
     </div>

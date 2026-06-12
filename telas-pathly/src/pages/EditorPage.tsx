@@ -5,22 +5,25 @@ import {
   Eye,
   GripVertical,
   Heading2,
+  Image as ImageIcon,
   Italic,
   Plus,
   Trash2,
   Type,
+  Upload,
 } from 'lucide-react'
-import { useRef, useState, type CSSProperties, type DragEvent } from 'react'
+import { useRef, useState, type ChangeEvent, type CSSProperties, type DragEvent } from 'react'
 import { IconUser } from '../components/common/Icons'
 import { PathlyLogo } from '../components/PathlyLogo'
 import { blockMeta, blockOptions, INITIAL_CANVAS_BLOCKS } from '../components/editor/editorData'
-import type { BlockConfig, BlockType, CanvasBlock, PublishData, QuestionType } from '../components/editor/editorTypes'
+import type { BlockConfig, BlockType, CanvasBlock, CreatorTrail, CreatorTrailStatus, PublishData, QuestionType } from '../components/editor/editorTypes'
 import { PreviewModal } from '../components/editor/PreviewModal'
 import { PublishModal } from '../components/editor/PublishModal'
 
 type EditorPageProps = {
+  initialTrail?: CreatorTrail
   onBackToLogin: () => void
-  onPublish: () => void
+  onSaveTrail: (data: PublishData, status: CreatorTrailStatus, blocks: CanvasBlock[]) => void
   onOpenPerfil: () => void
 }
 
@@ -36,6 +39,16 @@ const EMPTY_BLOCK_CONFIG: BlockConfig = {
   correctOptionIndex: 0,
   trueFalseAnswer: true,
   expectedAnswer: '',
+}
+
+const EMPTY_PUBLISH_DATA: PublishData = {
+  coverDataUrl: '',
+  title: '',
+  description: '',
+  category: '',
+  level: '',
+  tags: '',
+  visibility: 'public',
 }
 
 function blockToConfig(block: CanvasBlock): BlockConfig {
@@ -82,6 +95,13 @@ function createBlock(id: number, type: BlockType, source?: Partial<BlockConfig>)
   }
 
   return block
+}
+
+function cloneCanvasBlocks(blocks: CanvasBlock[]) {
+  return blocks.map(block => ({
+    ...block,
+    options: block.options ? [...block.options] : undefined,
+  }))
 }
 
 function CanvasCard({
@@ -155,15 +175,23 @@ function DropZone({ active, onDrop, onDragEnter }: { active: boolean; onDrop: ()
   )
 }
 
-export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPageProps) {
+export function EditorPage({ initialTrail, onBackToLogin, onSaveTrail, onOpenPerfil }: EditorPageProps) {
+  const coverInputRef = useRef<HTMLInputElement>(null)
   const [selectedBlock, setSelectedBlock] = useState<BlockConfig>(EMPTY_BLOCK_CONFIG)
   const [selectedBlockId, setSelectedBlockId] = useState<number | null>(null)
-  const [canvasBlocks, setCanvasBlocks] = useState<CanvasBlock[]>(INITIAL_CANVAS_BLOCKS)
-  const [nextId, setNextId] = useState(10)
+  const [trailData, setTrailData] = useState<PublishData>(() => initialTrail ?? EMPTY_PUBLISH_DATA)
+  const [canvasBlocks, setCanvasBlocks] = useState<CanvasBlock[]>(() =>
+    cloneCanvasBlocks(initialTrail?.blocks?.length ? initialTrail.blocks : INITIAL_CANVAS_BLOCKS)
+  )
+  const [nextId, setNextId] = useState(() => {
+    const initialBlocks = initialTrail?.blocks?.length ? initialTrail.blocks : INITIAL_CANVAS_BLOCKS
+    return Math.max(...initialBlocks.map(block => block.id), 0) + 1
+  })
   const [recentlyAddedId, setRecentlyAddedId] = useState<number | null>(null)
   const [showPreview, setShowPreview] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
   const [publishing, setPublishing] = useState(false)
+  const [publishingLabel, setPublishingLabel] = useState('Publicando trilha...')
   const [contentEditorOpen, setContentEditorOpen] = useState(false)
   const [videoSummaryEditorOpen, setVideoSummaryEditorOpen] = useState(false)
 
@@ -171,6 +199,21 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
   const dragTypeRef = useRef<BlockType | null>(null)
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null)
   const [dropZoneOver, setDropZoneOver] = useState<number | null>(null)
+
+  function updateTrailField<Field extends keyof PublishData>(field: Field, value: PublishData[Field]) {
+    setTrailData((current) => ({ ...current, [field]: value }))
+  }
+
+  function handleTrailCoverChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      if (typeof reader.result === 'string') updateTrailField('coverDataUrl', reader.result)
+    }
+    reader.readAsDataURL(file)
+  }
 
   function selectCanvasBlock(block: CanvasBlock) {
     setSelectedBlockId(block.id)
@@ -243,11 +286,21 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
     }
   }
 
-  function handleConfirmPublish(data: PublishData) {
-    console.log('Publicando trilha:', data)
+  function handleConfirmPublish(data: PublishData, status: CreatorTrailStatus) {
+    const fallbackDescription = canvasBlocks.find(block => block.description.trim())?.description || 'Rascunho criado no editor de trilhas.'
+    const trailData: PublishData = {
+      ...data,
+      title: data.title.trim() || 'Trilha sem título',
+      description: data.description.trim() || fallbackDescription,
+    }
+
     setShowPublish(false)
     setPublishing(true)
-    setTimeout(() => { setPublishing(false); onPublish() }, 1400)
+    setPublishingLabel(status === 'published' ? 'Publicando trilha...' : 'Salvando rascunho...')
+    setTimeout(() => {
+      setPublishing(false)
+      onSaveTrail(trailData, status, canvasBlocks)
+    }, 900)
   }
 
   function resetDragState() {
@@ -431,7 +484,24 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
 
           <section className="flow-workspace" aria-label="Fluxo da trilha">
             <div className="workspace-title-row">
-              <h1>Fluxo da trilha</h1>
+              <div className="workspace-title-copy">
+                <h1>Fluxo da trilha</h1>
+                {(initialTrail || trailData.title || trailData.coverDataUrl) && (
+                  <div className="editor-trail-summary" aria-label={`Editando ${trailData.title || 'Trilha sem título'}`}>
+                    {trailData.coverDataUrl ? (
+                      <img src={trailData.coverDataUrl} alt="" />
+                    ) : (
+                      <div className="editor-trail-summary-fallback">
+                        {(trailData.title || 'T').charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    <div>
+                      <strong>{trailData.title || 'Trilha sem título'}</strong>
+                      <p>{initialTrail ? (initialTrail.status === 'draft' ? 'Rascunho em edição' : 'Trilha publicada em edição') : 'Nova trilha em edição'}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
               <div className="workspace-actions">
                 <button className="workspace-action-btn" type="button" onClick={() => setShowPreview(true)}>
                   <Eye size={15} />
@@ -481,6 +551,44 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
           </section>
 
           <aside className="edit-panel">
+            <section className="trail-edit-panel" aria-label="Dados da trilha">
+              <h2>Dados da trilha</h2>
+              <input
+                ref={coverInputRef}
+                className="trail-cover-input"
+                type="file"
+                accept="image/*"
+                onChange={handleTrailCoverChange}
+                aria-label="Selecionar capa da trilha"
+              />
+              <button
+                className={`trail-cover-editor${trailData.coverDataUrl ? ' trail-cover-editor-filled' : ''}`}
+                type="button"
+                onClick={() => coverInputRef.current?.click()}
+              >
+                {trailData.coverDataUrl ? (
+                  <>
+                    <img src={trailData.coverDataUrl} alt="" />
+                    <span><Upload size={14} /> Trocar capa</span>
+                  </>
+                ) : (
+                  <>
+                    <ImageIcon size={20} />
+                    <span>Adicionar capa</span>
+                  </>
+                )}
+              </button>
+
+              <label className="field-label">
+                Título da trilha
+                <input
+                  value={trailData.title}
+                  placeholder="Nome da trilha"
+                  onChange={e => updateTrailField('title', e.target.value)}
+                />
+              </label>
+            </section>
+
             <h2>Editar bloco</h2>
 
             <div className="selected-preview selected-preview-top" aria-label="Tipo do bloco selecionado">
@@ -666,7 +774,7 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
           <div className="publishing-overlay" aria-live="polite">
             <div className="publishing-box">
               <span className="publish-spinner" aria-hidden="true" />
-              <span>Publicando trilha…</span>
+              <span>{publishingLabel}</span>
             </div>
           </div>
         )}
@@ -700,7 +808,13 @@ export function EditorPage({ onBackToLogin, onPublish, onOpenPerfil }: EditorPag
         />
       )}
 
-      {showPublish && <PublishModal onClose={() => setShowPublish(false)} onConfirm={handleConfirmPublish} />}
+      {showPublish && (
+        <PublishModal
+          initialData={trailData}
+          onClose={() => setShowPublish(false)}
+          onConfirm={handleConfirmPublish}
+        />
+      )}
     </>
   )
 }

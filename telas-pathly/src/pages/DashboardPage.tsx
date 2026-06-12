@@ -5,20 +5,16 @@ import { ProgressBar } from '../components/common/ProgressBar'
 import { StatCard } from '../components/common/StatCard'
 import { DashboardShell } from '../components/layout/DashboardShell'
 import { PageHeader } from '../components/layout/PageHeader'
+import type { CreatorTrail } from '../components/editor/editorTypes'
 
 type DashboardPageProps = {
+  trails: CreatorTrail[]
   onOpenEditor: () => void
   onOpenMinhasTrilhas: () => void
   onOpenAlunos: () => void
   onBackToLogin: () => void
   onOpenPerfil: () => void
 }
-
-const TRILHAS = [
-  { nome: 'Introdução ao React', status: 'Ativa', alunos: 42, conclusoes: 18 },
-  { nome: 'Fundamentos de UX', status: 'Ativa', alunos: 35, conclusoes: 12 },
-  { nome: 'TypeScript Essencial', status: 'Rascunho', alunos: 0, conclusoes: 0 },
-]
 
 const ATIVIDADES = [
   { texto: 'João Silva concluiu "Introdução ao React"', tempo: '2h atrás', cor: 'blue' },
@@ -34,15 +30,16 @@ const dotColors: Record<string, CSSProperties> = {
 }
 
 export function DashboardPage({
+  trails,
   onOpenEditor,
   onOpenMinhasTrilhas,
   onOpenAlunos,
   onBackToLogin,
   onOpenPerfil,
 }: DashboardPageProps) {
-  const trilhasAtivas = TRILHAS.filter((t) => t.status === 'Ativa').length
-  const totalAlunos = TRILHAS.reduce((s, t) => s + t.alunos, 0)
-  const totalConclusoes = TRILHAS.reduce((s, t) => s + t.conclusoes, 0)
+  const trilhasAtivas = trails.filter((t) => t.status === 'published').length
+  const totalAlunos = trails.reduce((s, t) => s + t.alunos, 0)
+  const totalConclusoes = trails.reduce((s, t) => s + t.conclusoes, 0)
 
   return (
     <div className="editor-page">
@@ -95,18 +92,22 @@ export function DashboardPage({
                 </tr>
               </thead>
               <tbody>
-                {TRILHAS.map((t) => (
-                  <tr key={t.nome}>
-                    <td className="trilha-nome">{t.nome}</td>
-                    <td>
-                      <span className={`status-badge ${t.status === 'Ativa' ? 'status-ativa' : 'status-rascunho'}`}>
-                        {t.status}
-                      </span>
-                    </td>
-                    <td>{t.alunos}</td>
-                    <td>{t.conclusoes}</td>
-                  </tr>
-                ))}
+                {trails.map((t) => {
+                  const statusLabel = t.status === 'published' ? 'Ativa' : 'Rascunho'
+
+                  return (
+                    <tr key={t.id}>
+                      <td className="trilha-nome">{t.title}</td>
+                      <td>
+                        <span className={`status-badge ${t.status === 'published' ? 'status-ativa' : 'status-rascunho'}`}>
+                          {statusLabel}
+                        </span>
+                      </td>
+                      <td>{t.alunos}</td>
+                      <td>{t.conclusoes}</td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>
@@ -137,13 +138,13 @@ export function DashboardPage({
             <h3 className="info-card-title">Progresso por trilha</h3>
 
             <ul className="progress-list">
-              {TRILHAS.filter((t) => t.alunos > 0).map((t) => {
+              {trails.filter((t) => t.alunos > 0).map((t) => {
                 const pct = Math.round((t.conclusoes / t.alunos) * 100)
 
                 return (
-                  <li key={t.nome} className="progress-item">
+                  <li key={t.id} className="progress-item">
                     <div className="progress-header">
-                      <span className="progress-nome">{t.nome}</span>
+                      <span className="progress-nome">{t.title}</span>
                       <span className="progress-pct">{pct}%</span>
                     </div>
                     <ProgressBar value={pct} />

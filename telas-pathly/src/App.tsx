@@ -14,11 +14,115 @@ import { DesafiosPage } from './pages/DesafiosPage'
 import { PerfilAprendizPage, PerfilCriadorPage } from './pages/PerfilPage'
 import { CadastroCriadorPage } from './pages/CadastroCriadorPage'
 import { CadastroAprendizPage } from './pages/CadastroAprendizPage'
+import type { CanvasBlock, CreatorTrail, CreatorTrailStatus, PublishData } from './components/editor/editorTypes'
+import { INITIAL_CANVAS_BLOCKS } from './components/editor/editorData'
 
 type Page = 'login' | 'cadastroCriador' | 'cadastroAprendiz' | 'dashboard' | 'criadorTrilhas' | 'criadorAlunos' | 'perfilCriador' | 'aprendiz' | 'minhasTrilhas' | 'conquistas' | 'desafios' | 'perfilAprendiz' | 'editor' | 'trilha' | 'aula'
 
+function cloneBlocks(blocks: CanvasBlock[]) {
+  return blocks.map((block) => ({
+    ...block,
+    options: block.options ? [...block.options] : undefined,
+  }))
+}
+
+const INITIAL_CREATOR_TRAILS: CreatorTrail[] = [
+  {
+    id: 1,
+    coverDataUrl: '',
+    title: 'Introdução ao React',
+    description: 'Fundamentos de componentes, props, estados e criação de interfaces modernas.',
+    category: 'Frontend',
+    level: 'Iniciante',
+    tags: 'react, componentes',
+    visibility: 'public',
+    status: 'published',
+    blocks: cloneBlocks(INITIAL_CANVAS_BLOCKS),
+    aulas: 8,
+    alunos: 42,
+    conclusoes: 18,
+    updatedAtLabel: 'Atualizada há 2 dias',
+  },
+  {
+    id: 2,
+    coverDataUrl: '',
+    title: 'Fundamentos de UX',
+    description: 'Pesquisa com usuários, prototipação e validação de fluxos de aprendizagem.',
+    category: 'Design',
+    level: 'Intermediário',
+    tags: 'ux, pesquisa',
+    visibility: 'public',
+    status: 'published',
+    blocks: cloneBlocks(INITIAL_CANVAS_BLOCKS),
+    aulas: 6,
+    alunos: 35,
+    conclusoes: 12,
+    updatedAtLabel: 'Atualizada há 5 dias',
+  },
+  {
+    id: 3,
+    coverDataUrl: '',
+    title: 'TypeScript Essencial',
+    description: 'Tipagem, interfaces e boas práticas para evoluir projetos React com segurança.',
+    category: 'Frontend',
+    level: 'Intermediário',
+    tags: 'typescript, react',
+    visibility: 'private',
+    status: 'draft',
+    blocks: cloneBlocks(INITIAL_CANVAS_BLOCKS),
+    aulas: 4,
+    alunos: 0,
+    conclusoes: 0,
+    updatedAtLabel: 'Editada ontem',
+  },
+]
+
 function App() {
   const [page, setPage] = useState<Page>('login')
+  const [creatorTrails, setCreatorTrails] = useState<CreatorTrail[]>(INITIAL_CREATOR_TRAILS)
+  const [editingTrailId, setEditingTrailId] = useState<number | null>(null)
+
+  function openEditor(trailId?: number) {
+    setEditingTrailId(trailId ?? null)
+    setPage('editor')
+  }
+
+  function handleSaveCreatorTrail(data: PublishData, status: CreatorTrailStatus, blocks: CanvasBlock[]) {
+    const aulas = Math.max(1, blocks.filter((block) => block.type !== 'Início' && block.type !== 'Fim').length)
+    const savedBlocks = cloneBlocks(blocks)
+
+    setCreatorTrails((current) => {
+      if (editingTrailId !== null) {
+        return current.map((trail) =>
+          trail.id === editingTrailId
+            ? {
+              ...trail,
+              ...data,
+              status,
+              blocks: savedBlocks,
+              aulas,
+              updatedAtLabel: status === 'published' ? 'Publicada agora' : 'Salva agora',
+            }
+            : trail
+        )
+      }
+
+      const newTrail: CreatorTrail = {
+        ...data,
+        id: Date.now(),
+        status,
+        blocks: savedBlocks,
+        aulas,
+        alunos: 0,
+        conclusoes: 0,
+        updatedAtLabel: status === 'published' ? 'Publicada agora' : 'Salva agora',
+      }
+
+      return [newTrail, ...current]
+    })
+    setEditingTrailId(null)
+    setPage('criadorTrilhas')
+  }
 
   if (page === 'login') {
     return (
@@ -52,7 +156,8 @@ function App() {
   if (page === 'dashboard') {
     return (
       <DashboardPage
-        onOpenEditor={() => setPage('editor')}
+        trails={creatorTrails}
+        onOpenEditor={() => openEditor()}
         onOpenMinhasTrilhas={() => setPage('criadorTrilhas')}
         onOpenAlunos={() => setPage('criadorAlunos')}
         onBackToLogin={() => setPage('login')}
@@ -64,8 +169,9 @@ function App() {
   if (page === 'criadorTrilhas') {
     return (
       <MinhasTrilhasCriadorPage
+        trails={creatorTrails}
         onOpenDashboard={() => setPage('dashboard')}
-        onOpenEditor={() => setPage('editor')}
+        onOpenEditor={openEditor}
         onOpenAlunos={() => setPage('criadorAlunos')}
         onBackToLogin={() => setPage('login')}
         onOpenPerfil={() => setPage('perfilCriador')}
@@ -183,8 +289,9 @@ function App() {
 
   return (
     <EditorPage
+      initialTrail={creatorTrails.find((trail) => trail.id === editingTrailId)}
       onBackToLogin={() => setPage('dashboard')}
-      onPublish={() => setPage('dashboard')}
+      onSaveTrail={handleSaveCreatorTrail}
       onOpenPerfil={() => setPage('perfilCriador')}
     />
   )
