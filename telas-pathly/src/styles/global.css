@@ -1945,6 +1945,12 @@ button {
   box-shadow: 0 12px 24px rgba(79, 70, 229, 0.24);
 }
 
+.trilha-primary-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+  box-shadow: none;
+}
+
 .trilha-modules-card {
   padding: 26px;
 }
@@ -2320,6 +2326,15 @@ button {
 .answer-feedback span {
   color: #065f46;
   line-height: 1.45;
+}
+
+.answer-feedback-error {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.answer-feedback-error span {
+  color: #7f1d1d;
 }
 
 .full-action {

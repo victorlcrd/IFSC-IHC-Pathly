@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { AprendizSidebar } from '../components/AprendizSidebar'
 import { PathlyLogo } from '../components/PathlyLogo'
 
@@ -27,6 +28,12 @@ export function AulaPage({
   onOpenConquistas,
   onOpenPerfil,
 }: AulaPageProps) {
+  // A resposta correta libera o checklist e a conclusão da aula.
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
+  const answers = ['useState', 'setPontos', 'Contador']
+  const correctAnswerIndex = 1
+  const isCorrectAnswer = selectedAnswer === correctAnswerIndex
+
   return (
     <div className="editor-page aula-page">
       <header className="editor-header dashboard-header">
@@ -104,7 +111,7 @@ export function AulaPage({
             <ul className="aula-checklist">
               <li className="done">Conceito de estado</li>
               <li className="done">Exemplo com useState</li>
-              <li>Responder pergunta de fixação</li>
+              <li className={isCorrectAnswer ? 'done' : undefined}>Responder pergunta de fixação</li>
             </ul>
           </section>
 
@@ -113,17 +120,30 @@ export function AulaPage({
             <h2>Qual função altera o valor de pontos no exemplo?</h2>
 
             <div className="fixation-options">
-              <button type="button">useState</button>
-              <button type="button" className="selected-answer">setPontos</button>
-              <button type="button">Contador</button>
+              {answers.map((answer, i) => (
+                <button
+                  key={answer}
+                  type="button"
+                  className={selectedAnswer === i ? 'selected-answer' : undefined}
+                  onClick={() => setSelectedAnswer(i)}
+                >
+                  {answer}
+                </button>
+              ))}
             </div>
 
-            <div className="answer-feedback">
-              <strong>Resposta correta</strong>
-              <span>setPontos atualiza o estado e faz o componente renderizar novamente.</span>
-            </div>
+            {selectedAnswer !== null && (
+              <div className={isCorrectAnswer ? 'answer-feedback' : 'answer-feedback answer-feedback-error'}>
+                <strong>{isCorrectAnswer ? 'Resposta correta' : 'Resposta incorreta'}</strong>
+                <span>
+                  {isCorrectAnswer
+                    ? 'setPontos atualiza o estado e faz o componente renderizar novamente.'
+                    : 'No exemplo, useState cria o estado e Contador é o componente; quem atualiza pontos é setPontos.'}
+                </span>
+              </div>
+            )}
 
-            <button type="button" className="trilha-primary-action full-action">
+            <button type="button" className="trilha-primary-action full-action" disabled={!isCorrectAnswer}>
               Concluir aula
             </button>
           </section>
